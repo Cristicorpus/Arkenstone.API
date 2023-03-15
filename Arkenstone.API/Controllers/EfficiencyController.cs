@@ -31,9 +31,12 @@ namespace Arkenstone.API.Controllers
                 var structure = _context.Locations.Find(LocationId);
                 if (structure == null)
                     return NotFound("Structure not found");
-                
+                var item = _context.Items.Find(ItemId);
+                if (item == null)
+                    return NotFound("Item not found");
+
                 decimal StructureEfficiency = EfficiencyStructure.GetMEEfficiencyFromStation(_context, structure);
-                decimal RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, structure, ItemId);
+                decimal RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, structure, item);
 
                 return Ok(StructureEfficiency* RigsEfficiency);
             }

@@ -3,8 +3,10 @@ using Arkenstone.Controllers;
 using Arkenstone.Entities;
 using Arkenstone.Logic.Structure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Arkenstone.API.Controllers
 {
@@ -89,7 +91,8 @@ namespace Arkenstone.API.Controllers
             try
             {
                 StructureEdit.SetFitToStructure(LocationId, PostModel.RawFit);
-                return Ok();
+                var targetStructure = _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").First(x=>x.Id == LocationId);
+                return Ok(new StructureModelDetails(targetStructure));
             }
             catch (System.Exception ex)
             {

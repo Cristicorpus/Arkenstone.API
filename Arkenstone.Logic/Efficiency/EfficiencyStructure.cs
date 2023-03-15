@@ -25,17 +25,19 @@ namespace Arkenstone.Logic.Efficiency
 
             return MeEfficiency;
         }
-        public static decimal GetMEEfficiencyFromRigs(ArkenstoneContext _context, Location Location, int ItemId)
+        public static decimal GetMEEfficiencyFromRigs(ArkenstoneContext _context, Location Location, Item Item)
         {
             decimal MeEfficiency = 1;
 
             if (Location.StructureTypeId.HasValue)
             {
-                var AllMarketGroupFromItem = GetAllGroupMarketIdFromItemId(_context, ItemId);
+                var AllMarketGroupFromItem = GetAllGroupMarketIdFromItemId(_context, Item.MarketGroupId);
 
-                var request = _context.LocationRigsManufacturings.Include("LocationRigsManufacturing");
+                var request = _context.LocationRigsManufacturings.Include("RigsManufacturing");
                 foreach (var rigItem in request.Where(x=>x.LocationId== Location.Id))
                 {
+                    if (!IsImpactedByRigs(AllMarketGroupFromItem, rigItem.RigsManufacturing))
+                        continue;
                     decimal StatusMultiplier = 1;
                     if (Location.Security >= 5)
                         StatusMultiplier = rigItem.RigsManufacturing.MultiplierHS;
@@ -44,31 +46,49 @@ namespace Arkenstone.Logic.Efficiency
                     if (Location.Security <= 0)
                         StatusMultiplier = rigItem.RigsManufacturing.MultiplierNS;
 
-                    MeEfficiency = 1 - (rigItem.RigsManufacturing.MaterialEffect * StatusMultiplier);
+                    MeEfficiency = 1 + ((rigItem.RigsManufacturing.MaterialEffect/100) * StatusMultiplier);
                 }
             }
 
             return MeEfficiency;
         }
-        public static List<int> GetAllGroupMarketIdFromItemId(ArkenstoneContext _context, int ItemId)
+        private static List<int> GetAllGroupMarketIdFromItemId(ArkenstoneContext _context, int ItemId)
         {
             var returnList = new List<int>();
-            int? parentID = null;
+            int? parentID = ItemId;
             do
             {
-                parentID = null;
-                var marketGroup = _context.MarketGroupTrees.Find(ItemId);
+                var marketGroup = _context.MarketGroupTrees.Find(parentID);
                 if (marketGroup != null)
                 {
                     returnList.Add(marketGroup.Id);
                     parentID = marketGroup.ParentId;
                 }
-
+                else
+                    parentID = null;
 
             } while (parentID.HasValue);
 
             return returnList;
         }
+        private static bool IsImpactedByRigs(List<int> MarketGroup, RigsManufacturing Rig)
+        {
+            var rigMarketGroupEffect = Rig.MarketIdEffect.Split('*');
+            var rigMarketGroupIgnore = Rig.MarketIdNotEffect.Split('*');
+
+            foreach (var rigMarketGroup in rigMarketGroupIgnore)
+            {
+                if (MarketGroup.Contains(int.Parse(rigMarketGroup)))
+                    return false;
+            }
+            foreach (var rigMarketGroup in rigMarketGroupEffect)
+            {
+                if (MarketGroup.Contains(int.Parse(rigMarketGroup)))
+                    return true;
+            }
+            return false;
+        }
+
 
     }
 }
