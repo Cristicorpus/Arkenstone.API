@@ -15,26 +15,31 @@ namespace Arkenstone.Logic.Efficiency
         public static decimal GetMEEfficiencyFromStation(ArkenstoneContext _context, Location Location)
         {
             decimal MeEfficiency = 1;
-            
+
             if (Location.StructureTypeId.HasValue)
             {
                 var structureType = _context.StructureTypes.Find(Location.StructureTypeId);
-                if(structureType!=null)
-                    MeEfficiency = structureType.MaterialEffect;
+                if (structureType != null)
+                {
+                    if(structureType.MaterialEffect==0)
+                        MeEfficiency = 1;
+                    else
+                        MeEfficiency = structureType.MaterialEffect;
+                }
             }
 
             return MeEfficiency;
         }
-        public static decimal GetMEEfficiencyFromRigs(ArkenstoneContext _context, Location Location, Item Item)
+        public static EfficiencyStructureRigsEffect GetMEEfficiencyFromRigs(ArkenstoneContext _context, Location Location, Item Item)
         {
-            decimal MeEfficiency = 1;
+            EfficiencyStructureRigsEffect returnValue = new EfficiencyStructureRigsEffect();
 
             if (Location.StructureTypeId.HasValue)
             {
                 var AllMarketGroupFromItem = GetAllGroupMarketIdFromItemId(_context, Item.MarketGroupId);
 
                 var request = _context.LocationRigsManufacturings.Include("RigsManufacturing");
-                foreach (var rigItem in request.Where(x=>x.LocationId== Location.Id))
+                foreach (var rigItem in request.Where(x => x.LocationId == Location.Id))
                 {
                     if (!IsImpactedByRigs(AllMarketGroupFromItem, rigItem.RigsManufacturing))
                         continue;
@@ -46,11 +51,12 @@ namespace Arkenstone.Logic.Efficiency
                     if (Location.Security <= 0)
                         StatusMultiplier = rigItem.RigsManufacturing.MultiplierNS;
 
-                    MeEfficiency = 1 + ((rigItem.RigsManufacturing.MaterialEffect/100) * StatusMultiplier);
+                    returnValue.MeEfficiency = 1 + ((rigItem.RigsManufacturing.MaterialEffect / 100) * StatusMultiplier);
+                    returnValue.rigsManufacturings.Add(rigItem.RigsManufacturing);
                 }
             }
 
-            return MeEfficiency;
+            return returnValue;
         }
         private static List<int> GetAllGroupMarketIdFromItemId(ArkenstoneContext _context, int ItemId)
         {
@@ -91,4 +97,11 @@ namespace Arkenstone.Logic.Efficiency
 
 
     }
+
+    public class EfficiencyStructureRigsEffect
+    {
+        public decimal MeEfficiency { get; set; } = 1;
+        public List<RigsManufacturing> rigsManufacturings { get; set; } = new List<RigsManufacturing>();
+    }
+
 }

@@ -81,12 +81,11 @@ namespace Arkenstone.Logic.Asset
 
                             if (item.LocationId>=1000000000)
                             {
-                               var tempStructure = await eveEsi.EsiClient.Universe.Structure(item.LocationId);
+                                var tempStructure = await eveEsi.EsiClient.Universe.Structure(item.LocationId);
                                 newStation.Name = tempStructure.Data.Name;
                                 newStation.StructureTypeId = tempStructure.Data.TypeId;
                                 var tempSecurity = await eveEsi.EsiClient.Universe.System(tempStructure.Data.SolarSystemId);
                                 newStation.Security = tempSecurity.Data.SecurityStatus;
-
                             }
                             else
                             {
@@ -98,6 +97,12 @@ namespace Arkenstone.Logic.Asset
                             context.SaveChanges();
                         }
 
+                        if (context.SubLocations.FirstOrDefault(x=>x.LocationId == item.LocationId && x.Flag=="Office") == null)
+                        {
+                            var newSubStation = new SubLocation() { LocationId = item.LocationId,Flag = "Office", IsAssetAnalysed=false,CorporationId= coorporationId };
+                            context.SubLocations.Add(newSubStation);
+                            context.SaveChanges();
+                        }
                     }
                     
                     //ajout des hangars de coorp dans les stations/structure inconnu

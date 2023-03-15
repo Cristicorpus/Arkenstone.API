@@ -27,7 +27,7 @@ namespace Arkenstone.API.Controllers
 
         // GET api/Efficiency
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(decimal))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetEfficiencyFromStation([FromQuery] long LocationId, [FromQuery] int ItemId)
         {
@@ -40,10 +40,57 @@ namespace Arkenstone.API.Controllers
                 if (item == null)
                     return NotFound("Item not found");
 
+                var returnModel = new EfficiencyModel();
+                
                 decimal StructureEfficiency = EfficiencyStructure.GetMEEfficiencyFromStation(_context, structure);
-                decimal RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, structure, item);
+                EfficiencyStructureRigsEffect RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, structure, item);
 
-                return Ok(StructureEfficiency* RigsEfficiency);
+                returnModel.MEefficiency = (StructureEfficiency * RigsEfficiency.MeEfficiency);
+                returnModel.Station = new StructureModel(structure);
+                returnModel.rigsEffect = RigsEfficiency.rigsManufacturings;
+
+                return Ok(returnModel);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        // GET api/Efficiency
+        [HttpGet("chooseStation")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetBestEfficiency([FromQuery] int ItemId)
+        {
+            try
+            {
+                var item = _context.Items.Find(ItemId);
+                if (item == null)
+                    return NotFound("Item not found");
+
+                var returnModel = new EfficiencyModel();
+                returnModel.MEefficiency = 5;
+                
+                foreach (var locationId in _context.SubLocations.Select(x=>x.LocationId).Distinct().ToList())
+                {
+                    var structure = _context.Locations.Find(locationId);
+                    if (structure == null)
+                        return NotFound("Structure not found");
+
+                    decimal StructureEfficiency = EfficiencyStructure.GetMEEfficiencyFromStation(_context, structure);
+                    EfficiencyStructureRigsEffect RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, structure, item);
+
+                    if(returnModel.MEefficiency>(StructureEfficiency* RigsEfficiency.MeEfficiency))
+                    {
+                        returnModel.MEefficiency = (StructureEfficiency * RigsEfficiency.MeEfficiency);
+                        returnModel.Station = new StructureModel(structure);
+                        returnModel.rigsEffect = RigsEfficiency.rigsManufacturings;
+                    }
+                    
+                }
+                return Ok(returnModel);
             }
             catch (System.Exception ex)
             {
