@@ -3,6 +3,7 @@ using System;
 using Arkenstone.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkenstone.Entities.Migrations
 {
     [DbContext(typeof(ArkenstoneContext))]
-    partial class ArkenstoneContextModelSnapshot : ModelSnapshot
+    [Migration("20230315025515_Initial0")]
+    partial class Initial0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,7 +148,10 @@ namespace Arkenstone.Entities.Migrations
                     b.Property<decimal>("Security")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int?>("StructureTypeId")
+                    b.Property<int>("StructureId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StructureTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -404,7 +409,9 @@ namespace Arkenstone.Entities.Migrations
                 {
                     b.HasOne("Arkenstone.Entities.DbSet.StructureType", "StructureType")
                         .WithMany()
-                        .HasForeignKey("StructureTypeId");
+                        .HasForeignKey("StructureTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("StructureType");
                 });

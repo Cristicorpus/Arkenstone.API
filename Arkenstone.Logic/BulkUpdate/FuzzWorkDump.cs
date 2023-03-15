@@ -11,14 +11,19 @@ using System.Net;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using ESI.NET.Models.Corporation;
+using Arkenstone.Logic.GlobalTools;
 
-namespace Arkenstone.Logic.FuzzWork
+namespace Arkenstone.Logic.BulkUpdate
 {
-    public class FuzzWorkDumpDb
+    public class FuzzWorkDump
     {
-        public delegate List<U> delegateCSV<T, U>(List<T> list);
+        //public delegate List<U> delegateCSV<T, U>(List<T> list);
         private static string _folderPathESI = "Applicatif/fuzzwork/";
-        public static void CheckDump()
+        public static void CheckDumpAsynctask()
+        {
+            _ = CheckDump();
+        }
+        public static async Task CheckDump()
         {
             var datebegin = DateTime.Now;
 
@@ -28,8 +33,14 @@ namespace Arkenstone.Logic.FuzzWork
             if (NewEsiDump())
             {
                 Logs.ClassLog.writeLog("NewEsiDump => " + DateTime.Now.Subtract(datebegin).ToString() + " Secondes");
+                
+                datebegin = DateTime.Now;
                 InsertEsiSDE_Activity();
                 Logs.ClassLog.writeLog("InsertEsiSDE_Activity => " + DateTime.Now.Subtract(datebegin).ToString() + " Secondes");
+
+                datebegin = DateTime.Now;
+                await RigsDump.UpdateRigs_Activity();
+                Logs.ClassLog.writeLog("UpdateRigs_Activity => " + DateTime.Now.Subtract(datebegin).ToString() + " Secondes");
             }
 
         }
@@ -99,14 +110,14 @@ namespace Arkenstone.Logic.FuzzWork
 
             Logs.ClassLog.writeLog("InsertEsiSDE => Reinsertion des information ESI dans les recettes");
 
-            var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
+            var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
             var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
             using (ArkenstoneContext context = new ArkenstoneContext(options))
             {
-                List<ActivityProductsCsv> ActivityProductsCsvrecords = ReadCsv<ActivityProductsCsv>(_folderPathESI + "industryActivityProducts.csv");
-                List<ActivityMaterialsCsv> ActivityMaterialsCsvrecords = ReadCsv<ActivityMaterialsCsv>(_folderPathESI + "industryActivityMaterials.csv");
-                List<IndustryActivityCsv> industryActivityCsvrecords = ReadCsv<IndustryActivityCsv>(_folderPathESI + "industryActivity.csv");
-                List<InvTypesCsv> invTypesCsvrecords = ReadCsv<InvTypesCsv>(_folderPathESI + "invTypes.csv", new InvTypesCsvMap());
+                List<ActivityProductsCsv> ActivityProductsCsvrecords = CsvTools.ReadCsv<ActivityProductsCsv>(_folderPathESI + "industryActivityProducts.csv");
+                List<ActivityMaterialsCsv> ActivityMaterialsCsvrecords = CsvTools.ReadCsv<ActivityMaterialsCsv>(_folderPathESI + "industryActivityMaterials.csv");
+                List<IndustryActivityCsv> industryActivityCsvrecords = CsvTools.ReadCsv<IndustryActivityCsv>(_folderPathESI + "industryActivity.csv");
+                List<InvTypesCsv> invTypesCsvrecords = CsvTools.ReadCsv<InvTypesCsv>(_folderPathESI + "invTypes.csv", new InvTypesCsvMap());
 
 
 
@@ -171,21 +182,6 @@ namespace Arkenstone.Logic.FuzzWork
                 invTypesCsvrecords = null;
 
             }
-        }
-
-        private static List<T> ReadCsv<T>(string path, ClassMap classMap = null)
-        {
-            List<T> csvrecords;
-            using (var reader = new StreamReader(path))
-            using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
-            {
-                if (classMap != null)
-                {
-                    csv.Context.RegisterClassMap(classMap);
-                }
-                csvrecords = csv.GetRecords<T>().ToList();
-            }
-            return csvrecords;
         }
 
         private static int DeleteDontExist(List<InvTypesCsv> invTypes)

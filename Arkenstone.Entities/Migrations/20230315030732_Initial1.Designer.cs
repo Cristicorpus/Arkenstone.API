@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkenstone.Entities.Migrations
 {
     [DbContext(typeof(ArkenstoneContext))]
-    [Migration("20230314192429_Initial1")]
+    [Migration("20230315030732_Initial1")]
     partial class Initial1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,6 +123,12 @@ namespace Arkenstone.Entities.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("CanCopy")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("CanInvent")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("CanProd")
                         .HasColumnType("tinyint(1)");
 
@@ -132,6 +138,9 @@ namespace Arkenstone.Entities.Migrations
                     b.Property<bool>("CanReprocess")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<bool>("CanResearch")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -139,9 +148,32 @@ namespace Arkenstone.Entities.Migrations
                     b.Property<decimal>("Security")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<int?>("StructureId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StructureTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("StructureTypeId");
+
                     b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.LocationRigsManufacturing", b =>
+                {
+                    b.Property<long>("LocationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("RigsManufacturingId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LocationId", "RigsManufacturingId");
+
+                    b.HasIndex("RigsManufacturingId");
+
+                    b.ToTable("LocationRigsManufacturings");
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Order", b =>
@@ -216,6 +248,65 @@ namespace Arkenstone.Entities.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("RecipeRessources");
+                });
+
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.RigsManufacturing", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CostEffect")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("MarketIdEffect")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("MaterialEffect")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("MultiplierHS")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("MultiplierLS")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("MultiplierNS")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("TimeEffect")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RigsManufacturings");
+                });
+
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.StructureType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CostEffect")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("MaterialEffect")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("TimeEffect")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StructureTypes");
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.SubLocation", b =>
@@ -314,6 +405,36 @@ namespace Arkenstone.Entities.Migrations
                     b.Navigation("Location");
                 });
 
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.Location", b =>
+                {
+                    b.HasOne("Arkenstone.Entities.DbSet.StructureType", "StructureType")
+                        .WithMany()
+                        .HasForeignKey("StructureTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StructureType");
+                });
+
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.LocationRigsManufacturing", b =>
+                {
+                    b.HasOne("Arkenstone.Entities.DbSet.Location", "Location")
+                        .WithMany("LocationRigs")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Arkenstone.Entities.DbSet.RigsManufacturing", "RigsManufacturing")
+                        .WithMany()
+                        .HasForeignKey("RigsManufacturingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+
+                    b.Navigation("RigsManufacturing");
+                });
+
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Order", b =>
                 {
                     b.HasOne("Arkenstone.Entities.DbSet.Location", "Location")
@@ -393,6 +514,8 @@ namespace Arkenstone.Entities.Migrations
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Location", b =>
                 {
+                    b.Navigation("LocationRigs");
+
                     b.Navigation("SubLocations");
                 });
 

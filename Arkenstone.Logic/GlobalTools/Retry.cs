@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-
+namespace Arkenstone.Logic.GlobalTools
+{
     class Retry
     {
         public static void Do(Action action, TimeSpan retryInterval, int maxAttemptCount = 3)
@@ -43,3 +44,5 @@ using System.Threading.Tasks;
 
 
 
+
+}

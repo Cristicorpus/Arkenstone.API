@@ -17,7 +17,6 @@ namespace Arkenstone.Logic.Asset
 {
     public static class AssetDump
     {
-        public static int ReloadSecondeSpan = 3600;
         public static void ReloadAllItemsAsynctask()
         {
             _ = ReloadAllItemsAsync();
@@ -66,7 +65,7 @@ namespace Arkenstone.Logic.Asset
                     coorporationId = eveEsi.authorizedCharacterData.CorporationID;
 
                     //recuperation des bureau dans les stations
-                    var AllCoorpoAssetOffice = AllCoorpoAsset.Where(x => x.TypeId==27).ToList();
+                    List<ESI.NET.Models.Assets.Item> AllCoorpoAssetOffice = AllCoorpoAsset.Where(x => x.TypeId == 27).ToList();
                     //recuperation des asset dans les offices
                     var AllCoorpoAssetHangar = AllCoorpoAsset.Where(x => x.LocationFlag.Contains("CorpSAG")).ToList();
                     //recuperation des asset dans les container dans les hangars
@@ -77,15 +76,31 @@ namespace Arkenstone.Logic.Asset
                     {
                         if (context.Locations.Find(item.LocationId) == null)
                         {
-                            //TODO ajouter le scope pour lire les structure
-                            //var temp = await eveEsi.EsiClient.Universe.Structure(item);
-                            //var newStation = new Location() { Id = item, Name = temp.Data.Name };
 
-                            var newStation = new Location() { Id = item.LocationId, Name = "" };
+                            var newStation = new Location() { Id = item.LocationId };
+
+                            if (item.LocationId>=1000000000)
+                            {
+                                //TODO ajouter le scope pour lire les structure
+                                //var tempStructure = await eveEsi.EsiClient.Universe.Structure(item.LocationId);
+                                //newStation.Name = tempStructure.Data.Name;
+                                //newStation.StructureTypeId = tempStructure.Data.TypeId;
+                                //var tempSecurity = await eveEsi.EsiClient.Universe.System(tempStructure.Data.SolarSystemId);
+                                //newStation.Security = tempSecurity.Data.SecurityStatus;
+                                    
+
+                                newStation.Name = "";
+                            }
+                            else
+                            {
+                                var temp = await eveEsi.EsiClient.Universe.Station((int)item.LocationId);
+                                newStation.Name = temp.Data.Name;
+                            }
+
                             context.Locations.Add(newStation);
                             context.SaveChanges();
                         }
-                            
+
                     }
                     
                     //ajout des hangars de coorp dans les stations/structure inconnu
@@ -145,13 +160,6 @@ namespace Arkenstone.Logic.Asset
                     //on ajoute que les items qu on connais en attendant l update des items par fuzzwork
                     context.Inventorys.AddRange(AssetsWithItemKnow);
                     context.SaveChanges();
-
-                    Debug.WriteLine("YHOLO");
-
-
-
-
-
                 }
             }
             catch (Exception ex)

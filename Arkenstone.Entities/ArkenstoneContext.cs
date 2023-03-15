@@ -21,7 +21,10 @@ namespace Arkenstone.Entities
         public virtual DbSet<Inventory> Inventorys { get; set; }
         public virtual DbSet<InventoryBlueprint> InventoryBlueprints { get; set; }
         public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<RigsManufacturing> RigsManufacturings { get; set; }
+        public virtual DbSet<StructureType> StructureTypes { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<LocationRigsManufacturing> LocationRigsManufacturings { get; set; }
         public virtual DbSet<SubLocation> SubLocations { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Recipe> Recipes { get; set; }
@@ -39,6 +42,11 @@ namespace Arkenstone.Entities
             {
                 x.ItemId,
                 x.SubLocationId
+            });
+            modelBuilder.Entity<LocationRigsManufacturing>().HasKey(x => new
+            {
+                x.LocationId,
+                x.RigsManufacturingId
             });
         }
 
