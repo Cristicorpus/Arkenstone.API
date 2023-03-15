@@ -32,37 +32,21 @@ namespace Arkenstone.Controllers
             return Ok(_context.Recipes.Include("Item").Select(x => x.Item.Name).ToList());
         }
 
-        // GET api/recipe/GetRecipe?id=682
-        //[HttpGet("GetRecipe")]
-        //[Authorize(Policy = "Member")]
-        //public object GetRecipe(int id)
-        //{
-        //    if (_context.Recipes.Any(x => x.Id == id))
-        //        return new RecipeModel(_context.Recipes.Include("Item").Include("RecipeRessource.Item").First(p => p.Id == id));
-        //    else
-        //        return NotFound("La recette avec l'id '" + id + "' n'existe pas.");
-        //}
-
-        // GET api/recipe/ListNameRecipe
-        //[HttpGet("ListNameRecipe")]
-        //[Authorize(Policy = "Member")]
-        //public IQueryable<string> ListNameRecipe()
-        //{
-        //    return _context.Recipes.Include("Item").Where(f => f.Item.Name!="").Select(x => x.Item.Name);
-        //}
-
-        // GET api/recipe/NameRecipe?id=5
-        //[HttpGet("NameRecipe")]
-        //[Authorize(Policy = "Member")]
-        //public object NameRecipe(int id)
-        //{
-        //    if (_context.Recipes.Any(x => x.Id == id))
-        //        return _context.Recipes.Include("Item").First(x => x.Id == id).Item.Name;
-        //    else
-        //        return NotFound("La recette avec l'id '" + id + "' n'existe pas.");
+        // GET api/recipe?id=682
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RecipeModel))]
+        public IActionResult GetRecipe(int id)
+        {
+            var recipe = _context.Recipes.Include("Item").Include("RecipeRessource.Item").FirstOrDefault(p => p.ItemId == id);
 
 
-        //}
+            if (recipe != null)
+                return Ok(new RecipeModel(recipe));
+            else
+                return NotFound("La recette avec l'id '" + id + "' n'existe pas.");
+        }
+        
+        
     }
     
     
