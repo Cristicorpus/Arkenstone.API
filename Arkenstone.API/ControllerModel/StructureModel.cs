@@ -8,11 +8,19 @@ namespace Arkenstone.API.ControllerModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        
+        public int TypeId { get; set; }
+        public string TypeName { get; set; }
+
         public StructureModel(Location target)
         {
             this.Id = target.Id;
             this.Name = target.Name;
+            if (target.StructureTypeId.HasValue)
+            {
+                this.TypeId = target.StructureType.Id;
+                this.TypeName = target.StructureType.Name;
+
+            }
         }
     }
     public class StructureModelDetails

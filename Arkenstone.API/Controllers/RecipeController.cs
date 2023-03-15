@@ -39,7 +39,6 @@ namespace Arkenstone.Controllers
         {
             var recipe = _context.Recipes.Include("Item").Include("RecipeRessource.Item").FirstOrDefault(p => p.ItemId == id);
 
-
             if (recipe != null)
                 return Ok(new RecipeModel(recipe));
             else

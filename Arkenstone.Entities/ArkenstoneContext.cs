@@ -20,17 +20,15 @@ namespace Arkenstone.Entities
         public virtual DbSet<MarketGroupTree> MarketGroupTrees { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<Inventory> Inventorys { get; set; }
-        public virtual DbSet<InventoryBlueprint> InventoryBlueprints { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<RigsManufacturing> RigsManufacturings { get; set; }
         public virtual DbSet<StructureType> StructureTypes { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<LocationRigsManufacturing> LocationRigsManufacturings { get; set; }
         public virtual DbSet<SubLocation> SubLocations { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Recipe> Recipes { get; set; }
         public virtual DbSet<RecipeRessource> RecipeRessources { get; set; }
-        public virtual DbSet<Ticket> Tickets { get; set; }
+        public virtual DbSet<ProdAchat> ProdAchats { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -36,14 +36,14 @@ namespace Arkenstone.API.Controllers
                 List<StructureModel> StructureList = new List<StructureModel>();
                 if (LocationId == null)
                 {
-                    foreach (var Structure in _context.Locations)
+                    foreach (var Structure in _context.Locations.Include("StructureType"))
                     {
                         StructureList.Add(new StructureModel(Structure));
                     }
                 }
                 else
                 {
-                    var targetStructure = _context.Locations.Find(LocationId.Value);
+                    var targetStructure = _context.Locations.Include("StructureType").FirstOrDefault(x => x.Id == LocationId.Value); ;
                     if (targetStructure == null)
                         return NotFound();
                     else
@@ -69,14 +69,14 @@ namespace Arkenstone.API.Controllers
                 List<StructureModelDetails> StructureList = new List<StructureModelDetails>();
                 if (LocationId == null)
                 {
-                    foreach (var Structure in _context.Locations)
+                    foreach (var Structure in _context.Locations.Include("StructureType"))
                     {
                         StructureList.Add(new StructureModelDetails(Structure));
                     }
                 }
                 else
                 {
-                    var targetStructure = _context.Locations.Find(LocationId.Value);
+                    var targetStructure = _context.Locations.Include("StructureType").FirstOrDefault(x=>x.Id == LocationId.Value);
                     if (targetStructure == null)
                         return NotFound();
                     else
@@ -100,7 +100,7 @@ namespace Arkenstone.API.Controllers
             try
             {
                 StructureEdit.SetFitToStructure(LocationId, PostModel.RawFit);
-                var targetStructure = _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").First(x=>x.Id == LocationId);
+                var targetStructure = _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").Include("StructureType").First(x=>x.Id == LocationId);
                 return Ok(new StructureModelDetails(targetStructure));
             }
             catch (System.Exception ex)

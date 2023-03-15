@@ -38,6 +38,9 @@ namespace Arkenstone.Logic.Structure
                 // Récupérer les lignes de la TextBox
                 string[] lines = CopyPastFit.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
+                if(lines.Count()<=1)
+                    throw new Exception("format de merde refais tout ca");
+
 
                 // Parcourir chaque ligne pour recuperer les item(text) et leur quantité
                 Dictionary<string, int> Fitraw = new Dictionary<string, int>();
