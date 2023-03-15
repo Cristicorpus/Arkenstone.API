@@ -54,6 +54,7 @@ namespace Arkenstone.Logic.BulkUpdate
             allfildownload.Add(_folderPathESI + "industryActivityProducts.csv", new Uri("https://www.fuzzwork.co.uk/dump/latest/industryActivityProducts.csv"));
             allfildownload.Add(_folderPathESI + "industryActivityMaterials.csv", new Uri("https://www.fuzzwork.co.uk/dump/latest/industryActivityMaterials.csv"));
             allfildownload.Add(_folderPathESI + "industryActivity.csv", new Uri("https://www.fuzzwork.co.uk/dump/latest/industryActivity.csv"));
+            allfildownload.Add(_folderPathESI + "invMarketGroups.csv", new Uri("https://www.fuzzwork.co.uk/dump/latest/invMarketGroups.csv"));
             allfildownload.Add(_folderPathESI + "invTypes.csv", new Uri("https://www.fuzzwork.co.uk/dump/latest/invTypes.csv"));
 
             foreach (var item in allfildownload)
@@ -114,11 +115,25 @@ namespace Arkenstone.Logic.BulkUpdate
             var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
             using (ArkenstoneContext context = new ArkenstoneContext(options))
             {
-                List<ActivityProductsCsv> ActivityProductsCsvrecords = CsvTools.ReadCsv<ActivityProductsCsv>(_folderPathESI + "industryActivityProducts.csv");
-                List<ActivityMaterialsCsv> ActivityMaterialsCsvrecords = CsvTools.ReadCsv<ActivityMaterialsCsv>(_folderPathESI + "industryActivityMaterials.csv");
-                List<IndustryActivityCsv> industryActivityCsvrecords = CsvTools.ReadCsv<IndustryActivityCsv>(_folderPathESI + "industryActivity.csv");
-                List<InvTypesCsv> invTypesCsvrecords = CsvTools.ReadCsv<InvTypesCsv>(_folderPathESI + "invTypes.csv", new InvTypesCsvMap());
+                List<ActivityProductsCsv> ActivityProductsCsvrecords ;
+                List<ActivityMaterialsCsv> ActivityMaterialsCsvrecords ;
+                List<IndustryActivityCsv> industryActivityCsvrecords ;
+                List<MarketGroupActivityCsv> MarketGroupsCsvrecords ;
+                List<InvTypesCsv> invTypesCsvrecords ;
 
+
+                try
+                {
+                     ActivityProductsCsvrecords = CsvTools.ReadCsv<ActivityProductsCsv>(_folderPathESI + "industryActivityProducts.csv");
+                     ActivityMaterialsCsvrecords = CsvTools.ReadCsv<ActivityMaterialsCsv>(_folderPathESI + "industryActivityMaterials.csv");
+                     industryActivityCsvrecords = CsvTools.ReadCsv<IndustryActivityCsv>(_folderPathESI + "industryActivity.csv");
+                     MarketGroupsCsvrecords = CsvTools.ReadCsv<MarketGroupActivityCsv>(_folderPathESI + "invMarketGroups.csv", new MarketGroupActivityCsvMap());
+                     invTypesCsvrecords = CsvTools.ReadCsv<InvTypesCsv>(_folderPathESI + "invTypes.csv", new InvTypesCsvMap());
+                }
+                catch (Exception ex )
+                {
+                    throw ex;
+                }
 
 
                 //on supprimes les recettes et les matériaux présent
@@ -126,7 +141,8 @@ namespace Arkenstone.Logic.BulkUpdate
                 //TODO:ne pas supprimer la table des item, essayer de plutot mettre a jours 
                 context.Database.ExecuteSqlRaw("DELETE FROM Items");
 
-                //ces deux table la peuvent etre supprimer :) et recrer completement
+                //ces tables la peuvent etre supprimer :) et recrer completement
+                context.Database.ExecuteSqlRaw("DELETE FROM MarketGroupTrees");
                 context.Database.ExecuteSqlRaw("DELETE FROM RecipeRessources");
                 context.Database.ExecuteSqlRaw("DELETE FROM Recipes");
 
@@ -144,7 +160,19 @@ namespace Arkenstone.Logic.BulkUpdate
                            PriceSell = 0,
                        });
                 }
-                context.SaveChanges();
+
+                //MAJ MarketGroup
+                foreach (var item in MarketGroupsCsvrecords)
+                {
+                    context.MarketGroupTrees.Add(
+                       new MarketGroupTree()
+                       {
+                           Id = item.marketGroupID,
+                           ParentId = item.parentGroupID,
+                           Name = item.marketGroupName
+                       });
+                }
+
 
                 //MAJ recettes
                 foreach (var item in ActivityProductsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Items.Any(y => y.Published == true && y.Id == x.productTypeID)))
@@ -162,7 +190,7 @@ namespace Arkenstone.Logic.BulkUpdate
                                 }).time
                     });
                 }
-                context.SaveChanges();
+
 
                 //MAJ Materiaux recettes
                 foreach (var item in ActivityMaterialsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Recipes.Any(y => y.Id == x.typeID)))
@@ -174,11 +202,21 @@ namespace Arkenstone.Logic.BulkUpdate
                         Quantity = item.quantity
                     });
                 }
-                context.SaveChanges();
+
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                
 
                 industryActivityCsvrecords = null;
                 ActivityProductsCsvrecords = null;
                 industryActivityCsvrecords = null;
+                MarketGroupsCsvrecords = null;
                 invTypesCsvrecords = null;
 
             }
@@ -225,6 +263,15 @@ namespace Arkenstone.Logic.BulkUpdate
             public int activityID { get; set; }
             public int time { get; set; }
         }
+        private class MarketGroupActivityCsv
+        {
+            public int marketGroupID { get; set; }
+            public int? parentGroupID { get; set; }
+            public string marketGroupName { get; set; }
+            public string description { get; set; }
+            public int? iconID { get; set; }
+            public int hasTypes { get; set; }
+        }
 
         private class ActivityMaterialsCsv
         {
@@ -265,8 +312,21 @@ namespace Arkenstone.Logic.BulkUpdate
         {
             public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
             {
-                if (text == "N/A") return 0;
-                if (text == "None") return 0;
+                if (text == "N/A") 
+                    return 0;
+                if (text == "None") 
+                    return 0;
+                return base.ConvertFromString(text, row, memberMapData);
+            }
+        }
+        private class MarketParetnInt32Converter : Int32Converter
+        {
+            public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
+            {
+                if (text == "N/A")
+                    return null;
+                if (text == "None")
+                    return null;
                 return base.ConvertFromString(text, row, memberMapData);
             }
         }
@@ -300,6 +360,19 @@ namespace Arkenstone.Logic.BulkUpdate
                 Map(m => m.iconID).TypeConverter<CustomInt32Converter>();
                 Map(m => m.soundID).TypeConverter<CustomInt32Converter>();
                 Map(m => m.graphicID).TypeConverter<CustomInt32Converter>();
+            }
+
+        }
+        private class MarketGroupActivityCsvMap : ClassMap<MarketGroupActivityCsv>
+        {
+            public MarketGroupActivityCsvMap()
+            {
+                Map(m => m.marketGroupID);
+                Map(m => m.parentGroupID).TypeConverter<MarketParetnInt32Converter>();
+                Map(m => m.marketGroupName);
+                Map(m => m.description);
+                Map(m => m.iconID).TypeConverter<MarketParetnInt32Converter>();
+                Map(m => m.hasTypes);
             }
 
         }

@@ -8,6 +8,12 @@ namespace Arkenstone.API.ControllerModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        
+        public StructureModel(Location target)
+        {
+            this.Id = target.Id;
+            this.Name = target.Name;
+        }
     }
     public class StructureModelDetails
     {
@@ -23,9 +29,7 @@ namespace Arkenstone.API.ControllerModel
 
         public StructureModelDetails(Location target)
         {
-            this.core = new StructureModel();
-            this.core.Id = target.Id;
-            this.core.Name = target.Name;
+            this.core = new StructureModel(target);
             this.Security = target.Security;
             this.RigsManufacturings = target.LocationRigsManufacturings.Select(x => x.RigsManufacturing).ToList();
         }

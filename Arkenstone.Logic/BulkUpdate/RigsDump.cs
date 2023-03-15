@@ -124,7 +124,8 @@ namespace Arkenstone.Logic.BulkUpdate
                            {
                                Id = item.typeID,
                                Name = "",
-                               MarketIdEffect = item.GroupMarketIdEffet
+                               MarketIdEffect = item.GroupMarketIdEffect,
+                               MarketIdNotEffect = item.GroupMarketIdNotEffect
                            });
                     }
                     catch (Exception ex)
@@ -189,7 +190,8 @@ namespace Arkenstone.Logic.BulkUpdate
         private class RigsManufacturingCsv
         {
             public int typeID { get; set; }
-            public string GroupMarketIdEffet { get; set; }
+            public string GroupMarketIdEffect { get; set; }
+            public string GroupMarketIdNotEffect { get; set; }
         }
     }
 }

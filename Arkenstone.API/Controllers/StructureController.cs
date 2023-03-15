@@ -4,6 +4,7 @@ using Arkenstone.Entities;
 using Arkenstone.Logic.Structure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Arkenstone.API.Controllers
 {
@@ -20,10 +21,70 @@ namespace Arkenstone.API.Controllers
             _context = context;
         }
 
+        // GET api/structure
+        [HttpGet]
+        public IActionResult GetSimple([FromQuery] long? LocationId)
+        {
+            try
+            {
+                List<StructureModel> StructureList = new List<StructureModel>();
+                if (LocationId == null)
+                {
+                    foreach (var Structure in _context.Locations)
+                    {
+                        StructureList.Add(new StructureModel(Structure));
+                    }
+                }
+                else
+                {
+                    var targetStructure = _context.Locations.Find(LocationId.Value);
+                    if (targetStructure == null)
+                        return NotFound();
+                    else
+                        StructureList.Add(new StructureModel(targetStructure));
+                }
+
+                return Ok(StructureList);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        // GET api/structure/Detailed
+        [HttpGet("Detailed")]
+        public IActionResult GetDetailed([FromQuery] long? LocationId)
+        {
+            try
+            {
+                List<StructureModelDetails> StructureList = new List<StructureModelDetails>();
+                if (LocationId == null)
+                {
+                    foreach (var Structure in _context.Locations)
+                    {
+                        StructureList.Add(new StructureModelDetails(Structure));
+                    }
+                }
+                else
+                {
+                    var targetStructure = _context.Locations.Find(LocationId.Value);
+                    if (targetStructure == null)
+                        return NotFound();
+                    else
+                        StructureList.Add(new StructureModelDetails(targetStructure));
+                }
+
+                return Ok(StructureList);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         // POST api/structure
         [HttpPost]
-        public IActionResult PostTicket([FromQuery] long LocationId, [FromBody] StructureModelDetails PostModel)
+        public IActionResult SetFit([FromQuery] long LocationId, [FromBody] StructureModelDetails PostModel)
         {
             try
             {

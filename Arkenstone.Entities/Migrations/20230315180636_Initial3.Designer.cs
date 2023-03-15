@@ -3,6 +3,7 @@ using System;
 using Arkenstone.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkenstone.Entities.Migrations
 {
     [DbContext(typeof(ArkenstoneContext))]
-    partial class ArkenstoneContextModelSnapshot : ModelSnapshot
+    [Migration("20230315180636_Initial3")]
+    partial class Initial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,9 +179,10 @@ namespace Arkenstone.Entities.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ParentId")
+                    b.Property<int>("ParentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -270,10 +273,6 @@ namespace Arkenstone.Entities.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("MarketIdEffect")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MarketIdNotEffect")
                         .IsRequired()
                         .HasColumnType("longtext");
 

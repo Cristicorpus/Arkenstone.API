@@ -1,0 +1,74 @@
+﻿using Arkenstone.Entities;
+using Arkenstone.Entities.DbSet;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Arkenstone.Logic.Efficiency
+{
+    public static class EfficiencyStructure
+    {
+
+        public static decimal GetMEEfficiencyFromStation(ArkenstoneContext _context, Location Location)
+        {
+            decimal MeEfficiency = 1;
+            
+            if (Location.StructureTypeId.HasValue)
+            {
+                var structureType = _context.StructureTypes.Find(Location.StructureTypeId);
+                if(structureType!=null)
+                    MeEfficiency = structureType.MaterialEffect;
+            }
+
+            return MeEfficiency;
+        }
+        public static decimal GetMEEfficiencyFromRigs(ArkenstoneContext _context, Location Location, int ItemId)
+        {
+            decimal MeEfficiency = 1;
+
+            if (Location.StructureTypeId.HasValue)
+            {
+                var AllMarketGroupFromItem = GetAllGroupMarketIdFromItemId(_context, ItemId);
+
+                var request = _context.LocationRigsManufacturings.Include("LocationRigsManufacturing");
+                foreach (var rigItem in request.Where(x=>x.LocationId== Location.Id))
+                {
+                    decimal StatusMultiplier = 1;
+                    if (Location.Security >= 5)
+                        StatusMultiplier = rigItem.RigsManufacturing.MultiplierHS;
+                    if (Location.Security < 5 && Location.Security > 0)
+                        StatusMultiplier = rigItem.RigsManufacturing.MultiplierLS;
+                    if (Location.Security <= 0)
+                        StatusMultiplier = rigItem.RigsManufacturing.MultiplierNS;
+
+                    MeEfficiency = 1 - (rigItem.RigsManufacturing.MaterialEffect * StatusMultiplier);
+                }
+            }
+
+            return MeEfficiency;
+        }
+        public static List<int> GetAllGroupMarketIdFromItemId(ArkenstoneContext _context, int ItemId)
+        {
+            var returnList = new List<int>();
+            int? parentID = null;
+            do
+            {
+                parentID = null;
+                var marketGroup = _context.MarketGroupTrees.Find(ItemId);
+                if (marketGroup != null)
+                {
+                    returnList.Add(marketGroup.Id);
+                    parentID = marketGroup.ParentId;
+                }
+
+
+            } while (parentID.HasValue);
+
+            return returnList;
+        }
+
+    }
+}

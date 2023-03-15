@@ -16,6 +16,7 @@ namespace Arkenstone.Entities.DbSet
         public int Id { get; set; }
         public string Name { get; set; }
         public string MarketIdEffect { get; set; }
+        public string MarketIdNotEffect { get; set; }
 
         public decimal CostEffect { get; set; } = 0;
         public decimal TimeEffect { get; set; } = 0;
