@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Arkenstone.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Arkenstone.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Arkenstone.Entities;
 
 namespace Arkenstone.Controllers
 {
@@ -25,15 +22,15 @@ namespace Arkenstone.Controllers
             _context = context;
         }
 
-        
 
-        // GET api/recipe/ListRecipe
-        //[HttpGet("ListRecipe")]
-        //[Authorize(Policy = "Member")]
-        //public IQueryable<RecipeModel> ListRecipe()
-        //{
-        //    return _context.Recipes.Include("Item").Include("RecipeRessource.Item").Select(x => new RecipeModel(x));
-        //}
+
+        //GET api/recipe/ListRecipe
+        [HttpGet("ListRecipeName")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<string>))]
+        public IActionResult ListRecipe()
+        {
+            return Ok(_context.Recipes.Include("Item").Select(x => x.Item.Name).ToList());
+        }
 
         // GET api/recipe/GetRecipe?id=682
         //[HttpGet("GetRecipe")]

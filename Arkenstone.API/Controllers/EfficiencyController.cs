@@ -1,9 +1,12 @@
-﻿using Arkenstone.Controllers;
+﻿using Arkenstone.API.ControllerModel;
+using Arkenstone.Controllers;
 using Arkenstone.Entities;
 using Arkenstone.Logic.Efficiency;
 using Arkenstone.Logic.Structure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Arkenstone.API.Controllers
@@ -24,6 +27,8 @@ namespace Arkenstone.API.Controllers
 
         // GET api/Efficiency
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(decimal))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetEfficiencyFromStation([FromQuery] long LocationId, [FromQuery] int ItemId)
         {
             try

@@ -2,6 +2,7 @@
 using Arkenstone.Controllers;
 using Arkenstone.Entities;
 using Arkenstone.Logic.Structure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,9 @@ namespace Arkenstone.API.Controllers
 
         // GET api/structure
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModel>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetSimple([FromQuery] long? LocationId)
         {
             try
@@ -55,6 +59,9 @@ namespace Arkenstone.API.Controllers
         }
         // GET api/structure/Detailed
         [HttpGet("Detailed")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModelDetails>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetDetailed([FromQuery] long? LocationId)
         {
             try
@@ -86,6 +93,8 @@ namespace Arkenstone.API.Controllers
 
         // POST api/structure
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModelDetails>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult SetFit([FromQuery] long LocationId, [FromBody] StructureModelDetails PostModel)
         {
             try

@@ -160,6 +160,7 @@ namespace Arkenstone.Logic.BulkUpdate
                            PriceSell = 0,
                        });
                 }
+                context.SaveChanges();
 
                 //MAJ MarketGroup
                 foreach (var item in MarketGroupsCsvrecords)
@@ -172,6 +173,7 @@ namespace Arkenstone.Logic.BulkUpdate
                            Name = item.marketGroupName
                        });
                 }
+                context.SaveChanges();
 
 
                 //MAJ recettes
@@ -190,6 +192,7 @@ namespace Arkenstone.Logic.BulkUpdate
                                 }).time
                     });
                 }
+                context.SaveChanges();
 
 
                 //MAJ Materiaux recettes
@@ -202,15 +205,8 @@ namespace Arkenstone.Logic.BulkUpdate
                         Quantity = item.quantity
                     });
                 }
+                context.SaveChanges();
 
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
                 
 
                 industryActivityCsvrecords = null;

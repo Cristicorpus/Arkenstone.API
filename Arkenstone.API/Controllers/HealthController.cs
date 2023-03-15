@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
+
 
 namespace Arkenstone.Controllers
 {
     [Route("")]
     [ApiController]
-    public class HealthController
+    public class HealthController : Controller
     {
         private readonly ILogger<RecipeController> _logger;
 
@@ -20,9 +18,10 @@ namespace Arkenstone.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult Get()
         {
-            return "ok";
+            return Ok();
         }
     }
 }
