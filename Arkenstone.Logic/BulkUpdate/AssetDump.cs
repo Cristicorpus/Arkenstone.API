@@ -81,15 +81,12 @@ namespace Arkenstone.Logic.Asset
 
                             if (item.LocationId>=1000000000)
                             {
-                                //TODO ajouter le scope pour lire les structure
-                                //var tempStructure = await eveEsi.EsiClient.Universe.Structure(item.LocationId);
-                                //newStation.Name = tempStructure.Data.Name;
-                                //newStation.StructureTypeId = tempStructure.Data.TypeId;
-                                //var tempSecurity = await eveEsi.EsiClient.Universe.System(tempStructure.Data.SolarSystemId);
-                                //newStation.Security = tempSecurity.Data.SecurityStatus;
-                                    
+                               var tempStructure = await eveEsi.EsiClient.Universe.Structure(item.LocationId);
+                                newStation.Name = tempStructure.Data.Name;
+                                newStation.StructureTypeId = tempStructure.Data.TypeId;
+                                var tempSecurity = await eveEsi.EsiClient.Universe.System(tempStructure.Data.SolarSystemId);
+                                newStation.Security = tempSecurity.Data.SecurityStatus;
 
-                                newStation.Name = "";
                             }
                             else
                             {

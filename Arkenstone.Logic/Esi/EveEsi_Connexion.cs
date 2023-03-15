@@ -55,6 +55,7 @@ namespace Arkenstone.Logic.Esi
         {
             List<string> scopes = new List<string>();
             scopes.Add("publicData");
+            scopes.Add("esi-universe.read_structures.v1");
             scopes.Add("esi-assets.read_assets.v1");
             scopes.Add("esi-industry.read_character_jobs.v1");
             scopes.Add("esi-characters.read_blueprints.v1");

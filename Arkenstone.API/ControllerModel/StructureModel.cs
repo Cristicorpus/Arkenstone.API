@@ -1,0 +1,33 @@
+﻿using Arkenstone.Entities.DbSet;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Arkenstone.API.ControllerModel
+{
+    public class StructureModel
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+    }
+    public class StructureModelDetails
+    {
+        public StructureModel core { get; set; }
+        public decimal Security { get; set; }
+        public string RawFit { get; set; }
+        public virtual ICollection<RigsManufacturing> RigsManufacturings { get; set; }
+
+        public StructureModelDetails()
+        {
+
+        }
+
+        public StructureModelDetails(Location target)
+        {
+            this.core = new StructureModel();
+            this.core.Id = target.Id;
+            this.core.Name = target.Name;
+            this.Security = target.Security;
+            this.RigsManufacturings = target.LocationRigsManufacturings.Select(x => x.RigsManufacturing).ToList();
+        }
+    }
+}

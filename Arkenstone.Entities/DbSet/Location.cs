@@ -15,7 +15,7 @@ namespace Arkenstone.Entities.DbSet
         public long Id { get; set; }
         
         public virtual ICollection<SubLocation> SubLocations { get; set; }
-        public virtual ICollection<LocationRigsManufacturing> LocationRigs { get; set; }
+        public virtual ICollection<LocationRigsManufacturing> LocationRigsManufacturings { get; set; }
 
         public string Name { get; set; }
         
@@ -34,7 +34,7 @@ namespace Arkenstone.Entities.DbSet
         public Location()
         {
             SubLocations = new HashSet<SubLocation>();
-            LocationRigs = new HashSet<LocationRigsManufacturing>();
+            LocationRigsManufacturings = new HashSet<LocationRigsManufacturing>();
         }
 
     }
