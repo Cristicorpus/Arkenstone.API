@@ -113,10 +113,19 @@ namespace Arkenstone
             services.AddSwaggerGen();
             services.AddControllers();
 
-            //services.AddControllersWithViews()
-            //    .AddNewtonsoftJson(options =>
-            //        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            //    );
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Arkenstone - V1",
+                        Version = "v1"
+                    }
+                 );
+                c.IncludeXmlComments(System.IO.Path.Combine(System.AppContext.BaseDirectory, "API_Eveminingfleet.xml"));
+            });
 
         }
 
@@ -132,9 +141,9 @@ namespace Arkenstone
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                //if (env.IsDevelopment())
-                //    c.SupportedSubmitMethods(new SubmitMethod[] { });
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                if (env.IsDevelopment())
+                    c.SupportedSubmitMethods(new SubmitMethod[] { });
             });
 
             app.UseHttpsRedirection();

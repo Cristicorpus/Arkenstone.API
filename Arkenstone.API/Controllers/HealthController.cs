@@ -15,6 +15,11 @@ namespace Arkenstone.API.Controllers
 
         }
 
+
+        /// <summary>
+        /// heart beat
+        /// </summary>
+        /// <response code="200"></response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Get()

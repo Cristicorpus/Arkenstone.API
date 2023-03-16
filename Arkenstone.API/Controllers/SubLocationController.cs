@@ -19,11 +19,18 @@ namespace Arkenstone.API.Controllers
 
         }
 
+        /// <summary>
+        /// get data of sublocation
+        /// </summary>
+        /// <param name="SubLocationId" example="5">SubLocation Id</param>
+        /// <response code="200">list of sublocation</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">sublocation not found</response>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<SubLocation>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Get([FromQuery] int? SubLocationId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -34,7 +41,7 @@ namespace Arkenstone.API.Controllers
             
             if (SubLocationId.HasValue)
             {
-                var subLocation = _context.SubLocations.FirstOrDefault(x=>x.Id == SubLocationId);
+                var subLocation = subLocationServiceService.GetFirstOrDefault(SubLocationId.Value);
                 if (subLocation == null)
                     return NotFound();
                 if (subLocation.CorporationId != tokenCharacter.CorporationId)
@@ -44,11 +51,21 @@ namespace Arkenstone.API.Controllers
             return Ok(subLocationServiceService.GetSubLocationByCorp(tokenCharacter.CorporationId));
         }
 
+
+        /// <summary>
+        /// get data of sublocation in an location
+        /// </summary>
+        /// <param name="LocationId" example="1041276076345">Location Id</param>
+        /// <response code="200">list of sublocation</response>
+        /// <response code="204">no content</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">location not found</response>
         [HttpGet("Location")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<SubLocation>))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetByLocation([FromQuery] long LocationId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -69,10 +86,17 @@ namespace Arkenstone.API.Controllers
                 return Ok(temp);
         }
 
+        /// <summary>
+        /// set or reset sublocation to analyse
+        /// </summary>
+        /// <param name="SubLocationId" example="5">SubLocation Id</param>
+        /// <response code="200"></response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">sublocation not found</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Edit([FromQuery] int SubLocationId, [FromQuery] bool Toanalyse)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -81,7 +105,7 @@ namespace Arkenstone.API.Controllers
 
             SubLocationService subLocationServiceService = new SubLocationService(_context);
 
-            var subLocation = _context.SubLocations.FirstOrDefault(x=>x.Id == SubLocationId);
+            var subLocation = subLocationServiceService.GetFirstOrDefault(SubLocationId);
             if (subLocation == null)
                 return NotFound();
             if (subLocation.CorporationId != tokenCharacter.CorporationId)
