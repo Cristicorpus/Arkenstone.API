@@ -56,7 +56,6 @@ namespace Arkenstone
             });
 
             var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-            Console.WriteLine($"Connection string: {_dbConnectionString}");
             services.AddDbContext<ArkenstoneContext>(
                 dbContextOptions => dbContextOptions
                     .UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString), opts => opts.EnableRetryOnFailure(3).CommandTimeout((int)TimeSpan.FromSeconds(30).TotalSeconds))
