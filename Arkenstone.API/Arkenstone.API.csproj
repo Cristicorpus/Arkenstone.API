@@ -34,9 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="API_Eveminingfleet.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Applicatif\Manual\RigsManufacturings.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
