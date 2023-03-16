@@ -65,16 +65,18 @@ namespace Arkenstone
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
+                        var Key = Encoding.UTF8.GetBytes(System.Environment.GetEnvironmentVariable("TokenSecretKey"));
+                        options.SaveToken = true;
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
+                            ValidateIssuer = false,
+                            ValidateAudience = false,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
 
                             ValidIssuer = System.Environment.GetEnvironmentVariable("TokenIssuer"),
                             ValidAudience = System.Environment.GetEnvironmentVariable("TokenIssuer"),
-                            IssuerSigningKey = JwtSecurityKey.Create(System.Environment.GetEnvironmentVariable("TokenSecretKey"))
+                            IssuerSigningKey = new SymmetricSecurityKey(Key)
                         };
 
                         options.Events = new JwtBearerEvents
@@ -132,8 +134,8 @@ namespace Arkenstone
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                if (env.IsDevelopment())
-                    c.SupportedSubmitMethods(new SubmitMethod[] { });
+                //if (env.IsDevelopment())
+                //    c.SupportedSubmitMethods(new SubmitMethod[] { });
             });
 
             app.UseHttpsRedirection();

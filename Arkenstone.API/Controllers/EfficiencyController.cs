@@ -33,7 +33,7 @@ namespace Arkenstone.API.Controllers
             if (tokenCharacter == null)
                 return Unauthorized("You are not authorized");
 
-            var structure = _context.Locations.Find(LocationId);
+            var structure = _context.Locations.Include("StructureType").FirstOrDefault(x=>x.Id == LocationId);
             if (structure == null)
                 return NotFound("Structure not found");
             var item = _context.Items.Find(ItemId);
@@ -67,7 +67,7 @@ namespace Arkenstone.API.Controllers
 
             EfficiencyModel returnModel = null;
                 
-            foreach (var location in _context.Locations.Include("SubLocations").Where(x=>x.SubLocations.Any(y=>y.CorporationId== tokenCharacter.CorporationId)))
+            foreach (var location in _context.Locations.Include("StructureType").Include("SubLocations").Where(x=>x.SubLocations.Any(y=>y.CorporationId== tokenCharacter.CorporationId)))
             {
                 var temp = efficiencyService.GetEfficiencyFromStation(location, item);
                 if (returnModel ==null || returnModel.MEefficiency > temp.MEefficiency)

@@ -35,14 +35,14 @@ namespace Arkenstone.Controllers
 
             if (ProdAchatId == null)
             {
-                foreach (var item in _context.ProdAchats.Where(x => x.ProdAchatParentId == null).Include("Location").Include("Item"))
+                foreach (var item in _context.ProdAchats.Where(x => x.ProdAchatParentId == null).Include("Location.StructureType").Include("Item"))
                 {
                     returnModel.Add(new ProdAchatModel(item));
                 }
             }
             else
             {
-                var ProdAchat = _context.ProdAchats.Include("Location").Include("Item").Include("ProdAchatEnfant.Item").Include("ProdAchatEnfant.Location").Include("ProdAchatParent.Item").Include("ProdAchatParent.Location").FirstOrDefault(x => x.Id == ProdAchatId);
+                var ProdAchat = _context.ProdAchats.Include("Location.StructureType").Include("Item").Include("ProdAchatEnfant.Item").Include("ProdAchatEnfant.Location").Include("ProdAchatParent.Item").Include("ProdAchatParent.Location").FirstOrDefault(x => x.Id == ProdAchatId);
                 if(ProdAchat!=null)
                     returnModel.Add(new ProdAchatModel(ProdAchat));
             }
@@ -55,7 +55,7 @@ namespace Arkenstone.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProdAchatModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult CreateProdAchat([FromQuery] ProdAchatModel ProdAchatModel)
+        public IActionResult CreateProdAchat([FromBody] ProdAchatModel ProdAchatModel)
         {
 
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);

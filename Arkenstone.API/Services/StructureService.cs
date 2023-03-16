@@ -30,12 +30,14 @@ namespace Arkenstone.API.Services
 
         private List<Location> GetCore(long? LocationId)
         {
+            var request = _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").Include("StructureType");
+            
             if (LocationId == null)
-                return _context.Locations.Include("StructureType").ToList();
+                return request.ToList();
             else
             {
                 List<Location> returnvalue = new List<Location>();
-                var targetStructure = _context.Locations.Include("StructureType").FirstOrDefault(x => x.Id == LocationId.Value);
+                var targetStructure = request.FirstOrDefault(x => x.Id == LocationId.Value);
                 if (targetStructure != null)
                     returnvalue.Add(targetStructure);
                 return returnvalue;
@@ -128,6 +130,10 @@ namespace Arkenstone.API.Services
         }
 
 
+        public List<Location> ListStructureCorp(int corpID)
+        {
+            return _context.Locations.Include("SubLocations").Where(x => x.SubLocations.Any(y => y.CorporationId == corpID)).ToList();
+        }
 
 
     }

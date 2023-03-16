@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -13,20 +14,30 @@ namespace Arkenstone.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Characters",
+                name: "Alliances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Token = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    RefreshToken = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Characters", x => x.Id);
+                    table.PrimaryKey("PK_Alliances", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Corporations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Corporations", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -40,11 +51,27 @@ namespace Arkenstone.Entities.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MarketGroupId = table.Column<int>(type: "int", nullable: false),
                     PriceBuy = table.Column<double>(type: "double", nullable: true),
-                    PriceSell = table.Column<double>(type: "double", nullable: true)
+                    PriceSell = table.Column<double>(type: "double", nullable: true),
+                    PriceAdjustedPrice = table.Column<double>(type: "double", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "MarketGroupTrees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MarketGroupTrees", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -56,6 +83,8 @@ namespace Arkenstone.Entities.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     MarketIdEffect = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MarketIdNotEffect = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CostEffect = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     TimeEffect = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
@@ -88,6 +117,45 @@ namespace Arkenstone.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Characters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Token = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RefreshToken = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CorporationId = table.Column<int>(type: "int", nullable: false),
+                    AllianceId = table.Column<int>(type: "int", nullable: false),
+                    CharacterMainId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Characters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Characters_Alliances_AllianceId",
+                        column: x => x.AllianceId,
+                        principalTable: "Alliances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Characters_Characters_CharacterMainId",
+                        column: x => x.CharacterMainId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Characters_Corporations_CorporationId",
+                        column: x => x.CorporationId,
+                        principalTable: "Corporations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Recipes",
                 columns: table => new
                 {
@@ -110,35 +178,6 @@ namespace Arkenstone.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Tickets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    TicketParentId = table.Column<int>(type: "int", nullable: true),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tickets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Tickets_TicketParentId",
-                        column: x => x.TicketParentId,
-                        principalTable: "Tickets",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
@@ -146,8 +185,7 @@ namespace Arkenstone.Entities.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Security = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    StructureId = table.Column<int>(type: "int", nullable: false),
-                    StructureTypeId = table.Column<int>(type: "int", nullable: false),
+                    StructureTypeId = table.Column<int>(type: "int", nullable: true),
                     CanReact = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CanReprocess = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CanProd = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -162,8 +200,7 @@ namespace Arkenstone.Entities.Migrations
                         name: "FK_Locations_StructureTypes_StructureTypeId",
                         column: x => x.StructureTypeId,
                         principalTable: "StructureTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -188,35 +225,6 @@ namespace Arkenstone.Entities.Migrations
                         name: "FK_RecipeRessources_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "InventoryBlueprints",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    LocationId = table.Column<long>(type: "bigint", nullable: false),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    MaterialEfficiency = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    TimeEfficiency = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    CycleNumber = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InventoryBlueprints", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InventoryBlueprints_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InventoryBlueprints_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -248,32 +256,41 @@ namespace Arkenstone.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "ProdAchats",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    TypeOrder = table.Column<int>(type: "int", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    LocationId1 = table.Column<long>(type: "bigint", nullable: false),
-                    TicketId = table.Column<int>(type: "int", nullable: false)
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    MEefficiency = table.Column<decimal>(type: "decimal(65,30)", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<long>(type: "bigint", nullable: false),
+                    ProdAchatParentId = table.Column<int>(type: "int", nullable: true),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    CharacterIdReservation = table.Column<int>(type: "int", nullable: true),
+                    DatetimeReservation = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_ProdAchats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Locations_LocationId1",
-                        column: x => x.LocationId1,
+                        name: "FK_ProdAchats_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProdAchats_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Tickets_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Tickets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_ProdAchats_ProdAchats_ProdAchatParentId",
+                        column: x => x.ProdAchatParentId,
+                        principalTable: "ProdAchats",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -328,14 +345,19 @@ namespace Arkenstone.Entities.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InventoryBlueprints_ItemId",
-                table: "InventoryBlueprints",
-                column: "ItemId");
+                name: "IX_Characters_AllianceId",
+                table: "Characters",
+                column: "AllianceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InventoryBlueprints_LocationId",
-                table: "InventoryBlueprints",
-                column: "LocationId");
+                name: "IX_Characters_CharacterMainId",
+                table: "Characters",
+                column: "CharacterMainId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Characters_CorporationId",
+                table: "Characters",
+                column: "CorporationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Inventorys_SubLocationId",
@@ -353,14 +375,19 @@ namespace Arkenstone.Entities.Migrations
                 column: "StructureTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_LocationId1",
-                table: "Orders",
-                column: "LocationId1");
+                name: "IX_ProdAchats_ItemId",
+                table: "ProdAchats",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_TicketId",
-                table: "Orders",
-                column: "TicketId");
+                name: "IX_ProdAchats_LocationId",
+                table: "ProdAchats",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProdAchats_ProdAchatParentId",
+                table: "ProdAchats",
+                column: "ProdAchatParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeRessources_ItemId",
@@ -377,16 +404,6 @@ namespace Arkenstone.Entities.Migrations
                 table: "SubLocations",
                 columns: new[] { "LocationId", "Flag", "CorporationId" },
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_ItemId",
-                table: "Tickets",
-                column: "ItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_TicketParentId",
-                table: "Tickets",
-                column: "TicketParentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -395,28 +412,31 @@ namespace Arkenstone.Entities.Migrations
                 name: "Characters");
 
             migrationBuilder.DropTable(
-                name: "InventoryBlueprints");
-
-            migrationBuilder.DropTable(
                 name: "Inventorys");
 
             migrationBuilder.DropTable(
                 name: "LocationRigsManufacturings");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "MarketGroupTrees");
+
+            migrationBuilder.DropTable(
+                name: "ProdAchats");
 
             migrationBuilder.DropTable(
                 name: "RecipeRessources");
+
+            migrationBuilder.DropTable(
+                name: "Alliances");
+
+            migrationBuilder.DropTable(
+                name: "Corporations");
 
             migrationBuilder.DropTable(
                 name: "SubLocations");
 
             migrationBuilder.DropTable(
                 name: "RigsManufacturings");
-
-            migrationBuilder.DropTable(
-                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "Recipes");

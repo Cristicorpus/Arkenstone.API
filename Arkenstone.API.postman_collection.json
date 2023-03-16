@@ -1,0 +1,1805 @@
+{
+	"info": {
+		"_postman_id": "cb92226d-fe65-4987-8690-87ff05e253ab",
+		"name": "Arkenstone.API Copy 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "Asset",
+					"item": [
+						{
+							"name": "/api/Asset",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Asset",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Asset"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"quantity\": -80301384,\n    \"itemModel\": {\n      \"id\": 82312030,\n      \"published\": true,\n      \"name\": \"ut labore consequat\",\n      \"marketGroupId\": 49227534\n    }\n  },\n  {\n    \"quantity\": 95026685,\n    \"itemModel\": {\n      \"id\": 43080019,\n      \"published\": false,\n      \"name\": \"fugiat\",\n      \"marketGroupId\": 82443914\n    }\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Asset/Structure",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Asset/Structure",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Asset",
+										"Structure"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "1041239523329",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"structure\": {\n      \"id\": 80972877,\n      \"name\": \"dolor enim velit\",\n      \"structureTypeId\": -7740224,\n      \"structureTypeName\": \"do labore\"\n    },\n    \"assets\": [\n      {\n        \"quantity\": -22414026,\n        \"itemModel\": {\n          \"id\": -21997104,\n          \"published\": false,\n          \"name\": \"ex\",\n          \"marketGroupId\": 681191\n        }\n      },\n      {\n        \"quantity\": -65278001,\n        \"itemModel\": {\n          \"id\": -25146553,\n          \"published\": false,\n          \"name\": \"in Duis\",\n          \"marketGroupId\": 25833069\n        }\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 45575943,\n      \"name\": \"labore occaecat magna\",\n      \"structureTypeId\": -28308089,\n      \"structureTypeName\": \"nisi Ut\"\n    },\n    \"assets\": [\n      {\n        \"quantity\": -2879533,\n        \"itemModel\": {\n          \"id\": -79601144,\n          \"published\": false,\n          \"name\": \"ut dolor ad\",\n          \"marketGroupId\": 57567422\n        }\n      },\n      {\n        \"quantity\": -64790133,\n        \"itemModel\": {\n          \"id\": 44961411,\n          \"published\": true,\n          \"name\": \"irure sed dolore ex\",\n          \"marketGroupId\": -99036957\n        }\n      }\n    ]\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Character",
+					"item": [
+						{
+							"name": "/api/Character",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Character",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Character"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "53608239",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "culpa veniam ipsum ad",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character?id=53608239&name=culpa veniam ipsum ad",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "53608239"
+												},
+												{
+													"key": "name",
+													"value": "culpa veniam ipsum ad"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 13784543,\n    \"name\": \"fugiat pariatur amet ut veniam\",\n    \"coorporation\": {\n      \"id\": -3986651,\n      \"name\": \"eiusmod consectetur\"\n    },\n    \"alliance\": {\n      \"id\": 16626671,\n      \"name\": \"cillum amet\"\n    }\n  },\n  {\n    \"id\": 64957894,\n    \"name\": \"non\",\n    \"coorporation\": {\n      \"id\": -73799058,\n      \"name\": \"cupidatat fugiat labore Ut\"\n    },\n    \"alliance\": {\n      \"id\": 66051382,\n      \"name\": \"enim commodo\"\n    }\n  }\n]"
+								},
+								{
+									"name": "No Content",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character?id=53608239&name=culpa veniam ipsum ad",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "53608239"
+												},
+												{
+													"key": "name",
+													"value": "culpa veniam ipsum ad"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character?id=53608239&name=culpa veniam ipsum ad",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "53608239"
+												},
+												{
+													"key": "name",
+													"value": "culpa veniam ipsum ad"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character?id=53608239&name=culpa veniam ipsum ad",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "53608239"
+												},
+												{
+													"key": "name",
+													"value": "culpa veniam ipsum ad"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Character/my_characters",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Character/my_characters",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Character",
+										"my_characters"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character/my_characters",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character",
+												"my_characters"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 13784543,\n    \"name\": \"fugiat pariatur amet ut veniam\",\n    \"coorporation\": {\n      \"id\": -3986651,\n      \"name\": \"eiusmod consectetur\"\n    },\n    \"alliance\": {\n      \"id\": 16626671,\n      \"name\": \"cillum amet\"\n    }\n  },\n  {\n    \"id\": 64957894,\n    \"name\": \"non\",\n    \"coorporation\": {\n      \"id\": -73799058,\n      \"name\": \"cupidatat fugiat labore Ut\"\n    },\n    \"alliance\": {\n      \"id\": 66051382,\n      \"name\": \"enim commodo\"\n    }\n  }\n]"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character/my_characters",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character",
+												"my_characters"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Character/SetMain",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Character/SetMain?mainId=53608239",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Character",
+										"SetMain"
+									],
+									"query": [
+										{
+											"key": "mainId",
+											"value": "53608239"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character/SetMain?mainId=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character",
+												"SetMain"
+											],
+											"query": [
+												{
+													"key": "mainId",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"culpa veniam ipsum ad\""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character/SetMain?mainId=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character",
+												"SetMain"
+											],
+											"query": [
+												{
+													"key": "mainId",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Character/SetMain?mainId=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Character",
+												"SetMain"
+											],
+											"query": [
+												{
+													"key": "mainId",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Efficiency",
+					"item": [
+						{
+							"name": "/api/Efficiency",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Efficiency?LocationId=1041276076345&ItemId=24692",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Efficiency"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "1041276076345"
+										},
+										{
+											"key": "ItemId",
+											"value": "24692"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Efficiency?LocationId=-69678129&ItemId=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Efficiency"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												},
+												{
+													"key": "ItemId",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"mEefficiency\": -17108626.943535075,\n  \"station\": {\n    \"id\": 39140482,\n    \"name\": \"aliqua\",\n    \"structureTypeId\": 41401109,\n    \"structureTypeName\": \"in\"\n  },\n  \"rigsEffect\": [\n    {\n      \"id\": 51936092,\n      \"name\": \"amet mollit\",\n      \"marketIdEffect\": \"nulla occaecat est et\",\n      \"marketIdNotEffect\": \"do in dolor\",\n      \"costEffect\": -41871812.14301967,\n      \"timeEffect\": -48629759.951079346,\n      \"materialEffect\": 43944208.221657425,\n      \"multiplierHS\": -5319872.79045181,\n      \"multiplierLS\": -13100553.2206721,\n      \"multiplierNS\": -44251211.51571432\n    },\n    {\n      \"id\": 37516195,\n      \"name\": \"magna nostrud eiusmod fugiat occaecat\",\n      \"marketIdEffect\": \"commodo reprehenderit voluptate irure dolore\",\n      \"marketIdNotEffect\": \"labore non eiusmod\",\n      \"costEffect\": 21301472.343998328,\n      \"timeEffect\": -43149964.73284185,\n      \"materialEffect\": -13312065.54878524,\n      \"multiplierHS\": -96155401.51471746,\n      \"multiplierLS\": -59791389.5956105,\n      \"multiplierNS\": -8001391.395883098\n    }\n  ]\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Efficiency?LocationId=-69678129&ItemId=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Efficiency"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												},
+												{
+													"key": "ItemId",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Efficiency/chooseStation",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Efficiency/chooseStation?ItemId=24692",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Efficiency",
+										"chooseStation"
+									],
+									"query": [
+										{
+											"key": "ItemId",
+											"value": "24692"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Efficiency/chooseStation?ItemId=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Efficiency",
+												"chooseStation"
+											],
+											"query": [
+												{
+													"key": "ItemId",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"mEefficiency\": 44355521.68569097,\n  \"station\": {\n    \"id\": -66812270,\n    \"name\": \"officia nulla\",\n    \"structureTypeId\": 62008889,\n    \"structureTypeName\": \"ea non dolor nisi\"\n  },\n  \"rigsEffect\": [\n    {\n      \"id\": -2429318,\n      \"name\": \"quis reprehenderi\",\n      \"marketIdEffect\": \"et Ut in elit Excepteur\",\n      \"marketIdNotEffect\": \"ut et ea\",\n      \"costEffect\": 93803530.55395213,\n      \"timeEffect\": 79329349.92096269,\n      \"materialEffect\": -3832536.279272154,\n      \"multiplierHS\": -97879806.25441568,\n      \"multiplierLS\": 42756835.47932702,\n      \"multiplierNS\": -97895013.53653204\n    },\n    {\n      \"id\": 78092080,\n      \"name\": \"amet\",\n      \"marketIdEffect\": \"culpa\",\n      \"marketIdNotEffect\": \"enim aliquip sit\",\n      \"costEffect\": 14253618.932960555,\n      \"timeEffect\": -85797802.92906651,\n      \"materialEffect\": 8838745.9176182,\n      \"multiplierHS\": 27038871.3076497,\n      \"multiplierLS\": -39309574.749018505,\n      \"multiplierNS\": 41798726.27629858\n    }\n  ]\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Efficiency/chooseStation?ItemId=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Efficiency",
+												"chooseStation"
+											],
+											"query": [
+												{
+													"key": "ItemId",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ProdAchat",
+					"item": [
+						{
+							"name": "/api/ProdAchat",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=-69678129",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ProdAchat"
+									],
+									"query": [
+										{
+											"key": "ProdAchatId",
+											"value": "-69678129"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ProdAchat"
+											],
+											"query": [
+												{
+													"key": "ProdAchatId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": -78865416,\n    \"item\": {\n      \"id\": 35681877,\n      \"published\": false,\n      \"name\": \"mollit\",\n      \"marketGroupId\": 85757689,\n      \"priceBuy\": -22144213.95724529,\n      \"priceSell\": 86018843.27295223,\n      \"priceAdjustedPrice\": -58283660.38391692\n    },\n    \"quantity\": -29509815,\n    \"mEefficiency\": -45484830.82887547,\n    \"type\": 4,\n    \"location\": {\n      \"id\": 68529060,\n      \"name\": \"nisi eiusmod reprehenderit amet\",\n      \"structureTypeId\": -74937745,\n      \"structureTypeName\": \"co\"\n    },\n    \"prodAchatParent\": {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    \"prodAchatEnfants\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      }\n    ],\n    \"state\": 2,\n    \"characterIdReservation\": 34861663,\n    \"datetimeReservation\": \"1997-01-24T00:13:55.312Z\"\n  },\n  {\n    \"id\": -63329553,\n    \"item\": {\n      \"id\": 69548109,\n      \"published\": false,\n      \"name\": \"exercitation elit sed\",\n      \"marketGroupId\": -48161802,\n      \"priceBuy\": 25812592.68903935,\n      \"priceSell\": 61722841.22489411,\n      \"priceAdjustedPrice\": -81179010.1552857\n    },\n    \"quantity\": 68437177,\n    \"mEefficiency\": -91478505.36857174,\n    \"type\": 3,\n    \"location\": {\n      \"id\": 29197459,\n      \"name\": \"laborum in elit\",\n      \"structureTypeId\": -29318986,\n      \"structureTypeName\": \"commodo aute ut in\"\n    },\n    \"prodAchatParent\": {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    \"prodAchatEnfants\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      }\n    ],\n    \"state\": 0,\n    \"characterIdReservation\": -83735169,\n    \"datetimeReservation\": \"2009-03-13T21:57:05.292Z\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "/api/ProdAchat",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/ProdAchat",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ProdAchat"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/ProdAchat",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ProdAchat"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/ProdAchat",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ProdAchat"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Recipe",
+					"item": [
+						{
+							"name": "/api/Recipe",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Recipe?id=24692",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Recipe"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "24692"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Recipe?id=53608239",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Recipe"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "53608239"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 73614942,\n  \"type\": 6,\n  \"quantity\": -75384107,\n  \"time\": 5215056,\n  \"item\": {\n    \"id\": -83034642,\n    \"published\": false,\n    \"name\": \"pariatur qui dolor in\",\n    \"marketGroupId\": -53868689,\n    \"priceBuy\": 56225806.42969081,\n    \"priceSell\": -91065025.45295285,\n    \"priceAdjustedPrice\": 64945880.083406836\n  },\n  \"recipeRessource\": [\n    {\n      \"recipeId\": 3542345,\n      \"item\": {\n        \"id\": -19243388,\n        \"published\": false,\n        \"name\": \"cupidatat dolor sit\",\n        \"marketGroupId\": 36700294,\n        \"priceBuy\": -29111676.902396962,\n        \"priceSell\": 65164745.24666175,\n        \"priceAdjustedPrice\": 42541857.86095542\n      },\n      \"quantity\": 61512073\n    },\n    {\n      \"recipeId\": 48327452,\n      \"item\": {\n        \"id\": 92668398,\n        \"published\": false,\n        \"name\": \"cillum dolor\",\n        \"marketGroupId\": 77746596,\n        \"priceBuy\": 23093946.31188941,\n        \"priceSell\": -26296036.828250587,\n        \"priceAdjustedPrice\": 4247369.9020798355\n      },\n      \"quantity\": -46744552\n    }\n  ]\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Recipe/ListRecipeName",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Recipe/ListRecipeName",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Recipe",
+										"ListRecipeName"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Recipe/ListRecipeName",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Recipe",
+												"ListRecipeName"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  \"\",\n  \"dolor ex\"\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Structure",
+					"item": [
+						{
+							"name": "/api/Structure",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Structure",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Structure"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "-69678129",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": -13504586,\n    \"name\": \"velit ullamco\",\n    \"structureTypeId\": 1141704,\n    \"structureTypeName\": \"consequat ipsum labore\"\n  },\n  {\n    \"id\": -73579716,\n    \"name\": \"dolore\",\n    \"structureTypeId\": -72683327,\n    \"structureTypeName\": \"voluptate consequat\"\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Structure",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"[Azbel, *Simulated Azbel Fitting]\\r\\n\\r\\n\\r\\n\\r\\nStandup L-Set Equipment Manufacturing Efficiency II\\r\\nStandup L-Set Basic Large Ship Manufacturing Efficiency I\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\"",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Structure?LocationId=1041276076345",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Structure"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "1041276076345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"structure\": {\n    \"id\": -22928291,\n    \"name\": \"deserunt in Ut\",\n    \"structureTypeId\": 74939704,\n    \"structureTypeName\": \"ad velit voluptate mollit\"\n  },\n  \"security\": 67756955.8912336,\n  \"rawFit\": \"ut mollit dolor cillum\",\n  \"rigsManufacturings\": [\n    {\n      \"id\": -97457280,\n      \"name\": \"aliquip ut quis\",\n      \"marketIdEffect\": \"amet a\",\n      \"marketIdNotEffect\": \"id consectetur\",\n      \"costEffect\": 86586145.36793143,\n      \"timeEffect\": 63441558.15130955,\n      \"materialEffect\": 86252286.13843441,\n      \"multiplierHS\": -20375729.640309498,\n      \"multiplierLS\": 71054975.58930928,\n      \"multiplierNS\": 68910629.66721392\n    },\n    {\n      \"id\": -61513007,\n      \"name\": \"ullamco do velit occaecat in\",\n      \"marketIdEffect\": \"nisi\",\n      \"marketIdNotEffect\": \"ut in\",\n      \"costEffect\": -33759477.232522525,\n      \"timeEffect\": 92927060.59148797,\n      \"materialEffect\": -67686020.27931646,\n      \"multiplierHS\": 96323435.3952826,\n      \"multiplierLS\": -16248006.099784046,\n      \"multiplierNS\": -24452957.230147287\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"structure\": {\n      \"id\": -74125669,\n      \"name\": \"eu ul\",\n      \"structureTypeId\": 60257747,\n      \"structureTypeName\": \"sunt voluptate\"\n    },\n    \"security\": -77202615.1867474,\n    \"rawFit\": \"ut Lorem\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": 28121408,\n        \"name\": \"id do\",\n        \"marketIdEffect\": \"esse ea do\",\n        \"marketIdNotEffect\": \"cillum est\",\n        \"costEffect\": -57327759.46095981,\n        \"timeEffect\": -81053640.13176093,\n        \"materialEffect\": 362966.2090283185,\n        \"multiplierHS\": -46881281.95825638,\n        \"multiplierLS\": -21782783.635125607,\n        \"multiplierNS\": -42624974.62433479\n      },\n      {\n        \"id\": -38781464,\n        \"name\": \"in ipsum in cupidatat\",\n        \"marketIdEffect\": \"laboris nisi\",\n        \"marketIdNotEffect\": \"reprehenderit Excepteur eiusmod\",\n        \"costEffect\": 21926843.67470798,\n        \"timeEffect\": -8191122.826406524,\n        \"materialEffect\": 91078801.2469176,\n        \"multiplierHS\": 99568121.50016189,\n        \"multiplierLS\": -46863153.06129489,\n        \"multiplierNS\": -72307754.64576524\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 9990358,\n      \"name\": \"reprehenderit cillum proident aliquip\",\n      \"structureTypeId\": -46041457,\n      \"structureTypeName\": \"enim\"\n    },\n    \"security\": 58133829.430811405,\n    \"rawFit\": \"consectetur occaecat officia minim Excepteur\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -10992458,\n        \"name\": \"est enim\",\n        \"marketIdEffect\": \"fugiat ut labore eiusmod quis\",\n        \"marketIdNotEffect\": \"officia ex a\",\n        \"costEffect\": -34822366.98198497,\n        \"timeEffect\": -80459539.3310032,\n        \"materialEffect\": -77995050.44721404,\n        \"multiplierHS\": 6822948.457501262,\n        \"multiplierLS\": -81192292.25878084,\n        \"multiplierNS\": 33935852.04656473\n      },\n      {\n        \"id\": -86517337,\n        \"name\": \"ut non culpa\",\n        \"marketIdEffect\": \"in\",\n        \"marketIdNotEffect\": \"ex elit\",\n        \"costEffect\": -52720648.687413484,\n        \"timeEffect\": -70892919.1544355,\n        \"materialEffect\": 40081847.03356683,\n        \"multiplierHS\": 22003597.1427373,\n        \"multiplierLS\": 28542819.103322253,\n        \"multiplierNS\": 20281380.804439038\n      }\n    ]\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"structure\": {\n    \"id\": -22928291,\n    \"name\": \"deserunt in Ut\",\n    \"structureTypeId\": 74939704,\n    \"structureTypeName\": \"ad velit voluptate mollit\"\n  },\n  \"security\": 67756955.8912336,\n  \"rawFit\": \"ut mollit dolor cillum\",\n  \"rigsManufacturings\": [\n    {\n      \"id\": -97457280,\n      \"name\": \"aliquip ut quis\",\n      \"marketIdEffect\": \"amet a\",\n      \"marketIdNotEffect\": \"id consectetur\",\n      \"costEffect\": 86586145.36793143,\n      \"timeEffect\": 63441558.15130955,\n      \"materialEffect\": 86252286.13843441,\n      \"multiplierHS\": -20375729.640309498,\n      \"multiplierLS\": 71054975.58930928,\n      \"multiplierNS\": 68910629.66721392\n    },\n    {\n      \"id\": -61513007,\n      \"name\": \"ullamco do velit occaecat in\",\n      \"marketIdEffect\": \"nisi\",\n      \"marketIdNotEffect\": \"ut in\",\n      \"costEffect\": -33759477.232522525,\n      \"timeEffect\": 92927060.59148797,\n      \"materialEffect\": -67686020.27931646,\n      \"multiplierHS\": 96323435.3952826,\n      \"multiplierLS\": -16248006.099784046,\n      \"multiplierNS\": -24452957.230147287\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Structure/Detailed",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=1041276076345",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Structure",
+										"Detailed"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "1041276076345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure",
+												"Detailed"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"structure\": {\n      \"id\": -74125669,\n      \"name\": \"eu ul\",\n      \"structureTypeId\": 60257747,\n      \"structureTypeName\": \"sunt voluptate\"\n    },\n    \"security\": -77202615.1867474,\n    \"rawFit\": \"ut Lorem\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": 28121408,\n        \"name\": \"id do\",\n        \"marketIdEffect\": \"esse ea do\",\n        \"marketIdNotEffect\": \"cillum est\",\n        \"costEffect\": -57327759.46095981,\n        \"timeEffect\": -81053640.13176093,\n        \"materialEffect\": 362966.2090283185,\n        \"multiplierHS\": -46881281.95825638,\n        \"multiplierLS\": -21782783.635125607,\n        \"multiplierNS\": -42624974.62433479\n      },\n      {\n        \"id\": -38781464,\n        \"name\": \"in ipsum in cupidatat\",\n        \"marketIdEffect\": \"laboris nisi\",\n        \"marketIdNotEffect\": \"reprehenderit Excepteur eiusmod\",\n        \"costEffect\": 21926843.67470798,\n        \"timeEffect\": -8191122.826406524,\n        \"materialEffect\": 91078801.2469176,\n        \"multiplierHS\": 99568121.50016189,\n        \"multiplierLS\": -46863153.06129489,\n        \"multiplierNS\": -72307754.64576524\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 9990358,\n      \"name\": \"reprehenderit cillum proident aliquip\",\n      \"structureTypeId\": -46041457,\n      \"structureTypeName\": \"enim\"\n    },\n    \"security\": 58133829.430811405,\n    \"rawFit\": \"consectetur occaecat officia minim Excepteur\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -10992458,\n        \"name\": \"est enim\",\n        \"marketIdEffect\": \"fugiat ut labore eiusmod quis\",\n        \"marketIdNotEffect\": \"officia ex a\",\n        \"costEffect\": -34822366.98198497,\n        \"timeEffect\": -80459539.3310032,\n        \"materialEffect\": -77995050.44721404,\n        \"multiplierHS\": 6822948.457501262,\n        \"multiplierLS\": -81192292.25878084,\n        \"multiplierNS\": 33935852.04656473\n      },\n      {\n        \"id\": -86517337,\n        \"name\": \"ut non culpa\",\n        \"marketIdEffect\": \"in\",\n        \"marketIdNotEffect\": \"ex elit\",\n        \"costEffect\": -52720648.687413484,\n        \"timeEffect\": -70892919.1544355,\n        \"materialEffect\": 40081847.03356683,\n        \"multiplierHS\": 22003597.1427373,\n        \"multiplierLS\": 28542819.103322253,\n        \"multiplierNS\": 20281380.804439038\n      }\n    ]\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure",
+												"Detailed"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=-69678129",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Structure",
+												"Detailed"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-69678129"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "/Login/geturllogin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/Login/geturllogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Login",
+								"geturllogin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Login/geturllogin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Login",
+										"geturllogin"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"culpa veniam ipsum ad\""
+						}
+					]
+				},
+				{
+					"name": "/Login/callbackccp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/Login/callbackccp?code=_HzLazZXKkSLeZb9tEK8lg",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Login",
+								"callbackccp"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "_HzLazZXKkSLeZb9tEK8lg"
+								},
+								{
+									"key": "state",
+									"value": "culpa veniam ipsum ad",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/Login/callbackccp?code=culpa veniam ipsum ad&state=culpa veniam ipsum ad",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"Login",
+										"callbackccp"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "culpa veniam ipsum ad"
+										},
+										{
+											"key": "state",
+											"value": "culpa veniam ipsum ad"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJqdGkiOiJlMmVkMzQzZS1mYjUyLTRmYWItOTBhYi0wMTNmNjQ0NmQ5NTgiLCJDaGFyYWN0ZXJJZENsYWltS2V5IjoiOTY4NTI2MTMiLCJDaGFyYWN0ZXJOYW1lQ2xhaW1LZXkiOiJmZW9ub3IgZGFsYiIsIkNoYXJhY3RlckNvcnBDbGFpbUtleSI6Ijk4NTcxOTY4IiwiQ2hhcmFjdGVyQWxsaWFuY2VDbGFpbUtleSI6Ijk5MDA4Mjc4IiwiZXhwIjoxNjc5MTk5OTYzLCJpc3MiOiJBcmtlbnN0b25lLlRva2VuLklzc3VlciIsImF1ZCI6IkFya2Vuc3RvbmUuVG9rZW4uSXNzdWVyIn0.ZIpGQ6x9stvZ_xpC6HSb_YvrTUmcKTVBiJkQiCa6t2w",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:5001",
+			"type": "string"
+		}
+	]
+}

@@ -68,8 +68,6 @@ namespace Arkenstone.Logic.Asset
                     List<ESI.NET.Models.Assets.Item> AllCoorpoAssetOffice = AllCoorpoAsset.Where(x => x.TypeId == 27).ToList();
                     //recuperation des asset dans les offices
                     var AllCoorpoAssetHangar = AllCoorpoAsset.Where(x => x.LocationFlag.Contains("CorpSAG")).ToList();
-                    //recuperation des asset dans les container dans les hangars
-                    var AllCoorpoAssetContainer = AllCoorpoAsset.Where(x => x.LocationFlag == "AutoFit" && x.LocationId != 2004).ToList();
 
                     //ajout des stations et structure inconnu
                     foreach (var item in AllCoorpoAssetOffice.Select(x => new { x.LocationId, x.ItemId }).Distinct())
@@ -125,13 +123,14 @@ namespace Arkenstone.Logic.Asset
                     foreach (var itemHangar in AllCoorpoAssetHangar)
                     {
                         var office = AllCoorpoAssetOffice.FirstOrDefault(x => x.ItemId == itemHangar.LocationId);
-
                         if (office!=null)
                         {
                             var subLocationDb = context.SubLocations.FirstOrDefault(x=> x.LocationId == office.LocationId && x.Flag==itemHangar.LocationFlag);
-
+                            
                             if (subLocationDb != null && subLocationDb.IsAssetAnalysed)
                             {
+                                if (subLocationDb.Id == 10)
+                                    Debug.WriteLine("ewqq");
                                 var assetHanger = Assets.FirstOrDefault(x => x.ItemId == itemHangar.TypeId && x.SubLocationId == subLocationDb.Id);
                                 if (assetHanger == null)
                                 {
@@ -140,7 +139,7 @@ namespace Arkenstone.Logic.Asset
                                 }
                                 assetHanger.Quantity += itemHangar.Quantity;
 
-                                foreach (var itemContainer in AllCoorpoAssetContainer.Where(x => x.LocationId == itemHangar.ItemId))
+                                foreach (var itemContainer in AllCoorpoAsset.Where(x => x.LocationId == itemHangar.ItemId))
                                 {
                                     var assetContainer = Assets.FirstOrDefault(x => x.ItemId == itemContainer.TypeId && x.SubLocationId == subLocationDb.Id);
                                     if (assetContainer == null)
@@ -155,7 +154,7 @@ namespace Arkenstone.Logic.Asset
                         
                     }
 
-                    var AssetsWithItemKnow = Assets.Where(x => context.Items.Any(y => y.Id == x.ItemId));
+                    var AssetsWithItemKnow = Assets.Where(x => context.Items.Any(y => y.Id == x.ItemId)).ToList();
 
 
                     context.Database.ExecuteSqlRaw("DELETE Inventorys FROM Inventorys INNER JOIN Sublocations ON Inventorys.SubLocationId = Sublocations.Id WHERE Sublocations.CorporationID = "+ coorporationId.ToString());

@@ -1,5 +1,6 @@
 ﻿using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
+using Arkenstone.Logic.Token.jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Arkenstone.API.Services
                     .AddClaim(TokenService.characterIdClaimKey, character.CharacterMainId.ToString())
                     .AddClaim(TokenService.characterNameClaimKey, character.Name.ToString())
                     .AddClaim(TokenService.characterCorpClaimKey, character.CorporationId.ToString())
-                    .AddClaim(TokenService.characterCorpClaimKey, character.AllianceId.ToString())
+                    .AddClaim(TokenService.characterAllianceClaimKey, character.AllianceId.ToString())
                     .AddExpiry(4320)
                     .Build();
 

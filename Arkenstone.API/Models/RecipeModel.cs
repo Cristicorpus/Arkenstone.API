@@ -7,11 +7,6 @@ namespace Arkenstone.API.Models
 {
     public class RecipeModel
     {
-        public RecipeModel()
-        {
-
-        }
-
         public RecipeModel(Recipe Target)
         {
             Id = Target.Id;

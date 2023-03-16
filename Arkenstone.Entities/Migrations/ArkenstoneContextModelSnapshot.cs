@@ -19,9 +19,32 @@ namespace Arkenstone.Entities.Migrations
                 .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.Alliance", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Alliances");
+                });
+
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Character", b =>
                 {
                     b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AllianceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CharacterMainId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorporationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -38,7 +61,27 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AllianceId");
+
+                    b.HasIndex("CharacterMainId");
+
+                    b.HasIndex("CorporationId");
+
                     b.ToTable("Characters");
+                });
+
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.Corporation", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Corporations");
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Inventory", b =>
@@ -72,6 +115,9 @@ namespace Arkenstone.Entities.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<double?>("PriceAdjustedPrice")
+                        .HasColumnType("double");
 
                     b.Property<double?>("PriceBuy")
                         .HasColumnType("double");
@@ -176,7 +222,7 @@ namespace Arkenstone.Entities.Migrations
                     b.Property<long>("LocationId")
                         .HasColumnType("bigint");
 
-                    b.Property<decimal>("MEefficiency")
+                    b.Property<decimal?>("MEefficiency")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<int?>("ProdAchatParentId")
@@ -335,6 +381,33 @@ namespace Arkenstone.Entities.Migrations
                         .IsUnique();
 
                     b.ToTable("SubLocations");
+                });
+
+            modelBuilder.Entity("Arkenstone.Entities.DbSet.Character", b =>
+                {
+                    b.HasOne("Arkenstone.Entities.DbSet.Alliance", "Alliance")
+                        .WithMany()
+                        .HasForeignKey("AllianceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Arkenstone.Entities.DbSet.Character", "CharacterMain")
+                        .WithMany()
+                        .HasForeignKey("CharacterMainId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Arkenstone.Entities.DbSet.Corporation", "Corporation")
+                        .WithMany()
+                        .HasForeignKey("CorporationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Alliance");
+
+                    b.Navigation("CharacterMain");
+
+                    b.Navigation("Corporation");
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Inventory", b =>
