@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Arkenstone.API.Controllers
 {
@@ -18,7 +19,6 @@ namespace Arkenstone.API.Controllers
 
         }
 
-        // GET api/structure
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
@@ -32,7 +32,6 @@ namespace Arkenstone.API.Controllers
 
             AssetService assetService = new AssetService(_context);
             return Ok(assetService.GetGlobalAsset(tokenCharacter.CorporationId));
-
         }
 
         [HttpGet("Structure")]
@@ -72,6 +71,25 @@ namespace Arkenstone.API.Controllers
             return Ok(returnvalue);
 
         }
+
+
+        [HttpPost("Refresh")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RefreshAssetAsync()
+        {
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            if (tokenCharacter == null)
+                return Unauthorized("You are not authorized");
+
+
+            AssetService assetService = new AssetService(_context);
+            await assetService.RefreshAsset(tokenCharacter.CorporationId);
+            return Ok(assetService.GetGlobalAsset(tokenCharacter.CorporationId));
+
+        }
+
 
 
 
