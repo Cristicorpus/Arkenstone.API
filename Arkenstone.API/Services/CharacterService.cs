@@ -25,7 +25,7 @@ namespace Arkenstone.API.Services
         /// <param name="accessToken"></param>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        public CharacterModel GetAndUpdateByauthorizedCharacterData(AuthorizedCharacterData authorizedCharacterData, SsoToken accessToken)
+        public Character GetAndUpdateByauthorizedCharacterData(AuthorizedCharacterData authorizedCharacterData, SsoToken accessToken)
         {
             Character characterConnexion = _context.Characters.FirstOrDefault((x) => x.Id == authorizedCharacterData.CharacterID);
             if (characterConnexion == null)
@@ -43,7 +43,7 @@ namespace Arkenstone.API.Services
             characterConnexion.Token = accessToken.AccessToken;
             characterConnexion.RefreshToken = accessToken.RefreshToken;
             _context.SaveChanges();
-            return new CharacterModel(characterConnexion);
+            return characterConnexion;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Arkenstone.API.Services
         /// </summary>
         /// <param name="id"></param>
         /// <param name="mainID"></param>
-        public void SetMain(int id, int mainID)
+        public Character SetMain(int id, int mainID)
         {
             Character character = _context.Characters.FirstOrDefault(x => x.Id == id);
             if (character != null)
@@ -112,6 +112,7 @@ namespace Arkenstone.API.Services
                 character.CharacterMainId = mainID;
                 _context.SaveChanges();
             }
+            return character;
         }   
     }
 }
