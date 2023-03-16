@@ -1,20 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Arkenstone.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 
-
-namespace Arkenstone.Controllers
+namespace Arkenstone.API.Controllers
 {
     [Route("")]
     [ApiController]
-    public class HealthController : Controller
+    public class HealthController : OriginController
     {
-        private readonly ILogger<RecipeController> _logger;
-
-        public HealthController(ILogger<RecipeController> logger)
+        public HealthController(ArkenstoneContext context) : base(context)
         {
-            _logger = logger;
+
         }
 
         [HttpGet]

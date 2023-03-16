@@ -10,72 +10,73 @@ using Microsoft.AspNetCore.Http;
 using Arkenstone.Entities;
 using System.Linq;
 using Arkenstone.Logic.Esi;
+using Arkenstone.API.Services;
+using Arkenstone.API.Controllers;
 
 namespace Arkenstone.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class LoginController : Controller
+    public class LoginController : OriginController
     {
-
-        private readonly ILogger<LoginController> _logger;
-        private readonly ArkenstoneContext _context;
-
-        public LoginController(ArkenstoneContext context, ILogger<LoginController> logger)
+        public LoginController(ArkenstoneContext context) : base(context)
         {
-            _logger = logger;
-            _context = context;
-        }
 
-        private string CreateToken(AuthorizedCharacterData data, string code)
-        {
-            var token = new JwtTokenBuilder()
-                                .AddSecurityKey(JwtSecurityKey.Create(System.Environment.GetEnvironmentVariable("TokenSecretKey")))
-                                .AddSubject(data.CharacterName)
-                                .AddIssuer(System.Environment.GetEnvironmentVariable("TokenIssuer"))
-                                .AddAudience(System.Environment.GetEnvironmentVariable("TokenIssuer"))
-                                .AddClaim("CCPId", data.CharacterID.ToString())
-                                .AddClaim("CCPToken", code)
-                                .AddExpiry(4320)
-                                .Build();
-
-            return token.Value;
         }
 
         [HttpGet("geturllogin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         public IActionResult geturllogin()
         {
-            EveEsi_Connexion connexion = new EveEsi_Connexion();
-            return Ok(connexion.GetUrlConnection());
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            var _eveEsiConnexion = new EveEsiConnexion();
+            string response;
+
+            if (tokenCharacter == null)
+                response = _eveEsiConnexion.GetUrlConnection();
+            else
+                response = _eveEsiConnexion.GetUrlConnection(tokenCharacter.CharacterMainId.ToString());
+
+
+            return Ok(response);
         }
 
         [HttpGet("callbackccp")]
-        public async Task<IActionResult> Login(string code)
+        public async Task<IActionResult> Login([FromQuery] string code, [FromQuery] string state = null)
         {
-            EveEsi_Connexion connexion = new EveEsi_Connexion();
-            await connexion.GetToken(code);
-            await connexion.ConnectCharCCP();
-
-            var idCorp = System.Environment.GetEnvironmentVariable("CorporationId");
-            if (connexion.authorizedCharacterData.CorporationID.ToString() == idCorp)
-            {
-                
-                var character = _context.Characters.Find(connexion.authorizedCharacterData.CharacterID);
-                if (character == null)
-                {
-                    character = new Entities.DbSet.Character() { Id = connexion.authorizedCharacterData.CharacterID, Name = connexion.authorizedCharacterData.CharacterName };
-                    _context.Characters.Add(character);
-                }
-                character.RefreshToken = connexion.ssoToken.RefreshToken;
-                character.Token = connexion.ssoToken.AccessToken;
-                _context.SaveChanges();
-
-                return Ok(this.CreateToken(connexion.authorizedCharacterData, code));
-            }
-            else
+            if (code == "")
                 return Unauthorized();
+
+            var _eveEsiConnexion = new EveEsiConnexion();
+            try
+            {
+                await _eveEsiConnexion.GetToken(code);
+                await _eveEsiConnexion.ConnectCharCCP();
+            }
+            catch (System.Exception)
+            {
+                return Unauthorized();
+            }
+
+            var characterService = new CharacterService(_context);
+            var corporationService = new CorporationService(_context);
+            var allianceService = new AllianceService(_context);
+
+            allianceService.GetOrCreate(_eveEsiConnexion.authorizedCharacterData.AllianceID);
+            corporationService.GetOrCreate(_eveEsiConnexion.authorizedCharacterData.CorporationID);
+
+
+            var characterAuthorized = characterService.GetAndUpdateByauthorizedCharacterData(_eveEsiConnexion.authorizedCharacterData, _eveEsiConnexion.ssoToken);
+            int mainCharacterId = characterAuthorized.Id;
+
+
+            //ici on met a jour le mainid
+            if (state != null && int.TryParse(state, out mainCharacterId))
+                characterService.SetMain(characterAuthorized.Id, mainCharacterId);
+            var characterDb = _context.Characters.Find(mainCharacterId);
+
+            return Ok(TokenService.Createtoken(characterDb));
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿using Arkenstone.API.ControllerModel;
+﻿using Arkenstone.API.Models;
+using Arkenstone.API.Services;
 using Arkenstone.Controllers;
 using Arkenstone.Entities;
-using Arkenstone.Logic.Structure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,44 +14,29 @@ namespace Arkenstone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StructureController : Controller
+    public class StructureController : OriginController
     {
-        private readonly ILogger<RecipeController> _logger;
-        private readonly ArkenstoneContext _context;
-
-        public StructureController(ArkenstoneContext context, ILogger<RecipeController> logger)
+        public StructureController(ArkenstoneContext context) : base(context)
         {
-            _logger = logger;
-            _context = context;
+
         }
 
         // GET api/structure
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModel>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetSimple([FromQuery] long? LocationId)
         {
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            if (tokenCharacter == null)
+                return Unauthorized("You are not authorized");
+            
             try
             {
-                List<StructureModel> StructureList = new List<StructureModel>();
-                if (LocationId == null)
-                {
-                    foreach (var Structure in _context.Locations.Include("StructureType"))
-                    {
-                        StructureList.Add(new StructureModel(Structure));
-                    }
-                }
-                else
-                {
-                    var targetStructure = _context.Locations.Include("StructureType").FirstOrDefault(x => x.Id == LocationId.Value); ;
-                    if (targetStructure == null)
-                        return NotFound();
-                    else
-                        StructureList.Add(new StructureModel(targetStructure));
-                }
-
-                return Ok(StructureList);
+                StructureService structureService = new StructureService(_context);
+                return Ok(structureService.GetBasicModel(LocationId));
             }
             catch (System.Exception ex)
             {
@@ -59,31 +45,20 @@ namespace Arkenstone.API.Controllers
         }
         // GET api/structure/Detailed
         [HttpGet("Detailed")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModelDetails>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetDetailed([FromQuery] long? LocationId)
         {
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            if (tokenCharacter == null)
+                return Unauthorized("You are not authorized");
+            
             try
             {
-                List<StructureModelDetails> StructureList = new List<StructureModelDetails>();
-                if (LocationId == null)
-                {
-                    foreach (var Structure in _context.Locations.Include("StructureType"))
-                    {
-                        StructureList.Add(new StructureModelDetails(Structure));
-                    }
-                }
-                else
-                {
-                    var targetStructure = _context.Locations.Include("StructureType").FirstOrDefault(x=>x.Id == LocationId.Value);
-                    if (targetStructure == null)
-                        return NotFound();
-                    else
-                        StructureList.Add(new StructureModelDetails(targetStructure));
-                }
-
-                return Ok(StructureList);
+                StructureService structureService = new StructureService(_context);
+                return Ok(structureService.GetDetailledModel(LocationId));
             }
             catch (System.Exception ex)
             {
@@ -93,15 +68,22 @@ namespace Arkenstone.API.Controllers
 
         // POST api/structure
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModelDetails>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult SetFit([FromQuery] long LocationId, [FromBody] StructureModelDetails PostModel)
         {
+
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            if (tokenCharacter == null)
+                return Unauthorized("You are not authorized");
+            
             try
             {
-                StructureEdit.SetFitToStructure(LocationId, PostModel.RawFit);
-                var targetStructure = _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").Include("StructureType").First(x=>x.Id == LocationId);
-                return Ok(new StructureModelDetails(targetStructure));
+
+                StructureService structureService = new StructureService(_context);
+                structureService.SetFitToStructure(LocationId, PostModel.RawFit);
+                return Ok(structureService.GetDetailledModel(LocationId));
             }
             catch (System.Exception ex)
             {

@@ -158,6 +158,7 @@ namespace Arkenstone.Logic.BulkUpdate
                            MarketGroupId = item.marketGroupID,
                            PriceBuy = 0,
                            PriceSell = 0,
+                           PriceAdjustedPrice = 0,
                        });
                 }
                 context.SaveChanges();

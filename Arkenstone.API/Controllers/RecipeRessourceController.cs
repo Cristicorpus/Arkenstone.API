@@ -7,21 +7,18 @@ using Arkenstone.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Arkenstone.API.Controllers;
 
 namespace Arkenstone.Controllers
 {
     [Authorize(Policy = "Member")]
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipeRessourceController : Controller
+    public class RecipeRessourceController : OriginController
     {
-        private readonly ILogger<RecipeRessourceController> _logger;
-        private readonly ArkenstoneContext _context;
-
-        public RecipeRessourceController(ArkenstoneContext context, ILogger<RecipeRessourceController> logger)
+        public RecipeRessourceController(ArkenstoneContext context) : base(context)
         {
-            _logger = logger;
-            _context = context;
+
         }
 
         // GET api/<SessionController>/5

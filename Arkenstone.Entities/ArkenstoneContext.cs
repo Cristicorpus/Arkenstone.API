@@ -18,6 +18,8 @@ namespace Arkenstone.Entities
         }
 
         public virtual DbSet<MarketGroupTree> MarketGroupTrees { get; set; }
+        public virtual DbSet<Alliance> Alliances { get; set; }
+        public virtual DbSet<Corporation> Corporations { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<Inventory> Inventorys { get; set; }
         public virtual DbSet<Item> Items { get; set; }

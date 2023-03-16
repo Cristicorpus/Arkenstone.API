@@ -1,7 +1,8 @@
 ﻿using Arkenstone.Entities.DbSet;
 using System.Collections.Generic;
 
-namespace Arkenstone.API.ControllerModel
+
+namespace Arkenstone.API.Models
 {
     public class EfficiencyModel
     {

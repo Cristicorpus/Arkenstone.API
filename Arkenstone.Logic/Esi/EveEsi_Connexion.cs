@@ -14,7 +14,7 @@ using System.Web;
 
 namespace Arkenstone.Logic.Esi
 {
-    public class EveEsi_Connexion
+    public class EveEsiConnexion
     {
         public EsiClient EsiClient;
         public SsoToken ssoToken { get; set; }
@@ -23,7 +23,7 @@ namespace Arkenstone.Logic.Esi
         private IOptions<EsiConfig> EsiConfiguration { get; set; }
 
         #region Constructors
-        public EveEsi_Connexion()
+        public EveEsiConnexion()
         {
             EsiConfiguration = Options.Create(new EsiConfig()
             {
@@ -51,7 +51,7 @@ namespace Arkenstone.Logic.Esi
                 throw ex;
             }
         }
-        public string GetUrlConnection()
+        public string GetUrlConnection(string state = "0")
         {
             List<string> scopes = new List<string>();
             scopes.Add("publicData");
@@ -63,48 +63,8 @@ namespace Arkenstone.Logic.Esi
             scopes.Add("esi-corporations.read_blueprints.v1");
             scopes.Add("esi-industry.read_corporation_jobs.v1");
 
-            return CreateAuthenticationUrl(scopes);
+            return this.EsiClient.SSO.CreateAuthenticationUrl(scopes,state);
         }
-        public string CreateAuthenticationUrl(List<string> scope = null, string state = null)
-        {
-            DefaultInterpolatedStringHandler defaultInterpolatedStringHandler = new DefaultInterpolatedStringHandler(72, 3);
-
-            var _ssoUrl = "";
-            switch (EsiConfiguration.Value.DataSource)
-            {
-                case DataSource.Tranquility:
-                    _ssoUrl = "login.eveonline.com";
-                    break;
-                case DataSource.Singularity:
-                    _ssoUrl = "login.eveonline.com";
-                    break;
-                case DataSource.Serenity:
-                    _ssoUrl = "login.evepc.163.com";
-                    break;
-            }
-
-
-            defaultInterpolatedStringHandler.AppendLiteral("https://");
-            defaultInterpolatedStringHandler.AppendFormatted(_ssoUrl);
-            defaultInterpolatedStringHandler.AppendLiteral("/v2/oauth/authorize/?response_type=code&redirect_uri=");
-            defaultInterpolatedStringHandler.AppendFormatted(Uri.EscapeDataString(EsiConfiguration.Value.CallbackUrl));
-            defaultInterpolatedStringHandler.AppendLiteral("&client_id=");
-            defaultInterpolatedStringHandler.AppendFormatted(EsiConfiguration.Value.ClientId);
-            string text = defaultInterpolatedStringHandler.ToStringAndClear();
-            if (scope != null)
-            {
-                text = text + "&scope=" + string.Join("+", scope.Distinct().ToList());
-            }
-
-            if (state != null)
-                text = text + "&state=" + state;
-            else
-                text = text + "&state=0";
-
-
-            return text;
-        }
-
 
         public async Task GetToken(string acodeEsiReturn)
         {

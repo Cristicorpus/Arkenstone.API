@@ -1,4 +1,5 @@
-﻿namespace Arkenstone
+﻿
+namespace Arkenstone.API.Models
 {
     public class ErrorModel
     {

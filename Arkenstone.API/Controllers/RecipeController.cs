@@ -1,4 +1,6 @@
-﻿using Arkenstone.Entities;
+﻿using Arkenstone.API.Controllers;
+using Arkenstone.API.Models;
+using Arkenstone.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +13,12 @@ namespace Arkenstone.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipeController : Controller
+    public class RecipeController : OriginController
     {
-        private readonly ILogger<RecipeController> _logger;
-        private readonly ArkenstoneContext _context;
-
-        public RecipeController(ArkenstoneContext context, ILogger<RecipeController> logger)
+        
+        public RecipeController(ArkenstoneContext context) : base(context)
         {
-            _logger = logger;
-            _context = context;
+
         }
 
 

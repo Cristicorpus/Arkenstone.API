@@ -1,6 +1,6 @@
 ﻿using Arkenstone.Entities.DbSet;
 
-namespace Arkenstone.ControllerModel
+namespace Arkenstone.API.Models
 {
     public class InventoryModel
     {

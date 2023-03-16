@@ -17,6 +17,7 @@ namespace Arkenstone.Entities.DbSet
         public int MarketGroupId { get; set; }
         public double? PriceBuy { get; set; }
         public double? PriceSell { get; set; }
+        public double? PriceAdjustedPrice { get; set; }
 
     }
 }

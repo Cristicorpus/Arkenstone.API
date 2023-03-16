@@ -17,5 +17,13 @@ namespace Arkenstone.Entities.DbSet
         public string Name { get; set; }
         public string Token { get; set; }
         public string RefreshToken { get; set; }
+
+
+        public int CorporationId { get; set; }
+        public virtual Corporation Corporation { get; set; }
+        public int AllianceId { get; set; }
+        public virtual Alliance Alliance { get; set; }
+        public int CharacterMainId { get; set; }
+        public virtual Character CharacterMain { get; set; }
     }
 }

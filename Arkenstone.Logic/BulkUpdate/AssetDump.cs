@@ -23,7 +23,7 @@ namespace Arkenstone.Logic.Asset
         }
         public static async Task ReloadAllItemsAsync()
         {
-            var eveEsi = new EveEsi_Connexion();
+            var eveEsi = new EveEsiConnexion();
 
 
             try

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Arkenstone.Entities.DbSet;
 
-namespace Arkenstone
+namespace Arkenstone.API.Models
 {
     public class RecipeModel
     {

@@ -140,7 +140,7 @@ namespace Arkenstone.Logic.BulkUpdate
         {
             Logs.ClassLog.writeLog("UpdateStructures_Activity => Update des information des RIGS dans les database");
 
-            var eveEsi = new EveEsi_Connexion();
+            var eveEsi = new EveEsiConnexion();
             var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
             var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
             using (ArkenstoneContext context = new ArkenstoneContext(options))

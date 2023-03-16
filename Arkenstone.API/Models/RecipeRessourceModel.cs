@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Arkenstone.Entities.DbSet;
 
-namespace Arkenstone
+namespace Arkenstone.API.Models
 {
     public class RecipeRessourceModel
     {

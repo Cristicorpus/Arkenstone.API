@@ -1,38 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using Arkenstone.API.Controllers;
+using Arkenstone.API.Models;
+using Arkenstone.API.Services;
+using Arkenstone.Entities;
+using Arkenstone.Entities.DbSet;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Arkenstone.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Arkenstone.ControllerModel;
-using Microsoft.AspNetCore.Cors;
-using Arkenstone.API.ControllerModel;
-using Microsoft.AspNetCore.Http;
-using Arkenstone.Entities.DbSet;
 
 namespace Arkenstone.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProdAchatController : Controller
+    public class ProdAchatController : OriginController
     {
-        private readonly ILogger<RecipeController> _logger;
-        private readonly ArkenstoneContext _context;
-
-        public ProdAchatController(ArkenstoneContext context, ILogger<RecipeController> logger)
+        public ProdAchatController(ArkenstoneContext context) : base(context)
         {
-            _logger = logger;
-            _context = context;
+
         }
 
         // GET api/ProdAchat
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProdAchatModel>))]
         public IActionResult ListProdAchatRoot([FromQuery] long? ProdAchatId)
         {
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            if (tokenCharacter == null)
+                return Unauthorized("You are not authorized");
+            
             List<ProdAchatModel> returnModel = new List<ProdAchatModel>();
 
             if (ProdAchatId == null)
@@ -54,11 +52,17 @@ namespace Arkenstone.Controllers
         
         // PUT api/ProdAchat
         [HttpPut]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProdAchatModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult CreateProdAchat([FromQuery] ProdAchatModel ProdAchatModel)
         {
-            if(ProdAchatModel.Item == null || ProdAchatModel.Item.Id == null)
+
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            if (tokenCharacter == null)
+                return Unauthorized("You are not authorized");
+            
+            if (ProdAchatModel.Item == null || ProdAchatModel.Item.Id == null)
                 return BadRequest("Item is null");
             var item = _context.Items.Find(ProdAchatModel.Item.Id);
             if (item == null)

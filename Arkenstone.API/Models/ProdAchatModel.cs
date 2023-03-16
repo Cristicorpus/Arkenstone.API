@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Arkenstone.API.ControllerModel
+namespace Arkenstone.API.Models
 {
     public class ProdAchatModel
     {
