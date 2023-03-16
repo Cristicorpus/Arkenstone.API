@@ -1,0 +1,24 @@
+name: Todos
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  Todos:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+
+        - name: Run tdg-github-action
+          uses: ribtoks/tdg-github-action@master
+          with:
+              TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              REPO: ${{ github.repository }}
+              SHA: ${{ github.sha }}
+              REF: ${{ github.ref }}
+              LABEL: "todo"
+              EXTENDED_LABELS: 1
+              ADD_LIMIT: 0
+              CLOSE_LIMIT: 0
