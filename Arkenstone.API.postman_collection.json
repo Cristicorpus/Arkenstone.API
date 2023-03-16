@@ -9,6 +9,878 @@
 			"name": "api",
 			"item": [
 				{
+					"name": "Location",
+					"item": [
+						{
+							"name": "/api/Location",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Location",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Location"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "1041276076345",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Location?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": -64809396,\n    \"name\": \"voluptate nisi consequat\",\n    \"structureTypeId\": 99524584,\n    \"structureTypeName\": \"es\"\n  },\n  {\n    \"id\": 73561381,\n    \"name\": \"proident magna aliqua\",\n    \"structureTypeId\": -53053771,\n    \"structureTypeName\": \"sunt nulla in\"\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Location?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Location?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Location",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"[Azbel, *Simulated Azbel Fitting]\\r\\n\\r\\n\\r\\n\\r\\nStandup L-Set Equipment Manufacturing Efficiency II\\r\\nStandup L-Set Basic Large Ship Manufacturing Efficiency I\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Location?LocationId=1041276076345",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Location"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "1041276076345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "et",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Location?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"structure\": {\n      \"id\": -11601478,\n      \"name\": \"velit incididunt\",\n      \"structureTypeId\": -69482019,\n      \"structureTypeName\": \"enim id consequat dolor\"\n    },\n    \"security\": 91386660.67025772,\n    \"rawFit\": \"pariatur eu\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -66421453,\n        \"name\": \"ipsum quis minim\",\n        \"marketIdEffect\": \"sunt non dolore proident aliquip\",\n        \"marketIdNotEffect\": \"consequat est anim\",\n        \"costEffect\": 28934972.12142311,\n        \"timeEffect\": -40262447.50661365,\n        \"materialEffect\": -76566258.08282658,\n        \"multiplierHS\": 25388903.237168267,\n        \"multiplierLS\": -11086064.799778715,\n        \"multiplierNS\": 15129062.547736138\n      },\n      {\n        \"id\": 11396871,\n        \"name\": \"ut magna minim\",\n        \"marketIdEffect\": \"ut quis eiusmod\",\n        \"marketIdNotEffect\": \"ut nostrud\",\n        \"costEffect\": 20316625.097927555,\n        \"timeEffect\": -54778958.84909416,\n        \"materialEffect\": -27223412.851341426,\n        \"multiplierHS\": -2038608.9833494723,\n        \"multiplierLS\": -59106728.13530837,\n        \"multiplierNS\": 27213641.853574574\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 72112641,\n      \"name\": \"elit\",\n      \"structureTypeId\": 5271788,\n      \"structureTypeName\": \"sed\"\n    },\n    \"security\": 40641703.62658551,\n    \"rawFit\": \"commodo\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": 33655074,\n        \"name\": \"est commodo occaecat veniam\",\n        \"marketIdEffect\": \"id laborum ex dolore\",\n        \"marketIdNotEffect\": \"ut laboris nostru\",\n        \"costEffect\": -20695014.74865572,\n        \"timeEffect\": -32042361.442303598,\n        \"materialEffect\": -65712272.75358069,\n        \"multiplierHS\": -93839895.01794066,\n        \"multiplierLS\": -91581401.53672703,\n        \"multiplierNS\": -33474105.14205604\n      },\n      {\n        \"id\": -32850953,\n        \"name\": \"amet\",\n        \"marketIdEffect\": \"Excepteur dolore aliqua\",\n        \"marketIdNotEffect\": \"magna in\",\n        \"costEffect\": 34970232.91304231,\n        \"timeEffect\": -70328061.16246042,\n        \"materialEffect\": 41838146.2620942,\n        \"multiplierHS\": 69703162.40638894,\n        \"multiplierLS\": 41386083.64354953,\n        \"multiplierNS\": 72905543.16744721\n      }\n    ]\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "et",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Location?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "et",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Location?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Location/Detailed",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=1041276076345",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Location",
+										"Detailed"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "1041276076345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location",
+												"Detailed"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"structure\": {\n      \"id\": 66558418,\n      \"name\": \"nulla laborum\",\n      \"structureTypeId\": -17207611,\n      \"structureTypeName\": \"eiusmod quis nostrud\"\n    },\n    \"security\": 67095005.74015203,\n    \"rawFit\": \"ipsum minim officia ut\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -49554426,\n        \"name\": \"aliqua eu do tempor est\",\n        \"marketIdEffect\": \"laboris adipisicing elit dolore dolore\",\n        \"marketIdNotEffect\": \"anim \",\n        \"costEffect\": 71937968.62856877,\n        \"timeEffect\": 74611458.78973609,\n        \"materialEffect\": 43984787.01373604,\n        \"multiplierHS\": 23439446.45139575,\n        \"multiplierLS\": 40695152.12658158,\n        \"multiplierNS\": 52572317.86893928\n      },\n      {\n        \"id\": -76622648,\n        \"name\": \"sint adipisicing veniam\",\n        \"marketIdEffect\": \"elit\",\n        \"marketIdNotEffect\": \"culpa qui\",\n        \"costEffect\": -46418261.0130099,\n        \"timeEffect\": -26143614.57671714,\n        \"materialEffect\": -38420380.165579714,\n        \"multiplierHS\": 60444248.97831911,\n        \"multiplierLS\": -50843084.71345018,\n        \"multiplierNS\": -11898508.902641192\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 59969893,\n      \"name\": \"sit Ut Duis id\",\n      \"structureTypeId\": 18173648,\n      \"structureTypeName\": \"amet\"\n    },\n    \"security\": -74339773.64264761,\n    \"rawFit\": \"mollit velit\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -77736638,\n        \"name\": \"Excepteur in mollit proident\",\n        \"marketIdEffect\": \"dolore ullamco labore\",\n        \"marketIdNotEffect\": \"elit minim cupidatat ea\",\n        \"costEffect\": 36531024.53520113,\n        \"timeEffect\": 84910118.51065546,\n        \"materialEffect\": 86821323.66088662,\n        \"multiplierHS\": -92712716.43016315,\n        \"multiplierLS\": 9333194.839655474,\n        \"multiplierNS\": 1667356.1165376753\n      },\n      {\n        \"id\": -56701022,\n        \"name\": \"ut non\",\n        \"marketIdEffect\": \"anim magna\",\n        \"marketIdNotEffect\": \"sit aliqua ea qui\",\n        \"costEffect\": -63256641.91572193,\n        \"timeEffect\": -31831653.67647569,\n        \"materialEffect\": 70773883.57368782,\n        \"multiplierHS\": -81738860.560885,\n        \"multiplierLS\": -54523052.91066972,\n        \"multiplierNS\": -12700840.354404226\n      }\n    ]\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location",
+												"Detailed"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=-59271892",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Location",
+												"Detailed"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "-59271892"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "SubLocation",
+					"item": [
+						{
+							"name": "/api/SubLocation",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=11",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"SubLocation"
+									],
+									"query": [
+										{
+											"key": "SubLocationId",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "SubLocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 33695421,\n    \"locationId\": 36135696,\n    \"location\": {\n      \"id\": 67501293,\n      \"subLocations\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        }\n      ],\n      \"locationRigsManufacturings\": [\n        {\n          \"locationId\": -33154474,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": 90417453,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"locationId\": 8850022,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": 70420526,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"name\": \"cupidatat aliquip culpa\",\n      \"security\": 23323437.488555983,\n      \"structureTypeId\": 77586278,\n      \"structureType\": {\n        \"id\": -27137427,\n        \"name\": \"id\",\n        \"costEffect\": 17182604.461436763,\n        \"timeEffect\": -2456710.327951938,\n        \"materialEffect\": -43595605.13172731\n      },\n      \"canReact\": true,\n      \"canReprocess\": false,\n      \"canProd\": true,\n      \"canCopy\": true,\n      \"canResearch\": false,\n      \"canInvent\": false\n    },\n    \"flag\": \"nostrud re\",\n    \"corporationId\": -39113256,\n    \"isAssetAnalysed\": false\n  },\n  {\n    \"id\": 76760835,\n    \"locationId\": -94919199,\n    \"location\": {\n      \"id\": 58960304,\n      \"subLocations\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        }\n      ],\n      \"locationRigsManufacturings\": [\n        {\n          \"locationId\": 26713150,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": -84965162,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"locationId\": -90989838,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": -78961708,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"name\": \"dolor minim dolor id\",\n      \"security\": 93054861.10790095,\n      \"structureTypeId\": -1727663,\n      \"structureType\": {\n        \"id\": -37777821,\n        \"name\": \"veniam\",\n        \"costEffect\": 92456188.31574595,\n        \"timeEffect\": -45574758.302240156,\n        \"materialEffect\": -61934556.50497843\n      },\n      \"canReact\": false,\n      \"canReprocess\": false,\n      \"canProd\": false,\n      \"canCopy\": true,\n      \"canResearch\": true,\n      \"canInvent\": true\n    },\n    \"flag\": \"in qui eiusmod Duis laborum\",\n    \"corporationId\": 34841062,\n    \"isAssetAnalysed\": false\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "SubLocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "SubLocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/SubLocation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=11&Toanalyse=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"SubLocation"
+									],
+									"query": [
+										{
+											"key": "SubLocationId",
+											"value": "11"
+										},
+										{
+											"key": "Toanalyse",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=35083352&Toanalyse=true",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "SubLocationId",
+													"value": "35083352"
+												},
+												{
+													"key": "Toanalyse",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=35083352&Toanalyse=true",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "SubLocationId",
+													"value": "35083352"
+												},
+												{
+													"key": "Toanalyse",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=35083352&Toanalyse=true",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "SubLocationId",
+													"value": "35083352"
+												},
+												{
+													"key": "Toanalyse",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/SubLocation/Location",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/SubLocation/Location?LocationId=0",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"SubLocation",
+										"Location"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation/Location?LocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 33695421,\n    \"locationId\": 36135696,\n    \"location\": {\n      \"id\": 67501293,\n      \"subLocations\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        }\n      ],\n      \"locationRigsManufacturings\": [\n        {\n          \"locationId\": -33154474,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": 90417453,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"locationId\": 8850022,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": 70420526,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"name\": \"cupidatat aliquip culpa\",\n      \"security\": 23323437.488555983,\n      \"structureTypeId\": 77586278,\n      \"structureType\": {\n        \"id\": -27137427,\n        \"name\": \"id\",\n        \"costEffect\": 17182604.461436763,\n        \"timeEffect\": -2456710.327951938,\n        \"materialEffect\": -43595605.13172731\n      },\n      \"canReact\": true,\n      \"canReprocess\": false,\n      \"canProd\": true,\n      \"canCopy\": true,\n      \"canResearch\": false,\n      \"canInvent\": false\n    },\n    \"flag\": \"nostrud re\",\n    \"corporationId\": -39113256,\n    \"isAssetAnalysed\": false\n  },\n  {\n    \"id\": 76760835,\n    \"locationId\": -94919199,\n    \"location\": {\n      \"id\": 58960304,\n      \"subLocations\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n        }\n      ],\n      \"locationRigsManufacturings\": [\n        {\n          \"locationId\": 26713150,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": -84965162,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        {\n          \"locationId\": -90989838,\n          \"location\": {\n            \"value\": \"<Circular reference to #/components/schemas/Location detected>\"\n          },\n          \"rigsManufacturingId\": -78961708,\n          \"rigsManufacturing\": {\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"marketIdNotEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"costEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"timeEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"materialEffect\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierHS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierLS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"multiplierNS\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      ],\n      \"name\": \"dolor minim dolor id\",\n      \"security\": 93054861.10790095,\n      \"structureTypeId\": -1727663,\n      \"structureType\": {\n        \"id\": -37777821,\n        \"name\": \"veniam\",\n        \"costEffect\": 92456188.31574595,\n        \"timeEffect\": -45574758.302240156,\n        \"materialEffect\": -61934556.50497843\n      },\n      \"canReact\": false,\n      \"canReprocess\": false,\n      \"canProd\": false,\n      \"canCopy\": true,\n      \"canResearch\": true,\n      \"canInvent\": true\n    },\n    \"flag\": \"in qui eiusmod Duis laborum\",\n    \"corporationId\": 34841062,\n    \"isAssetAnalysed\": false\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation/Location?LocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/SubLocation/Location?LocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"SubLocation",
+												"Location"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
 					"name": "Asset",
 					"item": [
 						{
@@ -120,7 +992,7 @@
 							]
 						},
 						{
-							"name": "/api/Asset/Structure",
+							"name": "/api/Asset/Location",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -130,20 +1002,19 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Asset/Structure",
+									"raw": "{{baseUrl}}/api/Asset/Location?LocationId=-59271892",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
 										"Asset",
-										"Structure"
+										"Location"
 									],
 									"query": [
 										{
 											"key": "LocationId",
-											"value": "1041239523329",
-											"disabled": true
+											"value": "-59271892"
 										}
 									]
 								}
@@ -155,19 +1026,19 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/api/Asset/Structure?LocationId=-69678129",
+											"raw": "{{baseUrl}}/api/Asset/Location?LocationId=-59271892",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"Asset",
-												"Structure"
+												"Location"
 											],
 											"query": [
 												{
 													"key": "LocationId",
-													"value": "-69678129"
+													"value": "-59271892"
 												}
 											]
 										}
@@ -182,7 +1053,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n  {\n    \"structure\": {\n      \"id\": 80972877,\n      \"name\": \"dolor enim velit\",\n      \"structureTypeId\": -7740224,\n      \"structureTypeName\": \"do labore\"\n    },\n    \"assets\": [\n      {\n        \"quantity\": -22414026,\n        \"itemModel\": {\n          \"id\": -21997104,\n          \"published\": false,\n          \"name\": \"ex\",\n          \"marketGroupId\": 681191\n        }\n      },\n      {\n        \"quantity\": -65278001,\n        \"itemModel\": {\n          \"id\": -25146553,\n          \"published\": false,\n          \"name\": \"in Duis\",\n          \"marketGroupId\": 25833069\n        }\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 45575943,\n      \"name\": \"labore occaecat magna\",\n      \"structureTypeId\": -28308089,\n      \"structureTypeName\": \"nisi Ut\"\n    },\n    \"assets\": [\n      {\n        \"quantity\": -2879533,\n        \"itemModel\": {\n          \"id\": -79601144,\n          \"published\": false,\n          \"name\": \"ut dolor ad\",\n          \"marketGroupId\": 57567422\n        }\n      },\n      {\n        \"quantity\": -64790133,\n        \"itemModel\": {\n          \"id\": 44961411,\n          \"published\": true,\n          \"name\": \"irure sed dolore ex\",\n          \"marketGroupId\": -99036957\n        }\n      }\n    ]\n  }\n]"
+									"body": "[\n  {\n    \"structure\": {\n      \"id\": -22051291,\n      \"name\": \"id incididunt sunt ipsum do\",\n      \"structureTypeId\": -78034729,\n      \"structureTypeName\": \"id quis\"\n    },\n    \"assets\": [\n      {\n        \"quantity\": 73012222,\n        \"itemModel\": {\n          \"id\": 21664027,\n          \"published\": true,\n          \"name\": \"in voluptate\",\n          \"marketGroupId\": 22496795\n        }\n      },\n      {\n        \"quantity\": 53806639,\n        \"itemModel\": {\n          \"id\": -86805885,\n          \"published\": false,\n          \"name\": \"ea consectetur\",\n          \"marketGroupId\": 5366128\n        }\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": -41859425,\n      \"name\": \"sit esse cupidatat ut\",\n      \"structureTypeId\": 50566778,\n      \"structureTypeName\": \"enim ad in ullamco sed\"\n    },\n    \"assets\": [\n      {\n        \"quantity\": -20190797,\n        \"itemModel\": {\n          \"id\": 13620355,\n          \"published\": false,\n          \"name\": \"amet enim \",\n          \"marketGroupId\": 30358877\n        }\n      },\n      {\n        \"quantity\": 87983023,\n        \"itemModel\": {\n          \"id\": 65796316,\n          \"published\": false,\n          \"name\": \"nisi ad in pariatur\",\n          \"marketGroupId\": -82449200\n        }\n      }\n    ]\n  }\n]"
 								},
 								{
 									"name": "Bad Request",
@@ -190,19 +1061,19 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/api/Asset/Structure?LocationId=-69678129",
+											"raw": "{{baseUrl}}/api/Asset/Location?LocationId=-59271892",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"Asset",
-												"Structure"
+												"Location"
 											],
 											"query": [
 												{
 													"key": "LocationId",
-													"value": "-69678129"
+													"value": "-59271892"
 												}
 											]
 										}
@@ -217,7 +1088,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
 								},
 								{
 									"name": "Not Found",
@@ -225,19 +1096,19 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/api/Asset/Structure?LocationId=-69678129",
+											"raw": "{{baseUrl}}/api/Asset/Location?LocationId=-59271892",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"Asset",
-												"Structure"
+												"Location"
 											],
 											"query": [
 												{
 													"key": "LocationId",
-													"value": "-69678129"
+													"value": "-59271892"
 												}
 											]
 										}
@@ -252,7 +1123,143 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Asset/SubLocation",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Asset/SubLocation?LocationId=11",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Asset",
+										"SubLocation"
+									],
+									"query": [
+										{
+											"key": "LocationId",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset/SubLocation?LocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"subLocation\": {\n      \"id\": -5283523,\n      \"locationId\": 6572418,\n      \"location\": {\n        \"id\": -66894470,\n        \"subLocations\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n          }\n        ],\n        \"locationRigsManufacturings\": [\n          {\n            \"locationId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"location\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturingId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"locationId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"location\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturingId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"name\": \"pariatur laborum aute aliquip\",\n        \"security\": -85964574.82452613,\n        \"structureTypeId\": 58576995,\n        \"structureType\": {\n          \"id\": 97301621,\n          \"name\": \"veniam sunt\",\n          \"costEffect\": -94689112.9189884,\n          \"timeEffect\": 29759237.82558301,\n          \"materialEffect\": -31953402.068503052\n        },\n        \"canReact\": false,\n        \"canReprocess\": false,\n        \"canProd\": true,\n        \"canCopy\": true,\n        \"canResearch\": false,\n        \"canInvent\": false\n      },\n      \"flag\": \"ut\",\n      \"corporationId\": 90637190,\n      \"isAssetAnalysed\": true\n    },\n    \"assets\": [\n      {\n        \"quantity\": -41004018,\n        \"itemModel\": {\n          \"id\": -95293103,\n          \"published\": true,\n          \"name\": \"Duis\",\n          \"marketGroupId\": 40089520\n        }\n      },\n      {\n        \"quantity\": 22848218,\n        \"itemModel\": {\n          \"id\": 8179833,\n          \"published\": true,\n          \"name\": \"ipsum laboris in irure\",\n          \"marketGroupId\": -70213572\n        }\n      }\n    ]\n  },\n  {\n    \"subLocation\": {\n      \"id\": 43125791,\n      \"locationId\": 99610774,\n      \"location\": {\n        \"id\": -69330146,\n        \"subLocations\": [\n          {\n            \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n          },\n          {\n            \"value\": \"<Circular reference to #/components/schemas/SubLocation detected>\"\n          }\n        ],\n        \"locationRigsManufacturings\": [\n          {\n            \"locationId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"location\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturingId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"locationId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"location\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturingId\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"rigsManufacturing\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"name\": \"cillum ut non\",\n        \"security\": 8926719.29347375,\n        \"structureTypeId\": 1798591,\n        \"structureType\": {\n          \"id\": -34941133,\n          \"name\": \"sint\",\n          \"costEffect\": 23496745.80711718,\n          \"timeEffect\": -46382186.74526775,\n          \"materialEffect\": 5494978.650445059\n        },\n        \"canReact\": true,\n        \"canReprocess\": true,\n        \"canProd\": true,\n        \"canCopy\": true,\n        \"canResearch\": true,\n        \"canInvent\": false\n      },\n      \"flag\": \"in sint\",\n      \"corporationId\": 30702021,\n      \"isAssetAnalysed\": false\n    },\n    \"assets\": [\n      {\n        \"quantity\": 20166199,\n        \"itemModel\": {\n          \"id\": 72395886,\n          \"published\": false,\n          \"name\": \"quis dolor Duis\",\n          \"marketGroupId\": 65607000\n        }\n      },\n      {\n        \"quantity\": -10058298,\n        \"itemModel\": {\n          \"id\": -93457280,\n          \"published\": false,\n          \"name\": \"fugiat consequat Excepteur non\",\n          \"marketGroupId\": -69581835\n        }\n      }\n    ]\n  }\n]"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset/SubLocation?LocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/Asset/SubLocation?LocationId=35083352",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Asset",
+												"SubLocation"
+											],
+											"query": [
+												{
+													"key": "LocationId",
+													"value": "35083352"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
 								}
 							]
 						},
@@ -1203,409 +2210,6 @@
 									],
 									"cookie": [],
 									"body": "[\n  \"\",\n  \"dolor ex\"\n]"
-								}
-							]
-						}
-					]
-				},
-				{
-					"name": "Structure",
-					"item": [
-						{
-							"name": "/api/Structure",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "text/plain"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/api/Structure",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"Structure"
-									],
-									"query": [
-										{
-											"key": "LocationId",
-											"value": "-69678129",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Success",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "[\n  {\n    \"id\": -13504586,\n    \"name\": \"velit ullamco\",\n    \"structureTypeId\": 1141704,\n    \"structureTypeName\": \"consequat ipsum labore\"\n  },\n  {\n    \"id\": -73579716,\n    \"name\": \"dolore\",\n    \"structureTypeId\": -72683327,\n    \"structureTypeName\": \"voluptate consequat\"\n  }\n]"
-								},
-								{
-									"name": "Bad Request",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
-								},
-								{
-									"name": "Not Found",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
-								}
-							]
-						},
-						{
-							"name": "/api/Structure",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Accept",
-										"value": "text/plain"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "\"[Azbel, *Simulated Azbel Fitting]\\r\\n\\r\\n\\r\\n\\r\\nStandup L-Set Equipment Manufacturing Efficiency II\\r\\nStandup L-Set Basic Large Ship Manufacturing Efficiency I\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\"",
-									"options": {
-										"raw": {
-											"language": "text"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/api/Structure?LocationId=1041276076345",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"Structure"
-									],
-									"query": [
-										{
-											"key": "LocationId",
-											"value": "1041276076345"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Success",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"structure\": {\n    \"id\": -22928291,\n    \"name\": \"deserunt in Ut\",\n    \"structureTypeId\": 74939704,\n    \"structureTypeName\": \"ad velit voluptate mollit\"\n  },\n  \"security\": 67756955.8912336,\n  \"rawFit\": \"ut mollit dolor cillum\",\n  \"rigsManufacturings\": [\n    {\n      \"id\": -97457280,\n      \"name\": \"aliquip ut quis\",\n      \"marketIdEffect\": \"amet a\",\n      \"marketIdNotEffect\": \"id consectetur\",\n      \"costEffect\": 86586145.36793143,\n      \"timeEffect\": 63441558.15130955,\n      \"materialEffect\": 86252286.13843441,\n      \"multiplierHS\": -20375729.640309498,\n      \"multiplierLS\": 71054975.58930928,\n      \"multiplierNS\": 68910629.66721392\n    },\n    {\n      \"id\": -61513007,\n      \"name\": \"ullamco do velit occaecat in\",\n      \"marketIdEffect\": \"nisi\",\n      \"marketIdNotEffect\": \"ut in\",\n      \"costEffect\": -33759477.232522525,\n      \"timeEffect\": 92927060.59148797,\n      \"materialEffect\": -67686020.27931646,\n      \"multiplierHS\": 96323435.3952826,\n      \"multiplierLS\": -16248006.099784046,\n      \"multiplierNS\": -24452957.230147287\n    }\n  ]\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "[\n  {\n    \"structure\": {\n      \"id\": -74125669,\n      \"name\": \"eu ul\",\n      \"structureTypeId\": 60257747,\n      \"structureTypeName\": \"sunt voluptate\"\n    },\n    \"security\": -77202615.1867474,\n    \"rawFit\": \"ut Lorem\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": 28121408,\n        \"name\": \"id do\",\n        \"marketIdEffect\": \"esse ea do\",\n        \"marketIdNotEffect\": \"cillum est\",\n        \"costEffect\": -57327759.46095981,\n        \"timeEffect\": -81053640.13176093,\n        \"materialEffect\": 362966.2090283185,\n        \"multiplierHS\": -46881281.95825638,\n        \"multiplierLS\": -21782783.635125607,\n        \"multiplierNS\": -42624974.62433479\n      },\n      {\n        \"id\": -38781464,\n        \"name\": \"in ipsum in cupidatat\",\n        \"marketIdEffect\": \"laboris nisi\",\n        \"marketIdNotEffect\": \"reprehenderit Excepteur eiusmod\",\n        \"costEffect\": 21926843.67470798,\n        \"timeEffect\": -8191122.826406524,\n        \"materialEffect\": 91078801.2469176,\n        \"multiplierHS\": 99568121.50016189,\n        \"multiplierLS\": -46863153.06129489,\n        \"multiplierNS\": -72307754.64576524\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 9990358,\n      \"name\": \"reprehenderit cillum proident aliquip\",\n      \"structureTypeId\": -46041457,\n      \"structureTypeName\": \"enim\"\n    },\n    \"security\": 58133829.430811405,\n    \"rawFit\": \"consectetur occaecat officia minim Excepteur\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -10992458,\n        \"name\": \"est enim\",\n        \"marketIdEffect\": \"fugiat ut labore eiusmod quis\",\n        \"marketIdNotEffect\": \"officia ex a\",\n        \"costEffect\": -34822366.98198497,\n        \"timeEffect\": -80459539.3310032,\n        \"materialEffect\": -77995050.44721404,\n        \"multiplierHS\": 6822948.457501262,\n        \"multiplierLS\": -81192292.25878084,\n        \"multiplierNS\": 33935852.04656473\n      },\n      {\n        \"id\": -86517337,\n        \"name\": \"ut non culpa\",\n        \"marketIdEffect\": \"in\",\n        \"marketIdNotEffect\": \"ex elit\",\n        \"costEffect\": -52720648.687413484,\n        \"timeEffect\": -70892919.1544355,\n        \"materialEffect\": 40081847.03356683,\n        \"multiplierHS\": 22003597.1427373,\n        \"multiplierLS\": 28542819.103322253,\n        \"multiplierNS\": 20281380.804439038\n      }\n    ]\n  }\n]"
-								},
-								{
-									"name": "Bad Request",
-									"originalRequest": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n  \"structure\": {\n    \"id\": -22928291,\n    \"name\": \"deserunt in Ut\",\n    \"structureTypeId\": 74939704,\n    \"structureTypeName\": \"ad velit voluptate mollit\"\n  },\n  \"security\": 67756955.8912336,\n  \"rawFit\": \"ut mollit dolor cillum\",\n  \"rigsManufacturings\": [\n    {\n      \"id\": -97457280,\n      \"name\": \"aliquip ut quis\",\n      \"marketIdEffect\": \"amet a\",\n      \"marketIdNotEffect\": \"id consectetur\",\n      \"costEffect\": 86586145.36793143,\n      \"timeEffect\": 63441558.15130955,\n      \"materialEffect\": 86252286.13843441,\n      \"multiplierHS\": -20375729.640309498,\n      \"multiplierLS\": 71054975.58930928,\n      \"multiplierNS\": 68910629.66721392\n    },\n    {\n      \"id\": -61513007,\n      \"name\": \"ullamco do velit occaecat in\",\n      \"marketIdEffect\": \"nisi\",\n      \"marketIdNotEffect\": \"ut in\",\n      \"costEffect\": -33759477.232522525,\n      \"timeEffect\": 92927060.59148797,\n      \"materialEffect\": -67686020.27931646,\n      \"multiplierHS\": 96323435.3952826,\n      \"multiplierLS\": -16248006.099784046,\n      \"multiplierNS\": -24452957.230147287\n    }\n  ]\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
-								}
-							]
-						},
-						{
-							"name": "/api/Structure/Detailed",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "text/plain"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=1041276076345",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"Structure",
-										"Detailed"
-									],
-									"query": [
-										{
-											"key": "LocationId",
-											"value": "1041276076345"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Success",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure",
-												"Detailed"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "[\n  {\n    \"structure\": {\n      \"id\": -74125669,\n      \"name\": \"eu ul\",\n      \"structureTypeId\": 60257747,\n      \"structureTypeName\": \"sunt voluptate\"\n    },\n    \"security\": -77202615.1867474,\n    \"rawFit\": \"ut Lorem\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": 28121408,\n        \"name\": \"id do\",\n        \"marketIdEffect\": \"esse ea do\",\n        \"marketIdNotEffect\": \"cillum est\",\n        \"costEffect\": -57327759.46095981,\n        \"timeEffect\": -81053640.13176093,\n        \"materialEffect\": 362966.2090283185,\n        \"multiplierHS\": -46881281.95825638,\n        \"multiplierLS\": -21782783.635125607,\n        \"multiplierNS\": -42624974.62433479\n      },\n      {\n        \"id\": -38781464,\n        \"name\": \"in ipsum in cupidatat\",\n        \"marketIdEffect\": \"laboris nisi\",\n        \"marketIdNotEffect\": \"reprehenderit Excepteur eiusmod\",\n        \"costEffect\": 21926843.67470798,\n        \"timeEffect\": -8191122.826406524,\n        \"materialEffect\": 91078801.2469176,\n        \"multiplierHS\": 99568121.50016189,\n        \"multiplierLS\": -46863153.06129489,\n        \"multiplierNS\": -72307754.64576524\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 9990358,\n      \"name\": \"reprehenderit cillum proident aliquip\",\n      \"structureTypeId\": -46041457,\n      \"structureTypeName\": \"enim\"\n    },\n    \"security\": 58133829.430811405,\n    \"rawFit\": \"consectetur occaecat officia minim Excepteur\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -10992458,\n        \"name\": \"est enim\",\n        \"marketIdEffect\": \"fugiat ut labore eiusmod quis\",\n        \"marketIdNotEffect\": \"officia ex a\",\n        \"costEffect\": -34822366.98198497,\n        \"timeEffect\": -80459539.3310032,\n        \"materialEffect\": -77995050.44721404,\n        \"multiplierHS\": 6822948.457501262,\n        \"multiplierLS\": -81192292.25878084,\n        \"multiplierNS\": 33935852.04656473\n      },\n      {\n        \"id\": -86517337,\n        \"name\": \"ut non culpa\",\n        \"marketIdEffect\": \"in\",\n        \"marketIdNotEffect\": \"ex elit\",\n        \"costEffect\": -52720648.687413484,\n        \"timeEffect\": -70892919.1544355,\n        \"materialEffect\": 40081847.03356683,\n        \"multiplierHS\": 22003597.1427373,\n        \"multiplierLS\": 28542819.103322253,\n        \"multiplierNS\": 20281380.804439038\n      }\n    ]\n  }\n]"
-								},
-								{
-									"name": "Bad Request",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure",
-												"Detailed"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
-								},
-								{
-									"name": "Not Found",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Structure/Detailed?LocationId=-69678129",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Structure",
-												"Detailed"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-69678129"
-												}
-											]
-										}
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
 								}
 							]
 						}
