@@ -69,13 +69,13 @@ namespace Arkenstone.API.Controllers
             return BadRequest("Just one parameter at same time");
 
         }
-        
+
         /// <summary>
         /// Get a list of characters associated with the current user
         /// </summary>
         /// <returns>A list of characters associated with the current user</returns>
         /// <response code="200">characters retrieved</response>
-        /// <response code="401">authorized</response>
+        /// <response code="401">Unauthorized</response>
         /// <response code="404">character not found</response>
         [HttpGet("my_characters")]
         [Authorize]
@@ -91,6 +91,12 @@ namespace Arkenstone.API.Controllers
             return Ok(characterService.GetByMainId(tokenCharacter.CharacterMainId));
         }
 
+        /// <summary>
+        /// change the main Id of all the characters linked to the token character
+        /// </summary>
+        /// <param name="id" example="5">new main Id</param>
+        /// <response code="200">new token</response>
+        /// <response code="401">Unauthorized</response>
         [Route("SetMain")]
         [HttpPatch]
         [Authorize]

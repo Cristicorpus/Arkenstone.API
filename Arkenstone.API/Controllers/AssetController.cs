@@ -20,11 +20,15 @@ namespace Arkenstone.API.Controllers
 
         }
 
+        /// <summary>
+        /// provides the overall assets of the corporation
+        /// </summary>
+        /// <response code="200">list of assets</response>
+        /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult GetSimple()
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -35,11 +39,18 @@ namespace Arkenstone.API.Controllers
             return Ok(assetService.GetGlobalAsset(tokenCharacter.CorporationId));
         }
 
+        /// <summary>
+        /// provides all the assets of the Corporation by location
+        /// </summary>
+        /// <param name="LocationId" example="1041276076345">Location Id</param>
+        /// <response code="200">list of assets</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">location not found</response>
         [HttpGet("Location")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetStationModel>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetStructure([FromQuery] long? LocationId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -75,20 +86,27 @@ namespace Arkenstone.API.Controllers
 
         }
 
+        /// <summary>
+        /// provides all the assets of the Corporation by Sublocation
+        /// </summary>
+        /// <param name="SublocationId" example="5">SubLocation Id</param>
+        /// <response code="200">list of assets</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">sublocation not found</response>
         [HttpGet("SubLocation")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetSubLocationModel>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetSubLocation([FromQuery] int? LocationId)
+        public IActionResult GetSubLocation([FromQuery] int? SublocationId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
             if (tokenCharacter == null)
                 return Unauthorized("You are not authorized");
 
-            if (LocationId.HasValue)
+            if (SublocationId.HasValue)
             {
-                var structure = _context.SubLocations.FirstOrDefault(x=>x.Id ==LocationId.Value);
+                var structure = _context.SubLocations.FirstOrDefault(x=>x.Id == SublocationId.Value);
                 if (structure == null)
                     return NotFound();
                 if (structure.CorporationId != tokenCharacter.CorporationId)
@@ -101,8 +119,8 @@ namespace Arkenstone.API.Controllers
             List<AssetSubLocationModel> returnvalue = new List<AssetSubLocationModel>();
 
 
-            if (LocationId.HasValue)
-                returnvalue.Add(assetService.GetSubLocationAsset( LocationId.Value));
+            if (SublocationId.HasValue)
+                returnvalue.Add(assetService.GetSubLocationAsset(SublocationId.Value));
             else
             {
                 foreach (var location in subLocationServiceService.ListSubLocationCorp(tokenCharacter.CorporationId))
@@ -116,10 +134,16 @@ namespace Arkenstone.API.Controllers
         }
 
 
+        /// <summary>
+        /// Refresh and provides the overall assets of the corporation
+        /// </summary>
+        /// <param name="id" example="5">SubLocation Id</param>
+        /// <response code="200">list of assets</response>
+        /// <response code="401">Unauthorized</response>
         [HttpPost("Refresh")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> RefreshAssetAsync()
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);

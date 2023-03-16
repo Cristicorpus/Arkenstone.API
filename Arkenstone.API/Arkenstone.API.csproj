@@ -34,6 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="API_Eveminingfleet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Applicatif\Manual\RigsManufacturings.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -41,7 +44,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
+  <PropertyGroup>
+    <DocumentationFile>API_Eveminingfleet.xml</DocumentationFile>
+  </PropertyGroup>
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 

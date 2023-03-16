@@ -24,6 +24,10 @@ namespace Arkenstone.Controllers
 
 
 
+        /// <summary>
+        /// provides the recipe name
+        /// </summary>
+        /// <response code="200">list of assets</response>
         [HttpGet("ListRecipeName")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<string>))]
         public IActionResult ListRecipe()
@@ -32,6 +36,11 @@ namespace Arkenstone.Controllers
         }
 
 
+        /// <summary>
+        /// provides the recipe material for an item if this item is manufacturable
+        /// </summary>
+        /// <response code="200">list of assets</response>
+        /// <response code="404">recipe not found</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RecipeModel))]
         public IActionResult GetRecipe(int id)

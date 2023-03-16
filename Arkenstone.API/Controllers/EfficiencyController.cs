@@ -22,10 +22,19 @@ namespace Arkenstone.API.Controllers
 
         }
 
+        /// <summary>
+        /// gives the material efficiency rate of the structure on a item Id
+        /// </summary>
+        /// <param name="LocationId" example="1041276076345">Location Id</param>
+        /// <param name="ItemId" example="24692">item IDd</param>
+        /// <response code="200">efficiency</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404">strcture or item not found</response>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetEfficiencyFromLocation([FromQuery] long LocationId, [FromQuery] int ItemId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -46,10 +55,19 @@ namespace Arkenstone.API.Controllers
         }
 
 
+
+        /// <summary>
+        /// gives the material efficiency rate and the best location  on a item Id
+        /// </summary>
+        /// <param name="ItemId" example="24692">item IDd</param>
+        /// <response code="200">efficiency</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="404"> item not found</response>
         [HttpGet("chooseStation")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetBestEfficiency([FromQuery] int ItemId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);

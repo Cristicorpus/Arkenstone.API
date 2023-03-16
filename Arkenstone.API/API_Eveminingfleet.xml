@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Arkenstone.API</name>
+    </assembly>
+    <members>
+        <member name="M:Arkenstone.API.Controllers.AssetController.GetSimple">
+            <summary>
+            provides the overall assets of the corporation
+            </summary>
+            <response code="200">list of assets</response>
+            <response code="401">Unauthorized</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.AssetController.GetStructure(System.Nullable{System.Int64})">
+            <summary>
+            provides all the assets of the Corporation by location
+            </summary>
+            <param name="LocationId" example="1041276076345">Location Id</param>
+            <response code="200">list of assets</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">location not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.AssetController.GetSubLocation(System.Nullable{System.Int32})">
+            <summary>
+            provides all the assets of the Corporation by Sublocation
+            </summary>
+            <param name="SublocationId" example="5">SubLocation Id</param>
+            <response code="200">list of assets</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">sublocation not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.AssetController.RefreshAssetAsync">
+            <summary>
+            Refresh and provides the overall assets of the corporation
+            </summary>
+            <param name="id" example="5">SubLocation Id</param>
+            <response code="200">list of assets</response>
+            <response code="401">Unauthorized</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.CharacterController.Get(System.Nullable{System.Int32},System.String)">
+            <summary>
+            Retrieves characters, 
+            </summary>
+            <remarks>only ONE PARAMETER!</remarks>
+            <param name="id" example="96852613">get the character by id,</param>
+            <param name="mainid" example="96852613">get all character by main id</param>
+            <param name="name" example="feonordalb">get the character by name.Withoutspace</param>
+            <response code="200">character retrieved</response>
+            <response code="204">No character in database</response>
+            <response code="400">only ONE PARAMETER!</response>
+            <response code="404">character not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.CharacterController.GetMyCharacters">
+            <summary>
+            Get a list of characters associated with the current user
+            </summary>
+            <returns>A list of characters associated with the current user</returns>
+            <response code="200">characters retrieved</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">character not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.CharacterController.SetMain(System.Int32)">
+            <summary>
+            change the main Id of all the characters linked to the token character
+            </summary>
+            <param name="id" example="5">new main Id</param>
+            <response code="200">new token</response>
+            <response code="401">Unauthorized</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.EfficiencyController.GetEfficiencyFromLocation(System.Int64,System.Int32)">
+            <summary>
+            gives the material efficiency rate of the structure on a item Id
+            </summary>
+            <param name="LocationId" example="1041276076345">Location Id</param>
+            <param name="ItemId" example="24692">item IDd</param>
+            <response code="200">efficiency</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">strcture or item not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.EfficiencyController.GetBestEfficiency(System.Int32)">
+            <summary>
+            gives the material efficiency rate and the best location  on a item Id
+            </summary>
+            <param name="ItemId" example="24692">item IDd</param>
+            <response code="200">efficiency</response>
+            <response code="401">Unauthorized</response>
+            <response code="404"> item not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.HealthController.Get">
+            <summary>
+            heart beat
+            </summary>
+            <response code="200"></response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.LocationController.GetSimple(System.Nullable{System.Int64})">
+            <summary>
+            get location data
+            </summary>
+            <param name="LocationId" example="1041276076345">Location Id</param>
+            <response code="200">structure data</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">location  not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.LocationController.GetDetailed(System.Nullable{System.Int64})">
+            <summary>
+            get location data detailled(rigs)
+            </summary>
+            <param name="LocationId" example="1041276076345">Location Id</param>
+            <response code="200">structure data detailled</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">location  not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.LocationController.SetFit(System.Int64,System.String)">
+            <summary>
+            set rigs of an location for Material efficiency calculation
+            </summary>
+            <param name="LocationId" example="1041276076345">Location Id</param>
+            <param name="fit" example="[Azbel, *Simulated Azbel Fitting]\r\n\r\n\r\n\r\nStandup L-Set Equipment Manufacturing Efficiency II\r\nStandup L-Set Basic Large Ship Manufacturing Efficiency I\r\n\r\n\r\n\r\n\r\n\r\n">raw fit of eve, copy paste work </param>
+            <response code="200">structure data detailled</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">location  not found</response>
+            <response code="400">its not an structure</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.SubLocationController.Get(System.Nullable{System.Int32})">
+            <summary>
+            get data of sublocation
+            </summary>
+            <param name="SubLocationId" example="5">SubLocation Id</param>
+            <response code="200">list of sublocation</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">sublocation not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.SubLocationController.GetByLocation(System.Int64)">
+            <summary>
+            get data of sublocation in an location
+            </summary>
+            <param name="LocationId" example="1041276076345">Location Id</param>
+            <response code="200">list of sublocation</response>
+            <response code="204">no content</response>
+            <response code="401">Unauthorized</response>
+            <response code="404">location not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Controllers.SubLocationController.Edit(System.Int32,System.Boolean)">
+            <summary>
+            set or reset sublocation to analyse
+            </summary>
+            <param name="SubLocationId" example="5">SubLocation Id</param>
+            <response code="200"></response>
+            <response code="401">Unauthorized</response>
+            <response code="404">sublocation not found</response>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.GetAndUpdateByauthorizedCharacterData(ESI.NET.Models.SSO.AuthorizedCharacterData,ESI.NET.Models.SSO.SsoToken)">
+            <summary>
+            Create and update character by esi login.
+            </summary>
+            <param name="authorizedCharacterData"></param>
+            <param name="accessToken"></param>
+            <param name="refreshToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.Get(System.Int32)">
+            <summary>
+            Get a character by his id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.GetByMainId(System.Int32)">
+            <summary>
+            Get all characters with the same main id.
+            </summary>
+            <param name="mainId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.GetAll">
+            <summary>        
+            Get all characters.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.GetByName(System.String)">
+            <summary>
+            Get a character by his name. The name is not case sensitive and the space are not important.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.UpdateMainId(System.Int32,System.Int32)">
+            <summary>
+            Update the main id of all characters with the old main id to the new main id.
+            </summary>
+            <param name="oldMainId"></param>
+            <param name="mainId"></param>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.SetMain(System.Int32,System.Int32)">
+            <summary>
+            Set the main id of a character.
+            </summary>
+            <param name="id"></param>
+            <param name="mainID"></param>
+        </member>
+        <member name="M:Arkenstone.Controllers.RecipeController.ListRecipe">
+            <summary>
+            provides the recipe name
+            </summary>
+            <response code="200">list of assets</response>
+        </member>
+        <member name="M:Arkenstone.Controllers.RecipeController.GetRecipe(System.Int32)">
+            <summary>
+            provides the recipe material for an item if this item is manufacturable
+            </summary>
+            <response code="200">list of assets</response>
+            <response code="404">recipe not found</response>
+        </member>
+    </members>
+</doc>

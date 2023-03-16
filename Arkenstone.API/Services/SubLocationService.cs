@@ -19,21 +19,25 @@ namespace Arkenstone.API.Services
         {
             return _context.SubLocations;
         }
+        public SubLocation GetFirstOrDefault(int id)
+        {
+            return RequestSubLoc().FirstOrDefault(x => x.Flag != "Office" && x.Id == id);
+        }
         public List<SubLocation> ListSubLocationCorp(int corpID)
         {
-            return RequestSubLoc().Where(x => x.CorporationId == corpID).ToList();
+            return RequestSubLoc().Where(x => x.Flag!="Office" && x.CorporationId == corpID).ToList();
         }
         public List<SubLocation> GetSubLocationByCorp(int CorpId)
         {
-            return RequestSubLoc().Where(x => x.CorporationId == CorpId).ToList();
+            return RequestSubLoc().Where(x => x.Flag != "Office" && x.CorporationId == CorpId).ToList();
         }
         public List<SubLocation> GetSubLocationByLocation(int CorpId, long location)
         {
-            return RequestSubLoc().Where(x => x.CorporationId == CorpId && x.LocationId == location).ToList();
+            return RequestSubLoc().Where(x => x.Flag != "Office" && x.CorporationId == CorpId && x.LocationId == location).ToList();
         }
         public List<SubLocation> GetSubLocationBySubLocationId(int Sublocation)
         {
-            return RequestSubLoc().Where(x => x.Id == Sublocation).ToList();
+            return RequestSubLoc().Where(x => x.Flag != "Office" && x.Id == Sublocation).ToList();
         }
 
         public void EditSubLocation(int Sublocation,bool toAnalyse)
