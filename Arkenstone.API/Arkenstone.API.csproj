@@ -33,6 +33,15 @@
     <ProjectReference Include="..\Arkenstone.Logic\Arkenstone.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Applicatif\Manual\RigsManufacturings.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Applicatif\Manual\StructureTypes.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
