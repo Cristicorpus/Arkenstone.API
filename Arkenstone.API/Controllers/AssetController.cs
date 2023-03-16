@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Arkenstone.API.Controllers
@@ -34,7 +35,7 @@ namespace Arkenstone.API.Controllers
             return Ok(assetService.GetGlobalAsset(tokenCharacter.CorporationId));
         }
 
-        [HttpGet("Structure")]
+        [HttpGet("Location")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetStationModel>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,22 +50,64 @@ namespace Arkenstone.API.Controllers
             {
                 var structure = _context.Locations.Find(LocationId);
                 if (structure == null)
-                    throw new Exception("La structure " + LocationId.ToString() + " n'existe pas");
+                    return NotFound("structure " + LocationId.ToString() + " not recognized");
+                if (!structure.SubLocations.Any(x=>x.CorporationId == tokenCharacter.CorporationId))
+                    return Unauthorized("You are not authorized to see this structure asset. you dont have any office in.");
             }
 
             AssetService assetService = new AssetService(_context);
-            StructureService structureService = new StructureService(_context);
+            LocationService structureService = new LocationService(_context);
 
             List<AssetStationModel> returnvalue = new List<AssetStationModel>();
 
 
             if (LocationId.HasValue)
-                returnvalue.Add(assetService.GetStationAsset(tokenCharacter.CorporationId, LocationId.Value));
+                returnvalue.Add(assetService.GetLocationAsset( LocationId.Value));
             else
             {
-                foreach (var location in structureService.ListStructureCorp(tokenCharacter.CorporationId))
+                foreach (var location in structureService.ListLocationCorp(tokenCharacter.CorporationId))
                 {
-                    returnvalue.Add(assetService.GetStationAsset(tokenCharacter.CorporationId, location.Id));
+                    returnvalue.Add(assetService.GetLocationAsset( location.Id));
+                }
+            }
+
+            return Ok(returnvalue);
+
+        }
+
+        [HttpGet("SubLocation")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetSubLocationModel>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetSubLocation([FromQuery] int? LocationId)
+        {
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            if (tokenCharacter == null)
+                return Unauthorized("You are not authorized");
+
+            if (LocationId.HasValue)
+            {
+                var structure = _context.SubLocations.FirstOrDefault(x=>x.Id ==LocationId.Value);
+                if (structure == null)
+                    return NotFound();
+                if (structure.CorporationId != tokenCharacter.CorporationId)
+                    return Unauthorized("You are not authorized to see this sublocation asset.");
+            }
+
+            AssetService assetService = new AssetService(_context);
+            SubLocationService subLocationServiceService = new SubLocationService(_context);
+
+            List<AssetSubLocationModel> returnvalue = new List<AssetSubLocationModel>();
+
+
+            if (LocationId.HasValue)
+                returnvalue.Add(assetService.GetSubLocationAsset( LocationId.Value));
+            else
+            {
+                foreach (var location in subLocationServiceService.ListSubLocationCorp(tokenCharacter.CorporationId))
+                {
+                    returnvalue.Add(assetService.GetSubLocationAsset(location.Id));
                 }
             }
 

@@ -22,12 +22,11 @@ namespace Arkenstone.API.Controllers
 
         }
 
-        // GET api/Efficiency
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetEfficiencyFromStation([FromQuery] long LocationId, [FromQuery] int ItemId)
+        public IActionResult GetEfficiencyFromLocation([FromQuery] long LocationId, [FromQuery] int ItemId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
             if (tokenCharacter == null)
@@ -42,12 +41,11 @@ namespace Arkenstone.API.Controllers
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 
-            return Ok(efficiencyService.GetEfficiencyFromStation(structure, item));
+            return Ok(efficiencyService.GetEfficiencyFromLocation(structure, item));
 
         }
 
 
-        // GET api/Efficiency
         [HttpGet("chooseStation")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
@@ -69,7 +67,7 @@ namespace Arkenstone.API.Controllers
                 
             foreach (var location in _context.Locations.Include("StructureType").Include("SubLocations").Where(x=>x.SubLocations.Any(y=>y.CorporationId== tokenCharacter.CorporationId)))
             {
-                var temp = efficiencyService.GetEfficiencyFromStation(location, item);
+                var temp = efficiencyService.GetEfficiencyFromLocation(location, item);
                 if (returnModel ==null || returnModel.MEefficiency > temp.MEefficiency)
                     returnModel = temp;
             }

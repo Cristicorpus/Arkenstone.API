@@ -17,11 +17,14 @@ namespace Arkenstone.API.Services
         {
             _context = context;
         }
+        private IQueryable<Inventory> GetCore()
+        {
+            return _context.Inventorys.Include("Item").Include("SubLocation");
+        }
 
-        
         public List<AssetModel> GetGlobalAsset(int corpId)
         {
-            List<Inventory> Asset = GetCore(corpId);
+            List<Inventory> Asset = GetCore().Where(x => x.SubLocation.CorporationId == corpId).ToList();
             List<AssetModel> result = new List<AssetModel>();
             foreach (var item in Asset)
             {
@@ -36,13 +39,32 @@ namespace Arkenstone.API.Services
             Asset = null;
             return result;
         }
-        public AssetStationModel GetStationAsset(int corpId, long LocationId)
+        public AssetStationModel GetLocationAsset( long LocationId)
         {
-            List<Inventory> Asset = GetCore(corpId,LocationId);
+            List<Inventory> Asset = GetCore().Where(x => x.SubLocation.LocationId == LocationId).ToList();
 
             var location = _context.Locations.Include("StructureType").FirstOrDefault(x=>x.Id ==LocationId);
             AssetStationModel result = new AssetStationModel(location);
             
+            foreach (var item in Asset)
+            {
+                var itemAsset = result.Assets.FirstOrDefault(x => x.ItemModel.Id == item.ItemId);
+                if (itemAsset == null)
+                {
+                    itemAsset = new AssetModel(item.Item, 0);
+                    result.Assets.Add(itemAsset);
+                }
+                itemAsset.quantity += item.Quantity;
+            }
+            Asset = null;
+            return result;
+        }
+        public AssetSubLocationModel GetSubLocationAsset(long LocationId)
+        {
+            List<Inventory> Asset = GetCore().Where(x => x.SubLocationId == LocationId).ToList();
+
+            var location = _context.SubLocations.FirstOrDefault(x => x.Id == LocationId);
+            AssetSubLocationModel result = new AssetSubLocationModel(location);
             foreach (var item in Asset)
             {
                 var itemAsset = result.Assets.FirstOrDefault(x => x.ItemModel.Id == item.ItemId);
@@ -62,15 +84,6 @@ namespace Arkenstone.API.Services
             await AssetDump.ReloadItemsFromSpecificCorpAsync(corpId);
         }
 
-        private List<Inventory> GetCore(int corpId, long? LocationId = null)
-        {
-            var request = _context.Inventorys.Include("Item").Include("SubLocation.Location.StructureType");
-
-            if (LocationId == null)
-                return request.ToList();
-            else
-                return request.Where(x => x.SubLocation.Location.Id == LocationId.Value).ToList(); ;
-        }
 
     }
 }

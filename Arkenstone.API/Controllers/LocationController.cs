@@ -15,17 +15,17 @@ namespace Arkenstone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StructureController : OriginController
+    public class LocationController : OriginController
     {
-        public StructureController(ArkenstoneContext context) : base(context)
+        public LocationController(ArkenstoneContext context) : base(context)
         {
 
         }
 
-        // GET api/structure
+
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocationModel>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetSimple([FromQuery] long? LocationId)
@@ -38,17 +38,17 @@ namespace Arkenstone.API.Controllers
             {
                 var structure = _context.Locations.Find(LocationId);
                 if (structure == null)
-                    throw new Exception("La structure " + LocationId.ToString() + " n'existe pas");
+                    return NotFound();
             }
-            
-            StructureService structureService = new StructureService(_context);
+
+            LocationService structureService = new LocationService(_context);
             return Ok(structureService.GetBasicModel(LocationId));
 
         }
-        // GET api/structure/Detailed
+
         [HttpGet("Detailed")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModelDetails>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocationModelDetails>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetDetailed([FromQuery] long? LocationId)
@@ -61,18 +61,19 @@ namespace Arkenstone.API.Controllers
             {
                 var structure = _context.Locations.Find(LocationId);
                 if (structure == null)
-                    throw new Exception("La structure " + LocationId.ToString() + " n'existe pas");
+                    return NotFound();
             }
-            
-            StructureService structureService = new StructureService(_context);
+
+            LocationService structureService = new LocationService(_context);
             return Ok(structureService.GetDetailledModel(LocationId));
 
         }
 
-        // POST api/structure
+
         [HttpPost]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<StructureModelDetails>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocationModelDetails>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult SetFit([FromQuery] long LocationId, [FromBody] string fit)
         {
@@ -83,12 +84,12 @@ namespace Arkenstone.API.Controllers
 
             var structure = _context.Locations.Find(LocationId);
             if (structure == null)
-                throw new Exception("La structure " + LocationId.ToString() + " n'existe pas");
+                return NotFound();
 
             if (structure.Id < 1000000000)
-                throw new Exception(LocationId.ToString() + " est une station.");
-                
-            StructureService structureService = new StructureService(_context);
+                return BadRequest(LocationId.ToString() + " isn t an struture, is an station.");
+
+            LocationService structureService = new LocationService(_context);
             structureService.SetFitToStructure(LocationId, fit);
             return Ok(structureService.GetDetailledModel(LocationId));
 

@@ -9,35 +9,43 @@ using EveMiningFleet.API.Models;
 
 namespace Arkenstone.API.Services
 {
-    public class StructureService
+    public class LocationService
     {
         private ArkenstoneContext _context;
 
-        public StructureService(ArkenstoneContext context)
+        public LocationService(ArkenstoneContext context)
         {
             _context = context;
         }
-
-        public List<StructureModel> GetBasicModel(long? LocationId)
+        private IQueryable<Location> RequestLocAndSubLoc()
         {
-            return GetCore(LocationId).Select(x => new StructureModel(x)).ToList();
+            return _context.Locations.Include("SubLocations");
+        }
+        private IQueryable<Location> RequestLocFit()
+        {
+            return _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").Include("StructureType");
         }
 
-        public List<StructureModelDetails> GetDetailledModel(long? LocationId)
+        public List<Location> ListLocationCorp(int corpID)
         {
-            return GetCore(LocationId).Select(x => new StructureModelDetails(x)).ToList();
+            return RequestLocAndSubLoc().Where(x => x.SubLocations.Any(y => y.CorporationId == corpID)).ToList();
         }
-
-        private List<Location> GetCore(long? LocationId)
+        public List<LocationModel> GetBasicModel(long? LocationId)
         {
-            var request = _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").Include("StructureType");
-            
+            return GetStructure(LocationId).Select(x => new LocationModel(x)).ToList();
+        }
+        public List<LocationModelDetails> GetDetailledModel(long? LocationId)
+        {
+            return GetStructure(LocationId).Select(x => new LocationModelDetails(x)).ToList();
+        }
+        private List<Location> GetStructure(long? LocationId)
+        {
             if (LocationId == null)
-                return request.ToList();
+                return RequestLocFit().ToList();
             else
             {
                 List<Location> returnvalue = new List<Location>();
-                var targetStructure = request.FirstOrDefault(x => x.Id == LocationId.Value);
+                var targetStructure = RequestLocFit().FirstOrDefault(x => x.Id == LocationId.Value);
                 if (targetStructure != null)
                     returnvalue.Add(targetStructure);
                 return returnvalue;
@@ -130,10 +138,6 @@ namespace Arkenstone.API.Services
         }
 
 
-        public List<Location> ListStructureCorp(int corpID)
-        {
-            return _context.Locations.Include("SubLocations").Where(x => x.SubLocations.Any(y => y.CorporationId == corpID)).ToList();
-        }
 
 
     }

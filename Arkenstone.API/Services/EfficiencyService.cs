@@ -14,7 +14,7 @@ namespace Arkenstone.API.Services
             _context = context;
         }
 
-        public EfficiencyModel GetEfficiencyFromStation(Location location, Item Item)
+        public EfficiencyModel GetEfficiencyFromLocation(Location location, Item Item)
         {
 
             var returnModel = new EfficiencyModel();
@@ -23,7 +23,7 @@ namespace Arkenstone.API.Services
             EfficiencyStructureRigsEffect RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, location, Item);
 
             returnModel.MEefficiency = (StructureEfficiency * RigsEfficiency.MeEfficiency);
-            returnModel.Station = new StructureModel(location);
+            returnModel.Station = new LocationModel(location);
             returnModel.rigsEffect = RigsEfficiency.rigsManufacturings;
             
             return returnModel;
