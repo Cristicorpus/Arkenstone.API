@@ -255,6 +255,25 @@
 									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
 								}
 							]
+						},
+						{
+							"name": "RefreshAsset",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Asset/Refresh",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Asset",
+										"Refresh"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},

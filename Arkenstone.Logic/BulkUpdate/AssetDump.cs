@@ -23,6 +23,21 @@ namespace Arkenstone.Logic.Asset
         }
         public static async Task ReloadAllItemsAsync()
         {
+            var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
+            var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
+            using (ArkenstoneContext context = new ArkenstoneContext(options))
+            {
+                //recuperation de tout les asset en HARD ESI
+                foreach (var item in context.Corporations)
+                {
+                    await ReloadItemsFromSpecificCorpAsync(item.Id);
+                }
+            }
+
+        }
+
+        public static async Task ReloadItemsFromSpecificCorpAsync(int corpId)
+        {
             var eveEsi = new EveEsiConnexion();
 
 
@@ -35,7 +50,7 @@ namespace Arkenstone.Logic.Asset
                     int coorporationId = 0;
                     //recuperation de tout les asset en HARD ESI
                     var AllCoorpoAsset = new List<ESI.NET.Models.Assets.Item>();
-                    foreach (var item in context.Characters)
+                    foreach (var item in context.Characters.Where(x => x.CorporationId == corpId))
                     {
                         try
                         {
@@ -61,7 +76,7 @@ namespace Arkenstone.Logic.Asset
                     }
                     if (AllCoorpoAsset.Count <= 0)
                         return;
-                    
+
                     coorporationId = eveEsi.authorizedCharacterData.CorporationID;
 
                     //recuperation des bureau dans les stations
@@ -77,7 +92,7 @@ namespace Arkenstone.Logic.Asset
 
                             var newStation = new Location() { Id = item.LocationId };
 
-                            if (item.LocationId>=1000000000)
+                            if (item.LocationId >= 1000000000)
                             {
                                 var tempStructure = await eveEsi.EsiClient.Universe.Structure(item.LocationId);
                                 newStation.Name = tempStructure.Data.Name;
@@ -95,22 +110,22 @@ namespace Arkenstone.Logic.Asset
                             context.SaveChanges();
                         }
 
-                        if (context.SubLocations.FirstOrDefault(x=>x.LocationId == item.LocationId && x.Flag=="Office") == null)
+                        if (context.SubLocations.FirstOrDefault(x => x.LocationId == item.LocationId && x.Flag == "Office") == null)
                         {
-                            var newSubStation = new SubLocation() { LocationId = item.LocationId,Flag = "Office", IsAssetAnalysed=false,CorporationId= coorporationId };
+                            var newSubStation = new SubLocation() { LocationId = item.LocationId, Flag = "Office", IsAssetAnalysed = false, CorporationId = coorporationId };
                             context.SubLocations.Add(newSubStation);
                             context.SaveChanges();
                         }
                     }
-                    
+
                     //ajout des hangars de coorp dans les stations/structure inconnu
-                    foreach (var item in AllCoorpoAssetHangar.Select(x=> new { x.LocationFlag,x.LocationId }).Distinct())
+                    foreach (var item in AllCoorpoAssetHangar.Select(x => new { x.LocationFlag, x.LocationId }).Distinct())
                     {
                         var office = AllCoorpoAssetOffice.FirstOrDefault(x => x.ItemId == item.LocationId);
                         if (office != null)
                         {
                             var hangar = context.SubLocations.FirstOrDefault(x => x.LocationId == office.LocationId && x.Flag == item.LocationFlag);
-                            if ( hangar == null)
+                            if (hangar == null)
                             {
                                 context.SubLocations.Add(new SubLocation() { LocationId = office.LocationId, Flag = item.LocationFlag, CorporationId = coorporationId, IsAssetAnalysed = false });
                                 context.SaveChanges();
@@ -123,10 +138,10 @@ namespace Arkenstone.Logic.Asset
                     foreach (var itemHangar in AllCoorpoAssetHangar)
                     {
                         var office = AllCoorpoAssetOffice.FirstOrDefault(x => x.ItemId == itemHangar.LocationId);
-                        if (office!=null)
+                        if (office != null)
                         {
-                            var subLocationDb = context.SubLocations.FirstOrDefault(x=> x.LocationId == office.LocationId && x.Flag==itemHangar.LocationFlag);
-                            
+                            var subLocationDb = context.SubLocations.FirstOrDefault(x => x.LocationId == office.LocationId && x.Flag == itemHangar.LocationFlag);
+
                             if (subLocationDb != null && subLocationDb.IsAssetAnalysed)
                             {
                                 if (subLocationDb.Id == 10)
@@ -134,7 +149,7 @@ namespace Arkenstone.Logic.Asset
                                 var assetHanger = Assets.FirstOrDefault(x => x.ItemId == itemHangar.TypeId && x.SubLocationId == subLocationDb.Id);
                                 if (assetHanger == null)
                                 {
-                                    assetHanger = new Inventory() { ItemId = itemHangar.TypeId, SubLocationId = subLocationDb.Id};
+                                    assetHanger = new Inventory() { ItemId = itemHangar.TypeId, SubLocationId = subLocationDb.Id };
                                     Assets.Add(assetHanger);
                                 }
                                 assetHanger.Quantity += itemHangar.Quantity;
@@ -144,20 +159,20 @@ namespace Arkenstone.Logic.Asset
                                     var assetContainer = Assets.FirstOrDefault(x => x.ItemId == itemContainer.TypeId && x.SubLocationId == subLocationDb.Id);
                                     if (assetContainer == null)
                                     {
-                                        assetContainer = new Inventory() { ItemId = itemContainer.TypeId, SubLocationId = subLocationDb.Id};
+                                        assetContainer = new Inventory() { ItemId = itemContainer.TypeId, SubLocationId = subLocationDb.Id };
                                         Assets.Add(assetContainer);
                                     }
                                     assetContainer.Quantity += itemContainer.Quantity;
                                 }
                             }
                         }
-                        
+
                     }
 
                     var AssetsWithItemKnow = Assets.Where(x => context.Items.Any(y => y.Id == x.ItemId)).ToList();
 
 
-                    context.Database.ExecuteSqlRaw("DELETE Inventorys FROM Inventorys INNER JOIN Sublocations ON Inventorys.SubLocationId = Sublocations.Id WHERE Sublocations.CorporationID = "+ coorporationId.ToString());
+                    context.Database.ExecuteSqlRaw("DELETE Inventorys FROM Inventorys INNER JOIN Sublocations ON Inventorys.SubLocationId = Sublocations.Id WHERE Sublocations.CorporationID = " + coorporationId.ToString());
                     //on ajoute que les items qu on connais en attendant l update des items par fuzzwork
                     context.Inventorys.AddRange(AssetsWithItemKnow);
                     context.SaveChanges();
@@ -169,5 +184,9 @@ namespace Arkenstone.Logic.Asset
             }
 
         }
+
+
+
+
     }
 }

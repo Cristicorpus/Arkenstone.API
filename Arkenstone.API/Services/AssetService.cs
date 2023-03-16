@@ -1,9 +1,11 @@
 ﻿using Arkenstone.API.Models;
 using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
+using Arkenstone.Logic.Asset;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Arkenstone.API.Services
 {
@@ -55,6 +57,10 @@ namespace Arkenstone.API.Services
             return result;
         }
 
+        public async Task RefreshAsset(int corpId)
+        {
+            await AssetDump.ReloadItemsFromSpecificCorpAsync(corpId);
+        }
 
         private List<Inventory> GetCore(int corpId, long? LocationId = null)
         {
