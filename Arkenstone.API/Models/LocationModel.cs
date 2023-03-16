@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace Arkenstone.API.Models
 {
-    public class StructureModel
+    public class LocationModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
         public int structureTypeId { get; set; }
         public string structureTypeName { get; set; }
 
-        public StructureModel(Location target)
+        public LocationModel(Location target)
         {
             this.Id = target.Id;
             this.Name = target.Name;
@@ -22,17 +22,17 @@ namespace Arkenstone.API.Models
             }
         }
     }
-    public class StructureModelDetails
+    public class LocationModelDetails
     {
-        public StructureModel structure { get; set; }
+        public LocationModel structure { get; set; }
         public decimal Security { get; set; }
         public string RawFit { get; set; }
         public virtual ICollection<RigsManufacturing> RigsManufacturings { get; set; }
         
 
-        public StructureModelDetails(Location target)
+        public LocationModelDetails(Location target)
         {
-            this.structure = new StructureModel(target);
+            this.structure = new LocationModel(target);
             this.Security = target.Security;
             this.RigsManufacturings = target.LocationRigsManufacturings.Select(x => x.RigsManufacturing).ToList();
         }

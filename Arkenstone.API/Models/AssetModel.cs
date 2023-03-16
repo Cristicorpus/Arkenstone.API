@@ -15,15 +15,27 @@ namespace Arkenstone.API.Models
         }
 
     }
+    public class AssetSubLocationModel
+    {
+        public SubLocation subLocation { get; set; }
+
+        public List<AssetModel> Assets { get; set; }
+
+        public AssetSubLocationModel(SubLocation target)
+        {
+            this.subLocation = target;
+            this.Assets = new List<AssetModel>(); ;
+        }
+    }
     public class AssetStationModel
     {
-        public StructureModel structure { get; set; }
+        public LocationModel structure { get; set; }
 
         public List<AssetModel> Assets { get; set; }
 
         public AssetStationModel(Location target)
         {
-            this.structure = new StructureModel(target);
+            this.structure = new LocationModel(target);
             this.Assets = new List<AssetModel>(); ;
         }
     }

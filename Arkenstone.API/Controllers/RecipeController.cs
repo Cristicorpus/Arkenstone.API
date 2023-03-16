@@ -23,7 +23,7 @@ namespace Arkenstone.Controllers
 
 
 
-        //GET api/recipe/ListRecipe
+
         [HttpGet("ListRecipeName")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<string>))]
         public IActionResult ListRecipe()
@@ -31,7 +31,7 @@ namespace Arkenstone.Controllers
             return Ok(_context.Recipes.Include("Item").Select(x => x.Item.Name).ToList());
         }
 
-        // GET api/recipe?id=682
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RecipeModel))]
         public IActionResult GetRecipe(int id)
@@ -41,7 +41,7 @@ namespace Arkenstone.Controllers
             if (recipe != null)
                 return Ok(new RecipeModel(recipe));
             else
-                return NotFound("La recette avec l'id '" + id + "' n'existe pas.");
+                return NotFound();
         }
         
         

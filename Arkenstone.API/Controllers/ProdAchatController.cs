@@ -21,7 +21,7 @@ namespace Arkenstone.Controllers
 
         }
 
-        // GET api/ProdAchat
+
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProdAchatModel>))]
@@ -50,7 +50,7 @@ namespace Arkenstone.Controllers
             return Ok(returnModel);
         }
         
-        // PUT api/ProdAchat
+
         [HttpPut]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProdAchatModel))]
