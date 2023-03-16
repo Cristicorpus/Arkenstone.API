@@ -38,7 +38,7 @@ namespace Arkenstone.Controllers
                 response = _eveEsiConnexion.GetUrlConnection();
             else
                 response = _eveEsiConnexion.GetUrlConnection(tokenCharacter.CharacterMainId.ToString());
-
+            
             return Redirect(response);
         }
 
@@ -68,15 +68,20 @@ namespace Arkenstone.Controllers
 
 
             var characterAuthorized = characterService.GetAndUpdateByauthorizedCharacterData(_eveEsiConnexion.authorizedCharacterData, _eveEsiConnexion.ssoToken);
-            int mainCharacterId = characterAuthorized.Id;
+
 
 
             //ici on met a jour le mainid
+            int mainCharacterId = characterAuthorized.Id;
             if (state != null && int.TryParse(state, out mainCharacterId))
-                characterService.SetMain(characterAuthorized.Id, mainCharacterId);
-            var characterDb = _context.Characters.Find(mainCharacterId);
+            {
+                if (characterService.Get(mainCharacterId)!=null)
+                    characterAuthorized = characterService.SetMain(characterAuthorized.Id, mainCharacterId);
+            }
 
-            return Redirect(Environment.GetEnvironmentVariable("FrontCallBack") + "?token=" + TokenService.Createtoken(characterDb));
+            string url = Environment.GetEnvironmentVariable("FrontCallBack") + "?token=" + TokenService.Createtoken(characterAuthorized);
+
+            return Redirect(url);
         }
     }
 }
