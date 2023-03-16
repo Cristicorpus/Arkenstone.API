@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "cb92226d-fe65-4987-8690-87ff05e253ab",
-		"name": "Arkenstone.API Copy 2",
+		"name": "Arkenstone.API 11",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -1798,7 +1798,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "https://localhost:5001",
+			"value": "http://arkenstoneapi.cristicorpus.ch",
 			"type": "string"
 		}
 	]
