@@ -19,6 +19,18 @@ namespace Arkenstone.API.MiddleWare
             {
                 await next(context);
             }
+            catch (NoContent ex)
+            {
+                var response = new
+                {
+                    message = ex.Message
+                };
+                var json = JsonSerializer.Serialize(response);
+
+                context.Response.StatusCode = 204;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(json);
+            }
             catch (NotAuthentified ex)
             {
                 var response = new

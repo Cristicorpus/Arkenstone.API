@@ -30,7 +30,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Alliances");
+                    b.ToTable("Alliances", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Character", b =>
@@ -67,7 +67,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasIndex("CorporationId");
 
-                    b.ToTable("Characters");
+                    b.ToTable("Characters", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Corporation", b =>
@@ -81,7 +81,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Corporations");
+                    b.ToTable("Corporations", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Inventory", b =>
@@ -101,7 +101,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasIndex("SubLocationId");
 
-                    b.ToTable("Inventorys");
+                    b.ToTable("Inventorys", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Item", b =>
@@ -130,7 +130,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Location", b =>
@@ -171,7 +171,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasIndex("StructureTypeId");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.LocationRigsManufacturing", b =>
@@ -188,7 +188,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasIndex("RigsManufacturingId");
 
-                    b.ToTable("LocationRigsManufacturings");
+                    b.ToTable("LocationRigsManufacturings", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.MarketGroupTree", b =>
@@ -204,7 +204,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MarketGroupTrees");
+                    b.ToTable("MarketGroupTrees", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.ProdAchat", b =>
@@ -253,7 +253,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasIndex("ProdAchatParentId");
 
-                    b.ToTable("ProdAchats");
+                    b.ToTable("ProdAchats", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Recipe", b =>
@@ -277,7 +277,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.RecipeRessource", b =>
@@ -297,7 +297,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("RecipeRessources");
+                    b.ToTable("RecipeRessources", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.RigsManufacturing", b =>
@@ -333,7 +333,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.ToTable("RigsManufacturings");
+                    b.ToTable("RigsManufacturings", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.StructureType", b =>
@@ -352,7 +352,7 @@ namespace Arkenstone.Entities.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.ToTable("StructureTypes");
+                    b.ToTable("StructureTypes", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.SubLocation", b =>
@@ -380,7 +380,7 @@ namespace Arkenstone.Entities.Migrations
                     b.HasIndex(new[] { "LocationId", "Flag", "CorporationId" }, "IX_SubLocations_LocationId")
                         .IsUnique();
 
-                    b.ToTable("SubLocations");
+                    b.ToTable("SubLocations", (string)null);
                 });
 
             modelBuilder.Entity("Arkenstone.Entities.DbSet.Character", b =>

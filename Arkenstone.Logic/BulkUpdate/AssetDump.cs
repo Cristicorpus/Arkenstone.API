@@ -110,6 +110,7 @@ namespace Arkenstone.Logic.Asset
                             {
                                 var temp = await eveEsi.EsiClient.Universe.Station((int)item.LocationId);
                                 newStation.Name = temp.Data.Name;
+                                newStation.StructureTypeId = 2071;
                             }
 
                             context.Locations.Add(newStation);
