@@ -606,7 +606,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=11&Toanalyse=true",
+									"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=22&Toanalyse=true",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -617,7 +617,7 @@
 									"query": [
 										{
 											"key": "SubLocationId",
-											"value": "11"
+											"value": "22"
 										},
 										{
 											"key": "Toanalyse",
@@ -882,10 +882,10 @@
 					]
 				},
 				{
-					"name": "Asset",
+					"name": "Inventory",
 					"item": [
 						{
-							"name": "/api/Asset",
+							"name": "/api/Inventory",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -895,13 +895,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Asset",
+									"raw": "{{baseUrl}}/api/Inventory",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"Asset"
+										"Inventory"
 									]
 								}
 							},
@@ -993,7 +993,7 @@
 							]
 						},
 						{
-							"name": "/api/Asset/Location",
+							"name": "/api/Inventory/Location",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -1003,13 +1003,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Asset/Location",
+									"raw": "{{baseUrl}}/api/Inventory/Location",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"Asset",
+										"Inventory",
 										"Location"
 									],
 									"query": [
@@ -1130,7 +1130,7 @@
 							]
 						},
 						{
-							"name": "/api/Asset/SubLocation",
+							"name": "/api/Inventory/SubLocation",
 							"request": {
 								"method": "GET",
 								"header": [
@@ -1140,13 +1140,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Asset/SubLocation",
+									"raw": "{{baseUrl}}/api/Inventory/SubLocation",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"Asset",
+										"Inventory",
 										"SubLocation"
 									],
 									"query": [
@@ -1272,13 +1272,13 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/api/Asset/Refresh",
+									"raw": "{{baseUrl}}/api/Inventory/Refresh",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"api",
-										"Asset",
+										"Inventory",
 										"Refresh"
 									]
 								}
@@ -1301,7 +1301,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Character",
+									"raw": "{{baseUrl}}/api/Character?id=53608239",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1312,8 +1312,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "53608239",
-											"disabled": true
+											"value": "53608239"
 										},
 										{
 											"key": "name",
@@ -2395,7 +2394,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJqdGkiOiJkNmEzMWE0Ni1kZDkwLTQwNjUtYjk4Ni04NTFlNjljYzU2ZDQiLCJDaGFyYWN0ZXJJZENsYWltS2V5IjoiOTY4NTI2MTMiLCJDaGFyYWN0ZXJOYW1lQ2xhaW1LZXkiOiJmZW9ub3IgZGFsYiIsIkNoYXJhY3RlckNvcnBDbGFpbUtleSI6Ijk4NTcxOTY4IiwiQ2hhcmFjdGVyQWxsaWFuY2VDbGFpbUtleSI6Ijk5MDA4Mjc4IiwiZXhwIjoxNjc5MjcwNDU5LCJpc3MiOiJBcmtlbnN0b25lLlRva2VuLklzc3VlciIsImF1ZCI6IkFya2Vuc3RvbmUuVG9rZW4uSXNzdWVyIn0.C5mtCUX-1DP3dx3NbrQJ1XmnqR-_qfxrYcHlT-NcWWM",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJqdGkiOiI2Yjc5OTBkNS1lOTMwLTQ1MTYtYjhjNy04YjY3ZDNiMzAyZWEiLCJDaGFyYWN0ZXJJZENsYWltS2V5IjoiOTY4NTI2MTMiLCJDaGFyYWN0ZXJOYW1lQ2xhaW1LZXkiOiJmZW9ub3IgZGFsYiIsIkNoYXJhY3RlckNvcnBDbGFpbUtleSI6Ijk4NTcxOTY4IiwiQ2hhcmFjdGVyQWxsaWFuY2VDbGFpbUtleSI6Ijk5MDA4Mjc4IiwiZXhwIjoxNjc5MzUyMDE4LCJpc3MiOiJBcmtlbnN0b25lLlRva2VuLklzc3VlciIsImF1ZCI6IkFya2Vuc3RvbmUuVG9rZW4uSXNzdWVyIn0.3tjH6D2Qa6_P3K-sUfrN0x1qLrnKLAForPwRIQlOk2o",
 				"type": "string"
 			}
 		]
@@ -2422,15 +2421,14 @@
 	],
 	"variable": [
 		{
-			"key": "baseUrl",
+			"key": "memo",
 			"value": "http://arkenstoneapi.cristicorpus.ch",
-			"type": "string"
+			"type": "default"
 		},
 		{
 			"key": "baseUrl",
 			"value": "http://arkenstoneapi.cristicorpus.ch",
-			"type": "default",
-			"disabled": true
+			"type": "default"
 		}
 	]
 }
