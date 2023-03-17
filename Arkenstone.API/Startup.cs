@@ -101,13 +101,29 @@ namespace Arkenstone
 
             services.AddCors(options =>
             {
-                options.AddPolicy(name: PolicyAllOrigin,
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin()
-                                .AllowAnyMethod()
-                                .AllowAnyHeader();
-                    });
+                
+                if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+                {
+                    options.AddPolicy(name: Startup.PolicyAllOrigin,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://arkenstone.cristicorpus.ch",
+                                              "https://arkenstone.cristicorpus.ch")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                      });
+                }
+                else
+                {
+                    options.AddPolicy(name: Startup.PolicyAllOrigin,
+                        policy =>
+                        {
+                            policy.AllowAnyOrigin()
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader();
+                        });
+                }
+
             });
 
             services.AddSwaggerGen();
@@ -152,7 +168,7 @@ namespace Arkenstone
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseCors("AllowAllOrigins");
+            app.UseCors(Startup.PolicyAllOrigin);
 
             app.UseAuthentication();
             app.UseAuthorization();

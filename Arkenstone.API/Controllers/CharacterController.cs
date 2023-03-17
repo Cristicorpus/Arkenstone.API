@@ -76,10 +76,9 @@ namespace Arkenstone.API.Controllers
         /// <returns>A list of characters associated with the current user</returns>
         /// <response code="200">characters retrieved</response>
         /// <response code="401">Unauthorized</response>
-        /// <response code="404">character not found</response>
         [HttpGet("my_characters")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CharacterModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MainCharacterModel>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult GetMyCharacters()
         {
@@ -111,7 +110,7 @@ namespace Arkenstone.API.Controllers
                 return Unauthorized("You are not authorized");
 
             CharacterService characterService = new CharacterService(_context);
-            if(!characterService.GetByMainId(tokenCharacter.CharacterMainId).Any(x => x.Id == mainId))
+            if(!characterService.GetAllCharacterByMainId(tokenCharacter.CharacterMainId).Any(x => x.Id == mainId))
                 return Forbid("You are not authorized to set this character as main");
 
             characterService.UpdateMainId(tokenCharacter.CharacterMainId, mainId);

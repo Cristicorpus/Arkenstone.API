@@ -17,6 +17,10 @@ namespace Arkenstone.API.Services
         {
             _context = context;
         }
+        private IQueryable<Character> GetCore()
+        {
+            return _context.Characters.Include("Corporation").Include("Alliance").Include("CharacterMain");
+        }
 
         /// <summary>
         /// Create and update character by esi login.
@@ -27,7 +31,7 @@ namespace Arkenstone.API.Services
         /// <returns></returns>
         public Character GetAndUpdateByauthorizedCharacterData(AuthorizedCharacterData authorizedCharacterData, SsoToken accessToken)
         {
-            Character characterConnexion = _context.Characters.FirstOrDefault((x) => x.Id == authorizedCharacterData.CharacterID);
+            Character characterConnexion = GetCore().FirstOrDefault((x) => x.Id == authorizedCharacterData.CharacterID);
             if (characterConnexion == null)
             {
                 characterConnexion = new Character();
@@ -53,29 +57,41 @@ namespace Arkenstone.API.Services
         /// <returns></returns>
         public CharacterModel Get(int id)
         {
-            Entities.DbSet.Character character = _context.Characters.Include("Corporation").Include("Alliance").FirstOrDefault(x => x.Id == id);
+            Entities.DbSet.Character character = GetCore().FirstOrDefault(x => x.Id == id);
             if (character == null)
                 return null;
             else
                 return new CharacterModel(character);
         }
         /// <summary>
+        /// Get mainModel character by mainId
+        /// </summary>
+        /// <param name="mainId"></param>
+        /// <returns></returns>
+        public MainCharacterModel GetByMainId(int mainId)
+        {
+            var main = GetCore().FirstOrDefault(x => x.Id == mainId);
+            var returnModel = new MainCharacterModel(main);
+            returnModel.AltCharacter = GetCore().Where(x => x.Id != mainId && x.CharacterMainId == mainId).Select(_Character => new CharacterModel(_Character)).ToList();
+            return returnModel;
+        }
+        /// <summary>
         /// Get all characters with the same main id.
         /// </summary>
         /// <param name="mainId"></param>
         /// <returns></returns>
-        public List<CharacterModel> GetByMainId(int mainId)
+        public List<Character> GetAllCharacterByMainId(int mainId)
         {
-            return _context.Characters.Include("Corporation").Include("Alliance").Where(x => x.CharacterMainId == mainId).Select(_Character => new CharacterModel(_Character)).ToList();
+            return GetCore().Where(x => x.CharacterMainId == mainId).ToList();
         }
-        
+
         /// <summary>        
         /// Get all characters.
         /// </summary>
         /// <returns></returns>
         public List<CharacterModel> GetAll()
         {
-            return _context.Characters.Include("Corporation").Include("Alliance").Select(_Character => new CharacterModel(_Character)).ToList();
+            return GetCore().Select(_Character => new CharacterModel(_Character)).ToList();
         }
         /// <summary>
         /// Get a character by his name. The name is not case sensitive and the space are not important.
@@ -84,7 +100,7 @@ namespace Arkenstone.API.Services
         /// <returns></returns>
         public List<CharacterModel> GetByName(string name)
         {
-            return _context.Characters.Include("Corporation").Include("Alliance").Where(x => x.Name.ToLower().Replace(" ", "") == name.ToLower().Replace(" ", "")).Select(_Character => new CharacterModel(_Character)).ToList();
+            return GetCore().Where(x => x.Name.ToLower().Replace(" ", "") == name.ToLower().Replace(" ", "")).Select(_Character => new CharacterModel(_Character)).ToList();
         }
         
         /// <summary>
@@ -94,7 +110,7 @@ namespace Arkenstone.API.Services
         /// <param name="mainId"></param>
         public async void UpdateMainId(int oldMainId, int mainId)
         {
-            var characters = _context.Characters.Include("Corporation").Include("Alliance").Where(x => x.CharacterMainId == oldMainId);
+            var characters = GetCore().Where(x => x.CharacterMainId == oldMainId);
 
             await characters.ForEachAsync(x => x.CharacterMainId = mainId);
             _context.SaveChanges();

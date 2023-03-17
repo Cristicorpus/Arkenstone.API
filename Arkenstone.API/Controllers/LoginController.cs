@@ -38,8 +38,11 @@ namespace Arkenstone.Controllers
                 response = _eveEsiConnexion.GetUrlConnection();
             else
                 response = _eveEsiConnexion.GetUrlConnection(tokenCharacter.CharacterMainId.ToString());
-            
-            return Redirect(response);
+
+            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "FeoDev")
+                return Ok(response);
+            else
+                return Redirect(response);
         }
 
         [HttpGet("callbackccp")]

@@ -57,7 +57,6 @@
             <returns>A list of characters associated with the current user</returns>
             <response code="200">characters retrieved</response>
             <response code="401">Unauthorized</response>
-            <response code="404">character not found</response>
         </member>
         <member name="M:Arkenstone.API.Controllers.CharacterController.SetMain(System.Int32)">
             <summary>
@@ -166,6 +165,13 @@
             <returns></returns>
         </member>
         <member name="M:Arkenstone.API.Services.CharacterService.GetByMainId(System.Int32)">
+            <summary>
+            Get mainModel character by mainId
+            </summary>
+            <param name="mainId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arkenstone.API.Services.CharacterService.GetAllCharacterByMainId(System.Int32)">
             <summary>
             Get all characters with the same main id.
             </summary>
