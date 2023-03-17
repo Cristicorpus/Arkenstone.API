@@ -113,6 +113,9 @@ namespace Arkenstone
             services.AddSwaggerGen();
             services.AddControllers();
 
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>

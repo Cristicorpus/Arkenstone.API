@@ -64,7 +64,7 @@ namespace Arkenstone.API.Services
                 throw new Exception(StructureId.ToString() + " est une station.");
 
             // Récupérer les lignes de la TextBox
-            string[] lines = CopyPastFit.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] lines = CopyPastFit.Split(new[] { "\r\n" }, StringSplitOptions.None);
 
             if (lines.Count() <= 1)
                 throw new Exception("format de merde refais tout ca");

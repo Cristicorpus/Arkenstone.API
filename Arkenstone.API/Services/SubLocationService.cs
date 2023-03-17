@@ -17,7 +17,7 @@ namespace Arkenstone.API.Services
 
         private IQueryable<SubLocation> RequestSubLoc()
         {
-            return _context.SubLocations;
+            return _context.SubLocations.AsQueryable();
         }
         public SubLocation GetFirstOrDefault(int id)
         {

@@ -11,6 +11,8 @@ using System.Linq;
 
 namespace Arkenstone.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SubLocationController : OriginController
     {
 
