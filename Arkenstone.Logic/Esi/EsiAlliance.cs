@@ -14,6 +14,8 @@ namespace Arkenstone.Logic.EsiEve
         /// <returns></returns>
         public static string GetName(int ID)
         {
+            if (ID == 0)
+                return "Sans alliance";
             return Retry.Do(() =>
             {
                 var eveEsiConnexion = new EveEsiConnexion();
