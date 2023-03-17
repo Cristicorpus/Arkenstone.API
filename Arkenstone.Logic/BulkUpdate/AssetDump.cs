@@ -180,7 +180,7 @@ namespace Arkenstone.Logic.Asset
                     var AssetsWithItemKnow = AssetsValid.Where(x => context.Items.Any(y => y.Id == x.ItemId)).ToList();
                     Logs.ClassLog.writeLog("ReloadItemsFromSpecificCorpAsync( " + corpId + " ) => AssetsWithItemKnow.count()= " + AssetsValid.Count().ToString());
 
-                    context.Database.ExecuteSqlRaw("DELETE Inventorys FROM Inventorys INNER JOIN Sublocations ON Inventorys.SubLocationId = Sublocations.Id WHERE Sublocations.CorporationID = " + corpId.ToString());
+                    context.Database.ExecuteSqlRaw("DELETE Inventorys FROM Inventorys INNER JOIN SubLocations ON Inventorys.SubLocationId = SubLocations.Id WHERE SubLocations.CorporationID = " + corpId.ToString());
                     //on ajoute que les items qu on connais en attendant l update des items par fuzzwork
                     context.Inventorys.AddRange(AssetsWithItemKnow);
                     context.SaveChanges();
