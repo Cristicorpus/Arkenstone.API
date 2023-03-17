@@ -29,36 +29,24 @@ namespace Arkenstone.API.Controllers
         /// <param name="LocationId" example="1041276076345">Location Id</param>
         /// <param name="ItemId" example="24692">item IDd</param>
         /// <response code="200">efficiency</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="404">strcture or item not found</response>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetEfficiencyFromLocation([FromQuery] long LocationId, [FromQuery] int ItemId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
 
-            var structure = _context.Locations.Include("StructureType").FirstOrDefault(x=>x.Id == LocationId);
-            if (structure == null)
-                return NotFound("Structure not found");
-            var item = _context.Items.Find(ItemId);
-            if (item == null)
-                return NotFound("Item not found");
 
             LocationService locationService = new LocationService(_context);
+            var location = locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId);
 
 
-            if (!locationService.ListLocationCorp(tokenCharacter.CorporationId).Any(x=>x.Id== structure.Id))
-                return Forbid("You are not authorized to see this sublocation.");
+            ItemService itemService = new ItemService(_context);
+            var item = itemService.GetFromRecipe(ItemId);
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 
-            return Ok(efficiencyService.GetEfficiencyFromLocation(structure, item));
+            return Ok(efficiencyService.GetEfficiencyFromLocation(location, item));
 
         }
 
@@ -69,29 +57,23 @@ namespace Arkenstone.API.Controllers
         /// </summary>
         /// <param name="ItemId" example="24692">item IDd</param>
         /// <response code="200">efficiency</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="404"> item not found</response>
         [HttpGet("chooseStation")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetBestEfficiency([FromQuery] int ItemId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
 
-            var item = _context.Items.Find(ItemId);
-            if (item == null)
-                return NotFound("Item not found");
+            ItemService itemService = new ItemService(_context);
+            var item = itemService.GetFromRecipe(ItemId);
 
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 
             EfficiencyModel returnModel = null;
-                
-            foreach (var location in _context.Locations.Include("StructureType").Include("SubLocations").Where(x=>x.SubLocations.Any(y=>y.CorporationId== tokenCharacter.CorporationId)))
+
+            LocationService locationService = new LocationService(_context);
+            foreach (var location in locationService.GetList(tokenCharacter.CorporationId))
             {
                 var temp = efficiencyService.GetEfficiencyFromLocation(location, item);
                 if (returnModel ==null || returnModel.MEefficiency > temp.MEefficiency)

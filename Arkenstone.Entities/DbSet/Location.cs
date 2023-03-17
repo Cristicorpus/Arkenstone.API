@@ -22,6 +22,7 @@ namespace Arkenstone.Entities.DbSet
         public decimal Security { get; set; }
         
         public int? StructureTypeId { get; set; }
+        [ForeignKey("StructureTypeId")]
         public virtual StructureType StructureType { get; set; }
 
         public bool CanReact { get; set; }

@@ -20,10 +20,13 @@ namespace Arkenstone.Entities.DbSet
 
 
         public int CorporationId { get; set; }
+        [ForeignKey("CorporationId")]
         public virtual Corporation Corporation { get; set; }
         public int AllianceId { get; set; }
+        [ForeignKey("AllianceId")]
         public virtual Alliance Alliance { get; set; }
         public int CharacterMainId { get; set; }
+        [ForeignKey("CharacterMainId")]
         public virtual Character CharacterMain { get; set; }
     }
 }

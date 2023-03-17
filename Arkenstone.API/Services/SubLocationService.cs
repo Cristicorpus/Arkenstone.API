@@ -1,5 +1,6 @@
 ﻿using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
+using Arkenstone.Logic.BusinessException;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,28 +20,30 @@ namespace Arkenstone.API.Services
         {
             return _context.SubLocations.AsQueryable();
         }
-        public SubLocation GetFirstOrDefault(int id)
+
+        public List<SubLocation> GetList(int corpID)
         {
-            return RequestSubLoc().FirstOrDefault(x => x.Flag != "Office" && x.Id == id);
+            var temp = RequestSubLoc().Where(x => x.Flag != "Office" && x.CorporationId == corpID).ToList();
+            if (temp.Count() == 0)
+                throw new NoContent("SubLocation");
+            return temp;
         }
-        public List<SubLocation> ListSubLocationCorp(int corpID)
+        public List<SubLocation> GetListFromLocation(int corpID,long locationId)
         {
-            return RequestSubLoc().Where(x => x.Flag!="Office" && x.CorporationId == corpID).ToList();
+            var temp = RequestSubLoc().Where(x => x.Flag != "Office"&& x.CorporationId == corpID && x.LocationId == locationId).ToList();
+            if (temp.Count() == 0)
+                throw new NoContent("SubLocation");
+            return temp;
         }
-        public List<SubLocation> GetSubLocationByCorp(int CorpId)
+        public SubLocation Get(long subLocationID)
         {
-            return RequestSubLoc().Where(x => x.Flag != "Office" && x.CorporationId == CorpId).ToList();
-        }
-        public List<SubLocation> GetSubLocationByLocation(int CorpId, long location)
-        {
-            return RequestSubLoc().Where(x => x.Flag != "Office" && x.CorporationId == CorpId && x.LocationId == location).ToList();
-        }
-        public List<SubLocation> GetSubLocationBySubLocationId(int Sublocation)
-        {
-            return RequestSubLoc().Where(x => x.Flag != "Office" && x.Id == Sublocation).ToList();
+            SubLocation temp = RequestSubLoc().FirstOrDefault(x => x.Flag != "Office" && x.Id == subLocationID);
+            if (temp == null)
+                throw new NotFound("SubLocation");
+            return temp;
         }
 
-        public void EditSubLocation(int Sublocation,bool toAnalyse)
+        public void EditSubLocation(long Sublocation,bool toAnalyse)
         {
             _context.SubLocations.First(x=>x.Id ==Sublocation).IsAssetAnalysed = toAnalyse;
             _context.SaveChanges();
@@ -49,5 +52,14 @@ namespace Arkenstone.API.Services
 
 
 
+    }
+    public static class SubLocationExtension
+    {
+        public static SubLocation ThrowNotAuthorized(this SubLocation subLocation, int corpId)
+        {
+            if (subLocation.CorporationId != corpId)
+                throw new NotAuthorized();
+            return subLocation;
+        }
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using EveMiningFleet.API.Models;
+using Arkenstone.Logic.BusinessException;
+using System.Xml.Linq;
 
 namespace Arkenstone.API.Services
 {
@@ -22,13 +24,6 @@ namespace Arkenstone.API.Services
             return _context.Characters.Include("Corporation").Include("Alliance").Include("CharacterMain");
         }
 
-        /// <summary>
-        /// Create and update character by esi login.
-        /// </summary>
-        /// <param name="authorizedCharacterData"></param>
-        /// <param name="accessToken"></param>
-        /// <param name="refreshToken"></param>
-        /// <returns></returns>
         public Character GetAndUpdateByauthorizedCharacterData(AuthorizedCharacterData authorizedCharacterData, SsoToken accessToken)
         {
             Character characterConnexion = GetCore().FirstOrDefault((x) => x.Id == authorizedCharacterData.CharacterID);
@@ -50,64 +45,30 @@ namespace Arkenstone.API.Services
             return characterConnexion;
         }
 
-        /// <summary>
-        /// Get a character by his id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public CharacterModel Get(int id)
+        public Character Get(int id)
         {
             Entities.DbSet.Character character = GetCore().FirstOrDefault(x => x.Id == id);
             if (character == null)
-                return null;
+                throw new NotFound("Character");
             else
-                return new CharacterModel(character);
+                return character;
         }
-        /// <summary>
-        /// Get mainModel character by mainId
-        /// </summary>
-        /// <param name="mainId"></param>
-        /// <returns></returns>
-        public MainCharacterModel GetByMainId(int mainId)
+        public Character GetByName(string name)
         {
-            var main = GetCore().FirstOrDefault(x => x.Id == mainId);
-            var returnModel = new MainCharacterModel(main);
-            returnModel.AltCharacter = GetCore().Where(x => x.Id != mainId && x.CharacterMainId == mainId).Select(_Character => new CharacterModel(_Character)).ToList();
-            return returnModel;
+            Entities.DbSet.Character character = GetCore().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            if (character == null)
+                throw new NotFound("Character");
+            else
+                return character;
         }
-        /// <summary>
-        /// Get all characters with the same main id.
-        /// </summary>
-        /// <param name="mainId"></param>
-        /// <returns></returns>
-        public List<Character> GetAllCharacterByMainId(int mainId)
+        public List<Character> GetListFromMain(int mainId)
         {
-            return GetCore().Where(x => x.CharacterMainId == mainId).ToList();
+            return GetCore().Where(x => x.Id != mainId && x.CharacterMainId == mainId).ToList();
         }
 
-        /// <summary>        
-        /// Get all characters.
-        /// </summary>
-        /// <returns></returns>
-        public List<CharacterModel> GetAll()
-        {
-            return GetCore().Select(_Character => new CharacterModel(_Character)).ToList();
-        }
-        /// <summary>
-        /// Get a character by his name. The name is not case sensitive and the space are not important.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public List<CharacterModel> GetByName(string name)
-        {
-            return GetCore().Where(x => x.Name.ToLower().Replace(" ", "") == name.ToLower().Replace(" ", "")).Select(_Character => new CharacterModel(_Character)).ToList();
-        }
+
         
-        /// <summary>
-        /// Update the main id of all characters with the old main id to the new main id.
-        /// </summary>
-        /// <param name="oldMainId"></param>
-        /// <param name="mainId"></param>
+
         public async void UpdateMainId(int oldMainId, int mainId)
         {
             var characters = GetCore().Where(x => x.CharacterMainId == oldMainId);
@@ -115,11 +76,7 @@ namespace Arkenstone.API.Services
             await characters.ForEachAsync(x => x.CharacterMainId = mainId);
             _context.SaveChanges();
         }
-        /// <summary>
-        /// Set the main id of a character.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="mainID"></param>
+
         public Character SetMain(int id, int mainID)
         {
             Character character = _context.Characters.FirstOrDefault(x => x.Id == id);

@@ -6,7 +6,7 @@ namespace Arkenstone.API.Models
 {
     public class ProdAchatModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Item Item { get; set; }
         public int Quantity { get; set; }
 
