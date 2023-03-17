@@ -15,10 +15,15 @@ namespace Arkenstone.API.Models
         {
             this.Id = target.Id;
             this.Name = target.Name;
-            if (target.StructureTypeId.HasValue)
+            if (target.StructureTypeId.HasValue && target.StructureTypeId.Value != 0)
             {
                 this.structureTypeId = target.StructureType.Id;
                 this.structureTypeName = target.StructureType.Name;
+            }
+            else
+            {
+                this.structureTypeId = 2071;
+                this.structureTypeName = "Station"; 
             }
         }
     }
