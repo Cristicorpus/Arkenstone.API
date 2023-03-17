@@ -1,5 +1,6 @@
 ﻿using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
+using Arkenstone.Logic.BulkUpdate;
 using Arkenstone.Logic.Esi;
 using ESI.NET.Models.Location;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,9 @@ namespace Arkenstone.Logic.Asset
         }
         public static async Task ReloadAllItemsAsync()
         {
+
+            var datebegin = DateTime.Now;
+            Logs.ClassLog.writeLog("ReloadAllItemsAsync => Begin...");
             var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
             var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
             using (ArkenstoneContext context = new ArkenstoneContext(options))
@@ -33,6 +37,7 @@ namespace Arkenstone.Logic.Asset
                     await ReloadItemsFromSpecificCorpAsync(item.Id);
                 }
             }
+            Logs.ClassLog.writeLog("ReloadAllItemsAsync => " + DateTime.Now.Subtract(datebegin).ToString() + " Secondes");
 
         }
 
@@ -41,13 +46,13 @@ namespace Arkenstone.Logic.Asset
             var eveEsi = new EveEsiConnexion();
 
 
+            Logs.ClassLog.writeLog("ReloadItemsFromSpecificCorpAsync( "+ corpId + " ) => Begin...");
             try
             {
                 var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
                 var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
                 using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
-                    int coorporationId = 0;
                     //recuperation de tout les asset en HARD ESI
                     var AllCoorpoAsset = new List<ESI.NET.Models.Assets.Item>();
                     foreach (var item in context.Characters.Where(x => x.CorporationId == corpId))
@@ -77,7 +82,8 @@ namespace Arkenstone.Logic.Asset
                     if (AllCoorpoAsset.Count <= 0)
                         return;
 
-                    coorporationId = eveEsi.authorizedCharacterData.CorporationID;
+                    Logs.ClassLog.writeLog("ReloadItemsFromSpecificCorpAsync( " + corpId + " ) => Use "+ eveEsi.authorizedCharacterData.CharacterName +" for refresh");
+                    Logs.ClassLog.writeLog("ReloadItemsFromSpecificCorpAsync( " + corpId + " ) => AllCoorpoAsset.count()= " + AllCoorpoAsset.Count().ToString());
 
                     //recuperation des bureau dans les stations
                     List<ESI.NET.Models.Assets.Item> AllCoorpoAssetOffice = AllCoorpoAsset.Where(x => x.TypeId == 27).ToList();
@@ -112,7 +118,7 @@ namespace Arkenstone.Logic.Asset
 
                         if (context.SubLocations.FirstOrDefault(x => x.LocationId == item.LocationId && x.Flag == "Office") == null)
                         {
-                            var newSubStation = new SubLocation() { LocationId = item.LocationId, Flag = "Office", IsAssetAnalysed = false, CorporationId = coorporationId };
+                            var newSubStation = new SubLocation() { LocationId = item.LocationId, Flag = "Office", IsAssetAnalysed = false, CorporationId = corpId };
                             context.SubLocations.Add(newSubStation);
                             context.SaveChanges();
                         }
@@ -127,14 +133,14 @@ namespace Arkenstone.Logic.Asset
                             var hangar = context.SubLocations.FirstOrDefault(x => x.LocationId == office.LocationId && x.Flag == item.LocationFlag);
                             if (hangar == null)
                             {
-                                context.SubLocations.Add(new SubLocation() { LocationId = office.LocationId, Flag = item.LocationFlag, CorporationId = coorporationId, IsAssetAnalysed = false });
+                                context.SubLocations.Add(new SubLocation() { LocationId = office.LocationId, Flag = item.LocationFlag, CorporationId = corpId, IsAssetAnalysed = false });
                                 context.SaveChanges();
                             }
                         }
                     }
 
                     // analyse reel des asset pour integration a la DB
-                    List<Inventory> Assets = new List<Inventory>();
+                    List<Inventory> AssetsValid = new List<Inventory>();
                     foreach (var itemHangar in AllCoorpoAssetHangar)
                     {
                         var office = AllCoorpoAssetOffice.FirstOrDefault(x => x.ItemId == itemHangar.LocationId);
@@ -146,21 +152,21 @@ namespace Arkenstone.Logic.Asset
                             {
                                 if (subLocationDb.Id == 10)
                                     Debug.WriteLine("ewqq");
-                                var assetHanger = Assets.FirstOrDefault(x => x.ItemId == itemHangar.TypeId && x.SubLocationId == subLocationDb.Id);
+                                var assetHanger = AssetsValid.FirstOrDefault(x => x.ItemId == itemHangar.TypeId && x.SubLocationId == subLocationDb.Id);
                                 if (assetHanger == null)
                                 {
                                     assetHanger = new Inventory() { ItemId = itemHangar.TypeId, SubLocationId = subLocationDb.Id };
-                                    Assets.Add(assetHanger);
+                                    AssetsValid.Add(assetHanger);
                                 }
                                 assetHanger.Quantity += itemHangar.Quantity;
 
                                 foreach (var itemContainer in AllCoorpoAsset.Where(x => x.LocationId == itemHangar.ItemId))
                                 {
-                                    var assetContainer = Assets.FirstOrDefault(x => x.ItemId == itemContainer.TypeId && x.SubLocationId == subLocationDb.Id);
+                                    var assetContainer = AssetsValid.FirstOrDefault(x => x.ItemId == itemContainer.TypeId && x.SubLocationId == subLocationDb.Id);
                                     if (assetContainer == null)
                                     {
                                         assetContainer = new Inventory() { ItemId = itemContainer.TypeId, SubLocationId = subLocationDb.Id };
-                                        Assets.Add(assetContainer);
+                                        AssetsValid.Add(assetContainer);
                                     }
                                     assetContainer.Quantity += itemContainer.Quantity;
                                 }
@@ -169,10 +175,12 @@ namespace Arkenstone.Logic.Asset
 
                     }
 
-                    var AssetsWithItemKnow = Assets.Where(x => context.Items.Any(y => y.Id == x.ItemId)).ToList();
 
+                    Logs.ClassLog.writeLog("ReloadItemsFromSpecificCorpAsync( " + corpId + " ) => AssetsValid.count()= " + AssetsValid.Count().ToString());
+                    var AssetsWithItemKnow = AssetsValid.Where(x => context.Items.Any(y => y.Id == x.ItemId)).ToList();
+                    Logs.ClassLog.writeLog("ReloadItemsFromSpecificCorpAsync( " + corpId + " ) => AssetsWithItemKnow.count()= " + AssetsValid.Count().ToString());
 
-                    context.Database.ExecuteSqlRaw("DELETE Inventorys FROM Inventorys INNER JOIN Sublocations ON Inventorys.SubLocationId = Sublocations.Id WHERE Sublocations.CorporationID = " + coorporationId.ToString());
+                    context.Database.ExecuteSqlRaw("DELETE Inventorys FROM Inventorys INNER JOIN Sublocations ON Inventorys.SubLocationId = Sublocations.Id WHERE Sublocations.CorporationID = " + corpId.ToString());
                     //on ajoute que les items qu on connais en attendant l update des items par fuzzwork
                     context.Inventorys.AddRange(AssetsWithItemKnow);
                     context.SaveChanges();
@@ -180,7 +188,8 @@ namespace Arkenstone.Logic.Asset
             }
             catch (Exception ex)
             {
-
+                Logs.ClassLog.writeLog("ReloadItemsFromSpecificCorpAsync( " + corpId + " ) => Error= ");
+                Logs.ClassLog.writeException(ex);
             }
 
         }
