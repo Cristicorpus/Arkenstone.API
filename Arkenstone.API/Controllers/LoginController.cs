@@ -30,7 +30,16 @@ namespace Arkenstone.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         public IActionResult geturllogin()
         {
-            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            Entities.DbSet.Character tokenCharacter = null;
+            try
+            {
+                tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            }
+            catch (Exception )
+            {
+                tokenCharacter = null;
+            }
+
             var _eveEsiConnexion = new EveEsiConnexion();
             string response;
 
