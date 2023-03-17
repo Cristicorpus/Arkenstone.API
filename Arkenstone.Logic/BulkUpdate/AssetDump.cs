@@ -150,8 +150,6 @@ namespace Arkenstone.Logic.Asset
 
                             if (subLocationDb != null && subLocationDb.IsAssetAnalysed)
                             {
-                                if (subLocationDb.Id == 10)
-                                    Debug.WriteLine("ewqq");
                                 var assetHanger = AssetsValid.FirstOrDefault(x => x.ItemId == itemHangar.TypeId && x.SubLocationId == subLocationDb.Id);
                                 if (assetHanger == null)
                                 {

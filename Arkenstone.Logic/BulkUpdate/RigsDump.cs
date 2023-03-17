@@ -122,8 +122,7 @@ namespace Arkenstone.Logic.BulkUpdate
                         context.RigsManufacturings.Add(
                            new RigsManufacturing()
                            {
-                               Id = item.typeID,
-                               Name = "",
+                               ItemId = item.typeID,
                                MarketIdEffect = item.GroupMarketIdEffect,
                                MarketIdNotEffect = item.GroupMarketIdNotEffect
                            });
@@ -151,7 +150,7 @@ namespace Arkenstone.Logic.BulkUpdate
             {
                 foreach (var item in context.RigsManufacturings)
                 {
-                    var RigsItems = await eveEsi.EsiClient.Universe.Type(item.Id);
+                    var RigsItems = await eveEsi.EsiClient.Universe.Type(item.ItemId);
 
 
                     var MaterialEffect = RigsItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2594);
@@ -162,8 +161,6 @@ namespace Arkenstone.Logic.BulkUpdate
                     var MultiplierLS = RigsItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2356);
                     var MultiplierNS = RigsItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2357);
                     var MultiplierValid = RigsItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2358);
-
-                    item.Name = RigsItems.Data.Name;
 
                     item.MaterialEffect = MaterialEffect != null ? (decimal)MaterialEffect.Value : 0;
                     item.TimeEffect = TimeEffect != null ? (decimal)TimeEffect.Value : 0;

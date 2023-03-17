@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using Microsoft.Extensions.Options;
+using Arkenstone.API.MiddleWare;
 
 namespace Arkenstone
 {
@@ -37,23 +38,23 @@ namespace Arkenstone
 
             Arkenstone.Logic.Logs.ClassLog.writeLog(nameof(Startup) + "-" + nameof(ConfigureServices) + " => " + "BOOTING....");
 
-            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("sessiondataprotection/"));
+            //services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo("sessiondataprotection/"));
 
-            services.AddDistributedMySqlCache(options =>
-            {
-                options.ConnectionString = System.Environment.GetEnvironmentVariable("DB_SESSION_connectionstring");
-                options.TableName = "webusersessions";
-                options.SchemaName = "eveminingfleetsession";
-            });
+            //services.AddDistributedMySqlCache(options =>
+            //{
+            //    options.ConnectionString = System.Environment.GetEnvironmentVariable("DB_SESSION_connectionstring");
+            //    options.TableName = "webusersessions";
+            //    options.SchemaName = "arkenstonesession";
+            //});
 
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromDays(7);
-                options.IOTimeout = TimeSpan.FromDays(7);
-                options.Cookie.IsEssential = true;
-                options.Cookie.HttpOnly = true;
-                options.Cookie.MaxAge = TimeSpan.FromDays(7);
-            });
+            //services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromDays(7);
+            //    options.IOTimeout = TimeSpan.FromDays(7);
+            //    options.Cookie.IsEssential = true;
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.MaxAge = TimeSpan.FromDays(7);
+            //});
 
             var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
             services.AddDbContext<ArkenstoneContext>(
@@ -61,6 +62,7 @@ namespace Arkenstone
                     .UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString), opts => opts.EnableRetryOnFailure(3).CommandTimeout((int)TimeSpan.FromSeconds(30).TotalSeconds))
                     );
 
+            services.AddScoped<ExceptionMiddleware>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
@@ -151,11 +153,7 @@ namespace Arkenstone
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -18,6 +18,7 @@ namespace Arkenstone.Entities.DbSet
         public int Id { get; set; }
         public TypeRecipeEnum Type { get; set; }
         public int ItemId { get; set; }
+        [ForeignKey("ItemId")]
         public virtual Item Item { get; set; }
         public int Quantity { get; set; }
         public int Time { get; set; }

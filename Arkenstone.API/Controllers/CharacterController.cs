@@ -11,6 +11,7 @@ using EveMiningFleet.API.Models;
 using Arkenstone.Entities.DbSet;
 using Arkenstone.Entities;
 using Arkenstone.API.Services;
+using Arkenstone.Logic.BusinessException;
 
 namespace Arkenstone.API.Controllers
 {
@@ -28,46 +29,25 @@ namespace Arkenstone.API.Controllers
         /// </summary>
         /// <remarks>only ONE PARAMETER!</remarks>
         /// <param name="id" example="96852613">get the character by id,</param>
-        /// <param name="mainid" example="96852613">get all character by main id</param>
-        /// <param name="name" example="feonordalb">get the character by name.Withoutspace</param>
+        /// <param name="name" example="feonor dalb">get the character by name.Withoutspace</param>
         /// <response code="200">character retrieved</response>
-        /// <response code="204">No character in database</response>
-        /// <response code="400">only ONE PARAMETER!</response>
-        /// <response code="404">character not found</response>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CharacterModel>))]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CharacterModel))]
         public IActionResult Get([FromQuery]int? id = null, [FromQuery] string name = null)
         {
             //get all
             if (!id.HasValue && name == null)
-                return BadRequest("At least one parameter");
+                throw new ParameterException("id,name");
             if (id.HasValue && name != null)
-                return BadRequest("At least one parameter");
+                throw new ParameterException("id,name");
 
             CharacterService characterService = new CharacterService(_context);
-            //get from id
-            if (id.HasValue && name == null)
-            {
-                var _Character = characterService.Get(id.Value);
-                if (_Character != null)
-                    return Ok(_Character);
-                else
-                    return NotFound();
-            }
-            else
-            {
-                var allCharacter = characterService.GetByName(name);
-                if (allCharacter.Count() > 0)
-                    return Ok(allCharacter);
-                else
-                    return NotFound();
-            }
-            
-            return BadRequest("Just one parameter at same time");
 
+            if (id.HasValue && name == null)
+                return Ok(new CharacterModel(characterService.Get(id.Value)));
+            else
+                return Ok(new CharacterModel(characterService.GetByName(name)));
+            
         }
 
         /// <summary>
@@ -75,19 +55,18 @@ namespace Arkenstone.API.Controllers
         /// </summary>
         /// <returns>A list of characters associated with the current user</returns>
         /// <response code="200">characters retrieved</response>
-        /// <response code="401">Unauthorized</response>
         [HttpGet("my_characters")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MainCharacterModel>))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MainCharacterModel))]
+
         public IActionResult GetMyCharacters()
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
-
             CharacterService characterService = new CharacterService(_context);
-            return Ok(characterService.GetByMainId(tokenCharacter.CharacterMainId));
+
+            var returnValue = new MainCharacterModel(characterService.Get(tokenCharacter.CharacterMainId));
+            returnValue.AltCharacter = characterService.GetListFromMain(tokenCharacter.CharacterMainId).Select(x => new CharacterModel(x)).ToList();
+            return Ok(returnValue);
         }
 
         /// <summary>
@@ -95,30 +74,20 @@ namespace Arkenstone.API.Controllers
         /// </summary>
         /// <param name="id" example="5">new main Id</param>
         /// <response code="200">new token</response>
-        /// <response code="401">Unauthorized</response>
         [Route("SetMain")]
         [HttpPatch]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult SetMain([FromQuery] int mainId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
 
             CharacterService characterService = new CharacterService(_context);
-            if(!characterService.GetAllCharacterByMainId(tokenCharacter.CharacterMainId).Any(x => x.Id == mainId))
-                return Forbid("You are not authorized to set this character as main");
+            if (!characterService.GetListFromMain(tokenCharacter.CharacterMainId).Any(x => x.Id == mainId))
+                throw new NotAuthorized();
 
             characterService.UpdateMainId(tokenCharacter.CharacterMainId, mainId);
-
-
-            var characterDb = _context.Characters.Find(mainId);
-
-            return Ok(TokenService.Createtoken(characterDb));
+            return Ok(TokenService.Createtoken(characterService.Get(mainId)));
         }
 
     }

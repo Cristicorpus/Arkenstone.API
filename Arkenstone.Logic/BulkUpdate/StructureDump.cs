@@ -120,8 +120,7 @@ namespace Arkenstone.Logic.BulkUpdate
                         context.StructureTypes.Add(
                             new StructureType()
                             {
-                                Id = item.typeID,
-                                Name = ""
+                                ItemId = item.typeID
                             });
                     }
                     catch (Exception ex)
@@ -147,15 +146,12 @@ namespace Arkenstone.Logic.BulkUpdate
             {
                 foreach (var item in context.StructureTypes)
                 {
-                    var StructureItems = await eveEsi.EsiClient.Universe.Type(item.Id);
+                    var StructureItems = await eveEsi.EsiClient.Universe.Type(item.ItemId);
 
 
                     var MaterialEffect = StructureItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2600);
                     var TimeEffect = StructureItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2602);
                     var CostEffect = StructureItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2601);
-                    
-
-                    item.Name = StructureItems.Data.Name;
 
                     item.MaterialEffect = MaterialEffect != null ? (decimal)MaterialEffect.Value : 0;
                     item.TimeEffect = TimeEffect != null ? (decimal)TimeEffect.Value : 0;

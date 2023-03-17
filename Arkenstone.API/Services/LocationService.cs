@@ -6,6 +6,8 @@ using System.Linq;
 using System;
 using Arkenstone.API.Models;
 using EveMiningFleet.API.Models;
+using Arkenstone.Logic.BusinessException;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Arkenstone.API.Services
 {
@@ -19,55 +21,41 @@ namespace Arkenstone.API.Services
         }
         private IQueryable<Location> RequestLocAndSubLoc()
         {
-            return _context.Locations.Include("SubLocations");
+            return _context.Locations.Include("StructureType.Item").Include("SubLocations");
         }
+
         private IQueryable<Location> RequestLocFit()
         {
-            return _context.Locations.Include("LocationRigsManufacturings.RigsManufacturing").Include("StructureType");
+            return RequestLocAndSubLoc().Include("LocationRigsManufacturings.RigsManufacturing");
         }
 
-        public List<Location> ListLocationCorp(int corpID)
+        public List<Location> GetList(int corpID)
         {
-            return RequestLocAndSubLoc().Where(x => x.SubLocations.Any(y => y.CorporationId == corpID)).ToList();
+            var temp = RequestLocFit().Where(x => x.SubLocations.Any(y => y.CorporationId == corpID)).ToList();
+            if (temp.Count() == 0)
+                throw new NoContent("Location");
+            return temp;
         }
-        public List<LocationModel> GetBasicModel(long? LocationId)
+        public Location Get(long LocationID)
         {
-            return GetStructure(LocationId).Select(x => new LocationModel(x)).ToList();
+            Location temp = RequestLocFit().FirstOrDefault(x => x.Id == LocationID);
+            if (temp == null)
+                throw new NotFound("Location");
+            return temp;
         }
-        public List<LocationModelDetails> GetDetailledModel(long? LocationId)
+
+
+        public void SetFitToStructure(Location location, string CopyPastFit)
         {
-            return GetStructure(LocationId).Select(x => new LocationModelDetails(x)).ToList();
-        }
-        private List<Location> GetStructure(long? LocationId)
-        {
-            if (LocationId == null)
-                return RequestLocFit().ToList();
-            else
-            {
-                List<Location> returnvalue = new List<Location>();
-                var targetStructure = RequestLocFit().FirstOrDefault(x => x.Id == LocationId.Value);
-                if (targetStructure != null)
-                    returnvalue.Add(targetStructure);
-                return returnvalue;
-            }
+            if (location.Id < 1000000000)
+                throw new BadRequestException(location.ToString() + " isn t an struture, is an station.");
 
-        }
-        
-        public void SetFitToStructure(long StructureId, string CopyPastFit)
-        {
-
-            var structure = _context.Locations.Find(StructureId);
-            if (structure == null)
-                throw new Exception("La structure " + StructureId.ToString() + " n'existe pas");
-
-            if (structure.Id < 1000000000)
-                throw new Exception(StructureId.ToString() + " est une station.");
-
+            
             // Récupérer les lignes de la TextBox
             string[] lines = CopyPastFit.Split(new[] { "\r\n" }, StringSplitOptions.None);
 
             if (lines.Count() <= 1)
-                throw new Exception("format de merde refais tout ca");
+                throw new BadRequestException("format de merde refais tout ca");
 
 
             // Parcourir chaque ligne pour recuperer les item(text) et leur quantité
@@ -112,33 +100,41 @@ namespace Arkenstone.API.Services
             {
                 var item = _context.Items.FirstOrDefault(x => x.Name.Trim().Replace(" ", "%20") == keypair.Key.Trim().Replace(" ", "%20"));
                 if (item == null)
-                    throw new Exception(keypair.Key + " item inconnu");
+                    throw new BadRequestException(keypair.Key + " item inconnu");
                 else
                 {
                     if (!Fit.TryAdd(item, 1))
                         Fit[item] = Fit[item] + 1;
                 }
             }
-            
+
             List<int> fitedRigsManufacturing = new List<int>();
-            List<int> AllRigsManufacturing = _context.RigsManufacturings.Select(x => x.Id).ToList();
+            List<int> AllRigsManufacturing = _context.RigsManufacturings.Select(x => x.ItemId).ToList();
             foreach (var keypair in Fit.Where(x => AllRigsManufacturing.Contains(x.Key.Id)))
             {
                 fitedRigsManufacturing.Add(keypair.Key.Id);
             }
-            _context.LocationRigsManufacturings.Where(x => x.LocationId == structure.Id).ToList().ForEach(x => _context.LocationRigsManufacturings.Remove(x));
+            _context.LocationRigsManufacturings.Where(x => x.LocationId == location.Id).ToList().ForEach(x => _context.LocationRigsManufacturings.Remove(x));
 
             foreach (var rig in fitedRigsManufacturing)
             {
-                _context.LocationRigsManufacturings.Add(new LocationRigsManufacturing() { LocationId = structure.Id, RigsManufacturingId = rig });
+                _context.LocationRigsManufacturings.Add(new LocationRigsManufacturing() { LocationId = location.Id, RigsManufacturingId = rig });
             }
             _context.SaveChanges();
 
 
         }
 
-
-
-
     }
+
+    public static class LocationExtension
+    {
+        public static Location ThrowNotAuthorized(this Location location,int corpId)
+        {
+            if (!location.SubLocations.Any(x => x.CorporationId == corpId))
+                throw new NotAuthorized();
+            return location;
+        }
+    }
+
 }

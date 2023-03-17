@@ -22,6 +22,10 @@ namespace Arkenstone.Controllers
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ProdAchatId" example="1">ProdAchat Id</param>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<ProdAchatModel>))]
@@ -30,7 +34,23 @@ namespace Arkenstone.Controllers
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
             if (tokenCharacter == null)
                 return Unauthorized("You are not authorized");
-            
+
+            ProdAchat prodachat;
+            if (ProdAchatId.HasValue)
+            {
+                prodachat = _context.ProdAchats.Find(ProdAchatId);
+                if (prodachat==null)
+                    return NotFound();
+
+                if (prodachat.CorporationId != tokenCharacter.CorporationId)
+                    return Forbid();
+            }
+
+            ProdAchatService prodAchatService = new ProdAchatService(_context);
+
+
+
+
             List<ProdAchatModel> returnModel = new List<ProdAchatModel>();
 
             if (ProdAchatId == null)
@@ -54,7 +74,6 @@ namespace Arkenstone.Controllers
         [HttpPut]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProdAchatModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult CreateProdAchat([FromBody] ProdAchatModel ProdAchatModel)
         {
 
