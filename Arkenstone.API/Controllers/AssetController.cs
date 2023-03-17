@@ -50,6 +50,7 @@ namespace Arkenstone.API.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetStationModel>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetStructure([FromQuery] long? LocationId)
         {
@@ -63,7 +64,7 @@ namespace Arkenstone.API.Controllers
                 if (structure == null)
                     return NotFound("structure " + LocationId.ToString() + " not recognized");
                 if (!structure.SubLocations.Any(x=>x.CorporationId == tokenCharacter.CorporationId))
-                    return Unauthorized("You are not authorized to see this structure asset. you dont have any office in.");
+                    return Forbid("You are not authorized to see this structure asset. you dont have any office in.");
             }
 
             AssetService assetService = new AssetService(_context);
@@ -97,6 +98,7 @@ namespace Arkenstone.API.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetSubLocationModel>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetSubLocation([FromQuery] int? SublocationId)
         {
@@ -110,7 +112,7 @@ namespace Arkenstone.API.Controllers
                 if (structure == null)
                     return NotFound();
                 if (structure.CorporationId != tokenCharacter.CorporationId)
-                    return Unauthorized("You are not authorized to see this sublocation asset.");
+                    return Forbid("You are not authorized to see this sublocation asset.");
             }
 
             AssetService assetService = new AssetService(_context);

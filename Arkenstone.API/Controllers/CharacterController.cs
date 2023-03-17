@@ -102,6 +102,7 @@ namespace Arkenstone.API.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult SetMain([FromQuery] int mainId)
         {
@@ -111,7 +112,7 @@ namespace Arkenstone.API.Controllers
 
             CharacterService characterService = new CharacterService(_context);
             if(!characterService.GetByMainId(tokenCharacter.CharacterMainId).Any(x => x.Id == mainId))
-                return BadRequest("You are not authorized to set this character as main");
+                return Forbid("You are not authorized to set this character as main");
 
             characterService.UpdateMainId(tokenCharacter.CharacterMainId, mainId);
 

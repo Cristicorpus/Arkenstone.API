@@ -32,6 +32,7 @@ namespace Arkenstone.API.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<SubLocation>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get([FromQuery] int? SubLocationId)
         {
@@ -47,7 +48,7 @@ namespace Arkenstone.API.Controllers
                 if (subLocation == null)
                     return NotFound();
                 if (subLocation.CorporationId != tokenCharacter.CorporationId)
-                    return Unauthorized("You are not authorized to see this sublocation.");
+                    return Forbid("You are not authorized to see this sublocation.");
                 return Ok(subLocationServiceService.GetSubLocationBySubLocationId(SubLocationId.Value));
             }
             return Ok(subLocationServiceService.GetSubLocationByCorp(tokenCharacter.CorporationId));
@@ -98,6 +99,7 @@ namespace Arkenstone.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Edit([FromQuery] int SubLocationId, [FromQuery] bool Toanalyse)
         {
@@ -111,7 +113,7 @@ namespace Arkenstone.API.Controllers
             if (subLocation == null)
                 return NotFound();
             if (subLocation.CorporationId != tokenCharacter.CorporationId)
-                return Unauthorized("You are not authorized to see this sublocation.");
+                return Forbid("You are not authorized to see this sublocation.");
             
             subLocationServiceService.EditSubLocation(SubLocationId, Toanalyse);
             return Ok();

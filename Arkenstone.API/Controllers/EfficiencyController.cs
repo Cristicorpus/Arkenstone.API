@@ -3,6 +3,7 @@ using Arkenstone.API.Services;
 using Arkenstone.Controllers;
 using Arkenstone.Entities;
 using Arkenstone.Logic.Efficiency;
+using ESI.NET.Enumerations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,7 @@ namespace Arkenstone.API.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetEfficiencyFromLocation([FromQuery] long LocationId, [FromQuery] int ItemId)
         {
@@ -47,6 +49,12 @@ namespace Arkenstone.API.Controllers
             var item = _context.Items.Find(ItemId);
             if (item == null)
                 return NotFound("Item not found");
+
+            LocationService locationService = new LocationService(_context);
+
+
+            if (!locationService.ListLocationCorp(tokenCharacter.CorporationId).Any(x=>x.Id== structure.Id))
+                return Forbid("You are not authorized to see this sublocation.");
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 

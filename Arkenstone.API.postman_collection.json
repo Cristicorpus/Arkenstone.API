@@ -473,7 +473,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=11",
+									"raw": "{{baseUrl}}/api/SubLocation",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -484,7 +484,8 @@
 									"query": [
 										{
 											"key": "SubLocationId",
-											"value": "11"
+											"value": "11",
+											"disabled": true
 										}
 									]
 								}
@@ -753,7 +754,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/SubLocation/Location?LocationId=0",
+									"raw": "{{baseUrl}}/api/SubLocation/Location?LocationId=1041276076345",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -765,7 +766,7 @@
 									"query": [
 										{
 											"key": "LocationId",
-											"value": "0"
+											"value": "1041276076345"
 										}
 									]
 								}
@@ -1002,7 +1003,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Asset/Location?LocationId=-59271892",
+									"raw": "{{baseUrl}}/api/Asset/Location",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1014,7 +1015,8 @@
 									"query": [
 										{
 											"key": "LocationId",
-											"value": "-59271892"
+											"value": "-59271892",
+											"disabled": true
 										}
 									]
 								}
@@ -1138,7 +1140,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Asset/SubLocation?LocationId=11",
+									"raw": "{{baseUrl}}/api/Asset/SubLocation",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1150,7 +1152,8 @@
 									"query": [
 										{
 											"key": "LocationId",
-											"value": "11"
+											"value": "11",
+											"disabled": true
 										}
 									]
 								}
@@ -2278,7 +2281,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/Login/callbackccp?code=_HzLazZXKkSLeZb9tEK8lg",
+							"raw": "{{baseUrl}}/Login/callbackccp?code=WLgpbK3W1UmPu50OeeZuWQ&state=0",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2289,12 +2292,11 @@
 							"query": [
 								{
 									"key": "code",
-									"value": "_HzLazZXKkSLeZb9tEK8lg"
+									"value": "WLgpbK3W1UmPu50OeeZuWQ"
 								},
 								{
 									"key": "state",
-									"value": "culpa veniam ipsum ad",
-									"disabled": true
+									"value": "0"
 								}
 							]
 						}
@@ -2393,7 +2395,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJqdGkiOiJlMmVkMzQzZS1mYjUyLTRmYWItOTBhYi0wMTNmNjQ0NmQ5NTgiLCJDaGFyYWN0ZXJJZENsYWltS2V5IjoiOTY4NTI2MTMiLCJDaGFyYWN0ZXJOYW1lQ2xhaW1LZXkiOiJmZW9ub3IgZGFsYiIsIkNoYXJhY3RlckNvcnBDbGFpbUtleSI6Ijk4NTcxOTY4IiwiQ2hhcmFjdGVyQWxsaWFuY2VDbGFpbUtleSI6Ijk5MDA4Mjc4IiwiZXhwIjoxNjc5MTk5OTYzLCJpc3MiOiJBcmtlbnN0b25lLlRva2VuLklzc3VlciIsImF1ZCI6IkFya2Vuc3RvbmUuVG9rZW4uSXNzdWVyIn0.ZIpGQ6x9stvZ_xpC6HSb_YvrTUmcKTVBiJkQiCa6t2w",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIiLCJqdGkiOiJkNmEzMWE0Ni1kZDkwLTQwNjUtYjk4Ni04NTFlNjljYzU2ZDQiLCJDaGFyYWN0ZXJJZENsYWltS2V5IjoiOTY4NTI2MTMiLCJDaGFyYWN0ZXJOYW1lQ2xhaW1LZXkiOiJmZW9ub3IgZGFsYiIsIkNoYXJhY3RlckNvcnBDbGFpbUtleSI6Ijk4NTcxOTY4IiwiQ2hhcmFjdGVyQWxsaWFuY2VDbGFpbUtleSI6Ijk5MDA4Mjc4IiwiZXhwIjoxNjc5MjcwNDU5LCJpc3MiOiJBcmtlbnN0b25lLlRva2VuLklzc3VlciIsImF1ZCI6IkFya2Vuc3RvbmUuVG9rZW4uSXNzdWVyIn0.C5mtCUX-1DP3dx3NbrQJ1XmnqR-_qfxrYcHlT-NcWWM",
 				"type": "string"
 			}
 		]
@@ -2423,6 +2425,12 @@
 			"key": "baseUrl",
 			"value": "http://arkenstoneapi.cristicorpus.ch",
 			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "http://arkenstoneapi.cristicorpus.ch",
+			"type": "default",
+			"disabled": true
 		}
 	]
 }
