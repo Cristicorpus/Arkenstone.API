@@ -8,8 +8,7 @@ namespace Arkenstone.API.Models
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public int structureTypeId { get; set; }
-        public string structureTypeName { get; set; }
+        public ItemModel structureType { get; set; }
 
         public LocationModel(Location target)
         {
@@ -17,13 +16,13 @@ namespace Arkenstone.API.Models
             this.Name = target.Name;
             if (target.StructureTypeId.HasValue && target.StructureTypeId.Value != 0)
             {
-                this.structureTypeId = target.StructureType.Id;
-                this.structureTypeName = target.StructureType.Name;
+                this.structureType = new ItemModel(target.StructureType.Item);
             }
             else
             {
-                this.structureTypeId = 2071;
-                this.structureTypeName = "Station"; 
+                this.structureType = new ItemModel();
+                this.structureType.Id = 2071;
+                this.structureType.Name = "Station"; 
             }
         }
     }

@@ -13,9 +13,10 @@ namespace Arkenstone.Entities.DbSet
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
-        
-        public string Name { get; set; }
+        public int ItemId { get; set; }
+        [ForeignKey("ItemId")]
+        public virtual Item Item { get; set; }
+
         public decimal CostEffect { get; set; } = 0;
         public decimal TimeEffect { get; set; } = 0;
         public decimal MaterialEffect { get; set; } = 0;
