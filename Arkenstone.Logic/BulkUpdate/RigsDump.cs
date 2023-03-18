@@ -116,26 +116,21 @@ namespace Arkenstone.Logic.BulkUpdate
                 //MAJ item
                 foreach (var item in RigsManufacturingCsvrecords)
                 {
-                    try
+                    var itemDb = context.RigsManufacturings.FirstOrDefault(x => x.ItemId == item.typeID);
+                    if (itemDb == null)
                     {
-
-                        context.RigsManufacturings.Add(
-                           new RigsManufacturing()
-                           {
-                               ItemId = item.typeID,
-                               MarketIdEffect = item.GroupMarketIdEffect,
-                               MarketIdNotEffect = item.GroupMarketIdNotEffect
-                           });
+                        itemDb = new RigsManufacturing()
+                        {
+                            ItemId = item.typeID,
+                        };
+                        context.RigsManufacturings.Add(itemDb);
                     }
-                    catch (Exception ex)
-                    {
-
-                    }
+                    itemDb.MarketIdEffect = item.GroupMarketIdEffect;
+                    itemDb.MarketIdNotEffect = item.GroupMarketIdNotEffect;
                 }
                 context.SaveChanges();
 
                 RigsManufacturingCsvrecords = null;
-
             }
         }
         

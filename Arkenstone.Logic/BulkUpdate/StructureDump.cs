@@ -114,18 +114,14 @@ namespace Arkenstone.Logic.BulkUpdate
                 //MAJ item
                 foreach (var item in StructureTypesCsvrecords)
                 {
-                    try
+                    var itemDb = context.StructureTypes.FirstOrDefault(x => x.ItemId == item.typeID);
+                    if (itemDb == null)
                     {
-
-                        context.StructureTypes.Add(
-                            new StructureType()
-                            {
-                                ItemId = item.typeID
-                            });
-                    }
-                    catch (Exception ex)
-                    {
-
+                        itemDb = new StructureType()
+                        {
+                            ItemId = item.typeID
+                        };
+                        context.StructureTypes.Add(itemDb);
                     }
                 }
                 context.SaveChanges();

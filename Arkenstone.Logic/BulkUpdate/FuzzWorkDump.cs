@@ -145,7 +145,7 @@ namespace Arkenstone.Logic.BulkUpdate
                     if (itemDb == null)
                     {
                         itemDb = new Item() { Id = itemCsv.typeID, PriceBuy = 0, PriceSell = 0, PriceAdjustedPrice = 0 };
-                        context.Add(itemDb);
+                        context.Items.Add(itemDb);
                     }
 
                     itemDb.Name = itemCsv.typeName;
