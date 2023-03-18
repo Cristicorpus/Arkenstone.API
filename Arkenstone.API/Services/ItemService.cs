@@ -30,15 +30,11 @@ namespace Arkenstone.API.Services
         public List<Item> GetListRecipe()
         {
             var temp = GetRecipeCore().Select(x => x.Item).ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("Recipe");
             return temp;
         }
         public List<Item> GetList()
         {
             var temp = GetCore().ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("Item");
             return temp;
         }
         public Item GetFromRecipe(int itemId)
@@ -60,8 +56,6 @@ namespace Arkenstone.API.Services
             var temp = GetRecipeCore().FirstOrDefault(x => x.ItemId == itemId);
             if (temp == null)
                 throw new NotFound("Recipe");
-            if (temp.RecipeRessource.Count() == 0)
-                throw new NoContent("RecipeRessource");
             return temp;
         }
         public async Task RefreshAsset(int corpId)

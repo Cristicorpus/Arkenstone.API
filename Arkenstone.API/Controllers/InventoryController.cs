@@ -43,7 +43,8 @@ namespace Arkenstone.API.Controllers
                 else
                     returnvalue.Add(asset.Item, asset.Quantity);
             }
-
+            if (returnvalue.Count == 0)
+                return NoContent();
             return Ok(returnvalue.Select(x => new AssetModel(x.Key, x.Value)).ToList());
         }
 
@@ -85,10 +86,10 @@ namespace Arkenstone.API.Controllers
 
                     }
                 }
-                if (returnvalue.Count() == 0)
-                    throw new NoContent("Inventory");
             }
 
+            if (returnvalue.Count() == 0)
+                return NoContent();
             return Ok(returnvalue);
         }
 
@@ -130,9 +131,9 @@ namespace Arkenstone.API.Controllers
 
                     }
                 }
-                if (returnvalue.Count() == 0)
-                    throw new NoContent("Inventory");
             }
+            if (returnvalue.Count() == 0)
+                return NoContent();
             return Ok(returnvalue);
 
         }
@@ -161,6 +162,8 @@ namespace Arkenstone.API.Controllers
                     returnvalue.Add(asset.Item, asset.Quantity);
             }
 
+            if (returnvalue.Count() == 0)
+                return NoContent();
             return Ok(returnvalue.Select(x => new AssetModel(x.Key, x.Value)).ToList());
         }
 

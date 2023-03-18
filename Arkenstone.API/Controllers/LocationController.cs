@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,15 @@ namespace Arkenstone.API.Controllers
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
 
             LocationService locationService = new LocationService(_context);
-
+            var returnvalue = new List<LocationModel>();
             if (LocationId.HasValue)
-                return Ok(new List<LocationModel> { new LocationModel(locationService.Get(LocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId)) });
+                returnvalue.Add(new LocationModel(locationService.Get(LocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId)));
             else
-                return Ok(locationService.GetList(tokenCharacter.CorporationId).Select(x => new LocationModel(x)).ToList());
+                returnvalue.AddRange(locationService.GetList(tokenCharacter.CorporationId).Select(x => new LocationModel(x)).ToList());
 
+            if (returnvalue.Count() == 0)
+                return NoContent();
+            return Ok(returnvalue);
         }
 
         /// <summary>
@@ -61,10 +65,15 @@ namespace Arkenstone.API.Controllers
 
             LocationService locationService = new LocationService(_context);
 
+            var returnvalue = new List<LocationModelDetails>();
             if (LocationId.HasValue)
-                return Ok(new List<LocationModelDetails> { new LocationModelDetails(locationService.Get(LocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId)) });
+                returnvalue.Add(new LocationModelDetails(locationService.Get(LocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId)));
             else
-                return Ok(locationService.GetList(tokenCharacter.CorporationId).Select(x => new LocationModelDetails(x)).ToList());
+                returnvalue.AddRange(locationService.GetList(tokenCharacter.CorporationId).Select(x => new LocationModelDetails(x)).ToList());
+
+            if (returnvalue.Count() == 0)
+                return NoContent();
+            return Ok(returnvalue);
         }
 
 
@@ -76,7 +85,7 @@ namespace Arkenstone.API.Controllers
         /// <response code="200">structure data detailled</response>
         [HttpPost]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocationModelDetails>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LocationModelDetails))]
         public IActionResult SetFit([FromQuery] long LocationId, [FromBody] string fit)
         {
 
@@ -87,7 +96,7 @@ namespace Arkenstone.API.Controllers
 
             locationService.SetFitToStructure(location, fit);
             
-            return Ok(new List<LocationModelDetails> { new LocationModelDetails(locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId)) });
+            return Ok(new LocationModelDetails(locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId)));
 
         }
 

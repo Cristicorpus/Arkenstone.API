@@ -32,8 +32,6 @@ namespace Arkenstone.API.Services
         public List<Location> GetList(int corpID)
         {
             var temp = RequestLocFit().Where(x => x.SubLocations.Any(y => y.CorporationId == corpID)).ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("Location");
             return temp;
         }
         public Location Get(long LocationID)

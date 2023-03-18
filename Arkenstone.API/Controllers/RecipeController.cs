@@ -34,7 +34,13 @@ namespace Arkenstone.Controllers
         public IActionResult ListRecipe()
         {
             ItemService itemService = new ItemService(_context);
-            return Ok(itemService.GetListRecipe().Select(x => x.Name).ToList());
+            var returnvalue = itemService.GetListRecipe().Select(x => x.Name).ToList();
+
+            if (returnvalue.Count == 0)
+                return NoContent();
+
+
+            return Ok(returnvalue);
         }
 
 
