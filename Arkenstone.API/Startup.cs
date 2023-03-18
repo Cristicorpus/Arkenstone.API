@@ -18,13 +18,12 @@ using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using Microsoft.Extensions.Options;
 using Arkenstone.API.MiddleWare;
+using ESI.NET.Models.Corporation;
 
 namespace Arkenstone
 {
     public class Startup
     {
-        public readonly string PolicyAllOrigin = "AllowAllOrigins";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -100,29 +99,6 @@ namespace Arkenstone
             //    options.AddPolicy("Member", policy => policy.RequireClaim("MembershipId"));
             //    options.AddPolicy("ITWebMedia", policy => policy.RequireClaim("ItWebMediaMember"));
             //});
-            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-            {
-                services.AddCors(options =>
-                {
-                    options.AddPolicy(name: PolicyAllOrigin,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://arkenstone.cristicorpus.ch",
-                                              "https://arkenstone.cristicorpus.ch");
-                      });
-                });
-            }
-            else
-            {
-                services.AddCors(options =>
-                {
-                    options.AddPolicy(name: PolicyAllOrigin,
-                      policy =>
-                      {
-                          policy.AllowAnyOrigin();
-                      });
-                });
-            }
 
 
             services.AddControllers();
@@ -162,7 +138,24 @@ namespace Arkenstone
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseCors(PolicyAllOrigin);
+            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                app.UseCors(builder => {
+                           builder.WithOrigins("http://arkenstone.cristicorpus.ch",
+                                              "https://arkenstone.cristicorpus.ch");
+                           builder.AllowAnyHeader();
+                           builder.AllowAnyMethod();
+                       });
+            }
+            else
+            {
+                app.UseCors(builder => {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                });
+            }
+
 
             app.UseAuthentication();
             app.UseAuthorization();
