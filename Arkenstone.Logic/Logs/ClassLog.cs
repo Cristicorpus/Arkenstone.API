@@ -43,6 +43,7 @@ namespace Arkenstone.Logic.Logs
                 string pathlog = logpath + DateTime.Now.ToString("yyyyMMdd") + ".log";
                 File.AppendAllText(pathlog, DateTime.Now.ToString("HH mm ss ff") + "\t" + text + "\n");
             }
+            Console.WriteLine(DateTime.Now.ToString("HH mm ss ff") + "\t" + text);
         }
 
         public static void purgelog()

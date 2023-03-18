@@ -98,39 +98,40 @@ namespace Arkenstone.Logic.BulkUpdate
 
         private static void InsertRigs_Activity()
         {
-
-            Logs.ClassLog.writeLog("InsertRigs_Activity => Reinsertion des information RIGS dans les database");
-
-            var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-            var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
-            using (ArkenstoneContext context = new ArkenstoneContext(options))
+            try
             {
-                List<RigsManufacturingCsv> RigsManufacturingCsvrecords = CsvTools.ReadCsv<RigsManufacturingCsv>(_folderPathESI + "RigsManufacturings.csv");
+                Logs.ClassLog.writeLog("InsertRigs_Activity => Reinsertion des information RIGS dans les database");
 
-
-
-                //on supprimes les recettes et les matériaux présent
-                
-                context.Database.ExecuteSqlRaw("DELETE FROM RigsManufacturings");
-                
-                //MAJ item
-                foreach (var item in RigsManufacturingCsvrecords)
+                var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
+                var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
+                using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
-                    var itemDb = context.RigsManufacturings.FirstOrDefault(x => x.ItemId == item.typeID);
-                    if (itemDb == null)
-                    {
-                        itemDb = new RigsManufacturing()
-                        {
-                            ItemId = item.typeID,
-                        };
-                        context.RigsManufacturings.Add(itemDb);
-                    }
-                    itemDb.MarketIdEffect = item.GroupMarketIdEffect;
-                    itemDb.MarketIdNotEffect = item.GroupMarketIdNotEffect;
-                }
-                context.SaveChanges();
+                    List<RigsManufacturingCsv> RigsManufacturingCsvrecords = CsvTools.ReadCsv<RigsManufacturingCsv>(_folderPathESI + "RigsManufacturings.csv");
 
-                RigsManufacturingCsvrecords = null;
+                    //MAJ item
+                    foreach (var item in RigsManufacturingCsvrecords)
+                    {
+                        var itemDb = context.RigsManufacturings.FirstOrDefault(x => x.ItemId == item.typeID);
+                        if (itemDb == null)
+                        {
+                            itemDb = new RigsManufacturing()
+                            {
+                                ItemId = item.typeID,
+                            };
+                            context.RigsManufacturings.Add(itemDb);
+                        }
+                        itemDb.MarketIdEffect = item.GroupMarketIdEffect;
+                        itemDb.MarketIdNotEffect = item.GroupMarketIdNotEffect;
+                    }
+                    context.SaveChanges();
+
+                    RigsManufacturingCsvrecords = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logs.ClassLog.writeLog("InsertRigs_Activity => Error= ");
+                Logs.ClassLog.writeException(ex);
             }
         }
         
