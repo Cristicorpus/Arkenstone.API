@@ -108,147 +108,113 @@ namespace Arkenstone.Logic.BulkUpdate
 
         private static void InsertEsiSDE_Activity()
         {
-
-            Logs.ClassLog.writeLog("InsertEsiSDE => Reinsertion des information ESI dans les recettes");
-
-            var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-            var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
-            using (ArkenstoneContext context = new ArkenstoneContext(options))
+            try
             {
-                List<ActivityProductsCsv> ActivityProductsCsvrecords ;
-                List<ActivityMaterialsCsv> ActivityMaterialsCsvrecords ;
-                List<IndustryActivityCsv> industryActivityCsvrecords ;
-                List<MarketGroupActivityCsv> MarketGroupsCsvrecords ;
-                List<InvTypesCsv> invTypesCsvrecords ;
 
+                Logs.ClassLog.writeLog("InsertEsiSDE => Reinsertion des information ESI dans les recettes");
 
-                try
+                var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
+                var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
+                using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
-                     ActivityProductsCsvrecords = CsvTools.ReadCsv<ActivityProductsCsv>(_folderPathESI + "industryActivityProducts.csv");
-                     ActivityMaterialsCsvrecords = CsvTools.ReadCsv<ActivityMaterialsCsv>(_folderPathESI + "industryActivityMaterials.csv");
-                     industryActivityCsvrecords = CsvTools.ReadCsv<IndustryActivityCsv>(_folderPathESI + "industryActivity.csv");
-                     MarketGroupsCsvrecords = CsvTools.ReadCsv<MarketGroupActivityCsv>(_folderPathESI + "invMarketGroups.csv", new MarketGroupActivityCsvMap());
-                     invTypesCsvrecords = CsvTools.ReadCsv<InvTypesCsv>(_folderPathESI + "invTypes.csv", new InvTypesCsvMap());
-                }
-                catch (Exception ex )
-                {
-                    throw ex;
-                }
+                    List<ActivityProductsCsv> ActivityProductsCsvrecords;
+                    List<ActivityMaterialsCsv> ActivityMaterialsCsvrecords;
+                    List<IndustryActivityCsv> industryActivityCsvrecords;
+                    List<MarketGroupActivityCsv> MarketGroupsCsvrecords;
+                    List<InvTypesCsv> invTypesCsvrecords;
+
+                    ActivityProductsCsvrecords = CsvTools.ReadCsv<ActivityProductsCsv>(_folderPathESI + "industryActivityProducts.csv");
+                    ActivityMaterialsCsvrecords = CsvTools.ReadCsv<ActivityMaterialsCsv>(_folderPathESI + "industryActivityMaterials.csv");
+                    industryActivityCsvrecords = CsvTools.ReadCsv<IndustryActivityCsv>(_folderPathESI + "industryActivity.csv");
+                    MarketGroupsCsvrecords = CsvTools.ReadCsv<MarketGroupActivityCsv>(_folderPathESI + "invMarketGroups.csv", new MarketGroupActivityCsvMap());
+                    invTypesCsvrecords = CsvTools.ReadCsv<InvTypesCsv>(_folderPathESI + "invTypes.csv", new InvTypesCsvMap());
 
 
-                //on supprimes les recettes et les matériaux présent
-                
-                //MAJ item
-                foreach (var itemCsv in invTypesCsvrecords)
-                {
-                    var itemDb = context.Items.FirstOrDefault(x => x.Id == itemCsv.typeID);
-                    if (itemDb == null)
+
+                    //on supprimes les recettes et les matériaux présent
+
+                    //MAJ item
+                    foreach (var itemCsv in invTypesCsvrecords)
                     {
-                        itemDb = new Item() { Id = itemCsv.typeID, PriceBuy = 0, PriceSell = 0, PriceAdjustedPrice = 0 };
-                        context.Items.Add(itemDb);
+                        var itemDb = context.Items.FirstOrDefault(x => x.Id == itemCsv.typeID);
+                        if (itemDb == null)
+                        {
+                            itemDb = new Item() { Id = itemCsv.typeID, PriceBuy = 0, PriceSell = 0, PriceAdjustedPrice = 0 };
+                            context.Items.Add(itemDb);
+                        }
+
+                        itemDb.Name = itemCsv.typeName;
+                        itemDb.Published = itemCsv.published;
+                        itemDb.MarketGroupId = itemCsv.marketGroupID;
                     }
+                    context.SaveChanges();
 
-                    itemDb.Name = itemCsv.typeName;
-                    itemDb.Published = itemCsv.published;
-                    itemDb.MarketGroupId = itemCsv.marketGroupID;
-                }
-                context.SaveChanges();
-
-                //MAJ MarketGroup
-                context.Database.ExecuteSqlRaw("DELETE FROM MarketGroupTrees");
-                foreach (var item in MarketGroupsCsvrecords)
-                {
-                    context.MarketGroupTrees.Add(
-                       new MarketGroupTree()
-                       {
-                           Id = item.marketGroupID,
-                           ParentId = item.parentGroupID,
-                           Name = item.marketGroupName
-                       });
-                }
-                context.SaveChanges();
-
-                //MAJ recettes
-                context.Database.ExecuteSqlRaw("DELETE FROM Recipes");
-                foreach (var item in ActivityProductsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Items.Any(y => y.Published == true && y.Id == x.productTypeID)))
-                {
-                    var Activity = industryActivityCsvrecords.Find(x =>(TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && x.typeID == item.typeID);
-
-                    var recipeDb = new Recipe()
+                    //MAJ MarketGroup
+                    context.Database.ExecuteSqlRaw("DELETE FROM MarketGroupTrees");
+                    foreach (var item in MarketGroupsCsvrecords)
                     {
-                        Id = item.typeID,
-                        Type = TypeRecipeEnum.Manufacturing,
-                        ItemId = item.productTypeID,
-                        Quantity = item.quantity
-                    };
+                        context.MarketGroupTrees.Add(
+                           new MarketGroupTree()
+                           {
+                               Id = item.marketGroupID,
+                               ParentId = item.parentGroupID,
+                               Name = item.marketGroupName
+                           });
+                    }
+                    context.SaveChanges();
 
-                    if (Activity != null)
-                        recipeDb.Time = Activity.time;
-
-                    context.Recipes.Add(recipeDb);
-                }
-                context.SaveChanges();
-
-
-                //MAJ Materiaux recettes
-                context.Database.ExecuteSqlRaw("DELETE FROM RecipeRessources");
-                foreach (var item in ActivityMaterialsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Recipes.Any(y => y.Id == x.typeID)))
-                {
-                    var recipeRessources = new RecipeRessource()
+                    //MAJ recettes
+                    context.Database.ExecuteSqlRaw("DELETE FROM Recipes");
+                    foreach (var item in ActivityProductsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Items.Any(y => y.Published == true && y.Id == x.productTypeID)))
                     {
-                        RecipeId = item.typeID,
-                        ItemId = item.materialTypeID,
-                        Quantity = item.quantity
-                    };
-                    
-                    context.RecipeRessources.Add(recipeRessources);
+                        var Activity = industryActivityCsvrecords.Find(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && x.typeID == item.typeID);
+
+                        var recipeDb = new Recipe()
+                        {
+                            Id = item.typeID,
+                            Type = TypeRecipeEnum.Manufacturing,
+                            ItemId = item.productTypeID,
+                            Quantity = item.quantity
+                        };
+
+                        if (Activity != null)
+                            recipeDb.Time = Activity.time;
+
+                        context.Recipes.Add(recipeDb);
+                    }
+                    context.SaveChanges();
+
+
+                    //MAJ Materiaux recettes
+                    context.Database.ExecuteSqlRaw("DELETE FROM RecipeRessources");
+                    foreach (var item in ActivityMaterialsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Recipes.Any(y => y.Id == x.typeID)))
+                    {
+                        var recipeRessources = new RecipeRessource()
+                        {
+                            RecipeId = item.typeID,
+                            ItemId = item.materialTypeID,
+                            Quantity = item.quantity
+                        };
+
+                        context.RecipeRessources.Add(recipeRessources);
+                    }
+                    context.SaveChanges();
+
+
+
+                    industryActivityCsvrecords = null;
+                    ActivityProductsCsvrecords = null;
+                    industryActivityCsvrecords = null;
+                    MarketGroupsCsvrecords = null;
+                    invTypesCsvrecords = null;
+
                 }
-                context.SaveChanges();
-
-                
-
-                industryActivityCsvrecords = null;
-                ActivityProductsCsvrecords = null;
-                industryActivityCsvrecords = null;
-                MarketGroupsCsvrecords = null;
-                invTypesCsvrecords = null;
-
             }
-        }
-
-        private static int DeleteDontExist(List<InvTypesCsv> invTypes)
-        {
-            return invTypes.RemoveAll(invType => !invType.published);
-        }
-
-        private static int DeleteDontExist(List<ActivityProductsCsv> activityProducts, List<InvTypesCsv> invTypes)
-        {
-            return activityProducts.RemoveAll(product =>
+            catch (Exception ex)
             {
-                //retirer les item qui n'existent pas
-                if (invTypes.Exists(invType => invType.typeID == product.typeID) &&
-                    invTypes.Exists(invType => invType.typeID == product.productTypeID))
-                {
-                    return false;
-                }
-
-                return true;
-            });
-        }
-
-        private static int DeleteDontExist(List<ActivityMaterialsCsv> activityMaterials, List<ActivityProductsCsv> activityProducts, List<InvTypesCsv> invTypes)
-        {
-            return activityMaterials.RemoveAll(activityMaterial =>
-            {
-                //retirer les item qui n'existent pas
-                if (activityProducts.Exists(x => x.typeID == activityMaterial.typeID) &&
-                    invTypes.Exists(x => x.typeID == activityMaterial.materialTypeID))
-                {
-                    return false;
-                }
-
-                return true;
-            });
+                Logs.ClassLog.writeLog("InsertEsiSDE_Activity => Error= ");
+                Logs.ClassLog.writeException(ex);
+            }
         }
 
         private class IndustryActivityCsv
