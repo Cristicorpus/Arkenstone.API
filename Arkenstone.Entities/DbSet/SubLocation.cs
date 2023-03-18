@@ -24,6 +24,7 @@ namespace Arkenstone.Entities.DbSet
         public string Flag { get; set; }
         public int CorporationId { get; set; }
         public bool IsAssetAnalysed { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
         public virtual ICollection<Inventory> Inventorys { get; set; }
 
