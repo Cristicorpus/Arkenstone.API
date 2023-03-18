@@ -7,6 +7,8 @@ namespace Arkenstone.API.Models
 {
     public class AssetModel
     {
+        public AssetModel()
+        { }
         public long quantity { get; set; }
         public ItemModel ItemModel { get; set; }
 
@@ -19,6 +21,8 @@ namespace Arkenstone.API.Models
     }
     public class AssetSubLocationModel
     {
+        public AssetSubLocationModel()
+        { }
         public SubLocation subLocation { get; set; }
 
         public List<AssetModel> Assets { get; set; }
@@ -44,6 +48,8 @@ namespace Arkenstone.API.Models
     }
     public class AssetStationModel
     {
+        public AssetStationModel()
+        { }
         public LocationModel structure { get; set; }
 
         public List<AssetModel> Assets { get; set; }

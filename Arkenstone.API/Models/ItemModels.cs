@@ -4,6 +4,8 @@ namespace Arkenstone.API.Models
 {
     public class ItemModel
     {
+        public ItemModel()
+        { }
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -11,10 +13,6 @@ namespace Arkenstone.API.Models
         {
             this.Id = target.Id;
             this.Name = target.Name;
-        }
-        public ItemModel()
-        {
-
         }
     }
 }

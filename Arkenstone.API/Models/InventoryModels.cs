@@ -4,6 +4,8 @@ namespace Arkenstone.API.Models
 {
     public class InventoryModel
     {
+        public InventoryModel()
+        { }
         public int Quantity { get; set; }
 
         public virtual Item Item { get; set; }

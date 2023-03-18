@@ -5,6 +5,8 @@ namespace EveMiningFleet.API.Models
 {
     public class CharacterModel
     {
+        public CharacterModel()
+        { }
         public CharacterModel(Character target)
         {
             this.Id = target.Id;
@@ -21,6 +23,8 @@ namespace EveMiningFleet.API.Models
     }
     public class MainCharacterModel
     {
+        public MainCharacterModel()
+        { }
         public MainCharacterModel(Character target)
         {
             this.Id = target.Id;

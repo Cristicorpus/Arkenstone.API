@@ -6,6 +6,8 @@ namespace Arkenstone.API.Models
 {
     public class LocationModel
     {
+        public LocationModel()
+        { }
         public long Id { get; set; }
         public string Name { get; set; }
         public ItemModel structureType { get; set; }
@@ -22,12 +24,14 @@ namespace Arkenstone.API.Models
             {
                 this.structureType = new ItemModel();
                 this.structureType.Id = 2071;
-                this.structureType.Name = "Station"; 
+                this.structureType.Name = "Station";
             }
         }
     }
     public class LocationModelDetails
     {
+        public LocationModelDetails()
+        { }
         public LocationModel structure { get; set; }
         public decimal Security { get; set; }
         public string RawFit { get; set; }

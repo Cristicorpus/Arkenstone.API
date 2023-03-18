@@ -23,7 +23,7 @@ namespace Arkenstone.Controllers
 
 
         /// <summary>
-        /// 
+        /// Create an ProdAchat
         /// </summary>
         /// <param name="ProdAchatId" example="1">ProdAchat Id</param>
         [HttpGet]
@@ -32,42 +32,18 @@ namespace Arkenstone.Controllers
         public IActionResult ListProdAchatRoot([FromQuery] long? ProdAchatId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
-
-            ProdAchat prodachat;
-            if (ProdAchatId.HasValue)
-            {
-                prodachat = _context.ProdAchats.Find(ProdAchatId);
-                if (prodachat==null)
-                    return NotFound();
-
-                if (prodachat.CorporationId != tokenCharacter.CorporationId)
-                    return Forbid();
-            }
-
+            
             ProdAchatService prodAchatService = new ProdAchatService(_context);
-
-
-
-
-            List<ProdAchatModel> returnModel = new List<ProdAchatModel>();
-
-            if (ProdAchatId == null)
-            {
-                foreach (var item in _context.ProdAchats.Where(x => x.ProdAchatParentId == null).Include("Location.StructureType").Include("Item"))
-                {
-                    returnModel.Add(new ProdAchatModel(item));
-                }
-            }
+            var returnvalue = new List<ProdAchatModel>();
+            if (ProdAchatId.HasValue)
+                returnvalue.Add(new ProdAchatModel(prodAchatService.Get(ProdAchatId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId)));
             else
-            {
-                var ProdAchat = _context.ProdAchats.Include("Location.StructureType").Include("Item").Include("ProdAchatEnfant.Item").Include("ProdAchatEnfant.Location").Include("ProdAchatParent.Item").Include("ProdAchatParent.Location").FirstOrDefault(x => x.Id == ProdAchatId);
-                if(ProdAchat!=null)
-                    returnModel.Add(new ProdAchatModel(ProdAchat));
-            }
+                returnvalue.AddRange(prodAchatService.GetList(tokenCharacter.CorporationId).Select(x => new ProdAchatModel(x)));
 
-            return Ok(returnModel);
+            if (returnvalue.Count() == 0)
+                return NoContent();
+
+            return Ok(returnvalue);
         }
         
 
@@ -76,71 +52,18 @@ namespace Arkenstone.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProdAchatModel))]
         public IActionResult CreateProdAchat([FromBody] ProdAchatModel ProdAchatModel)
         {
-
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
-            
-            if (ProdAchatModel.Item == null || ProdAchatModel.Item.Id == null)
-                return BadRequest("Item is null");
-            var item = _context.Items.Find(ProdAchatModel.Item.Id);
-            if (item == null)
-                return BadRequest("Item is not recognized");
 
+            ProdAchatService prodAchatService = new ProdAchatService(_context);
 
-            if (ProdAchatModel.Location == null || ProdAchatModel.Location.Id == null)
-                return BadRequest("Location is null");
-            var location = _context.Locations.Find(ProdAchatModel.Location.Id);
-            if (location == null)
-                return BadRequest("Location is not recognized");
+            prodAchatService.ValidateUpdateModel(tokenCharacter.CorporationId, ProdAchatModel, null);
 
+            var prodAchat = prodAchatService.Create(tokenCharacter.CorporationId, ProdAchatModel);
 
-            if (ProdAchatModel.ProdAchatParent != null)
-                return BadRequest("ProdAchatParent is not null");
-
-
-            if (ProdAchatModel.Quantity >0)
-                return BadRequest("Quantity is inferior or equal to 0");
-
-            switch (ProdAchatModel.Type)
-            {
-                case Entities.DbSet.ProdAchatTypeEnum.achat:
-                    if (ProdAchatModel.MEefficiency.HasValue)
-                        return BadRequest("MEefficiency has value");
-                    break;
-                case Entities.DbSet.ProdAchatTypeEnum.production:
-                    if (!ProdAchatModel.MEefficiency.HasValue)
-                        return BadRequest("MEefficiency has not value");
-                    break;
-                default:
-                    return BadRequest("Type is not recognized");
-            }
-
-            
-            List<Arkenstone.Entities.DbSet.ProdAchat> childProdAchat = new List<ProdAchat>();
             if(ProdAchatModel.Type == Entities.DbSet.ProdAchatTypeEnum.production)
-            {
-                //TODO AJOUTER LES TICKET ENFANT SI C EST UNE PROD
-                //sachant que les ticket enfant seront pour le moment automatiquement de type achat
-            }
+                prodAchatService.CreateAllChild(tokenCharacter.CorporationId, prodAchat);
 
-
-
-
-            
-            var ProdAchat = new Arkenstone.Entities.DbSet.ProdAchat()
-            {
-                ItemId = item.Id,
-                LocationId = location.Id,
-                Quantity = ProdAchatModel.Quantity,
-                MEefficiency = ProdAchatModel.MEefficiency,
-                Type = ProdAchatModel.Type
-            };
-
-            _context.ProdAchats.Add(ProdAchat);
-            _context.SaveChanges();
-
-            return Ok(new ProdAchatModel(ProdAchat));
+            return Ok(new ProdAchatModel(prodAchatService.Get(prodAchat.Id)));
         }
 
 

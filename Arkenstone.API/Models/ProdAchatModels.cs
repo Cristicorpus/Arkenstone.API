@@ -6,20 +6,22 @@ namespace Arkenstone.API.Models
 {
     public class ProdAchatModel
     {
+        public ProdAchatModel()
+        { }
         public long Id { get; set; }
         public Item Item { get; set; }
         public int Quantity { get; set; }
 
         public decimal? MEefficiency { get; set; }
         public ProdAchatTypeEnum Type { get; set; }
-        public virtual LocationModel Location { get; set; }
-        public virtual ProdAchatModel ProdAchatParent { get; set; }
-        public virtual ICollection<ProdAchatModel> ProdAchatEnfants { get; set; }
+        public LocationModel Location { get; set; }
+        public ProdAchatModel ProdAchatParent { get; set; }
+        public List<ProdAchatModel> ProdAchatEnfants { get; set; }
         public ProdAchatStateEnum State { get; set; }
         public int? CharacterIdReservation { get; set; }
         public DateTime? DatetimeReservation { get; set; }
-
-        public ProdAchatModel(ProdAchat target)
+        
+        public ProdAchatModel(ProdAchat target, ProdAchatModelRecursiv recursive = 0)
         {
             this.Id = target.Id;
             this.Item = target.Item;
@@ -28,18 +30,27 @@ namespace Arkenstone.API.Models
             this.Type = target.Type;
             this.Location = new LocationModel(target.Location);
 
-            if (target.ProdAchatParent != null)
-                this.ProdAchatParent = new ProdAchatModel(target.ProdAchatParent);
+            if (recursive == ProdAchatModelRecursiv.none && target.ProdAchatParent != null)
+                this.ProdAchatParent = new ProdAchatModel(target.ProdAchatParent, ProdAchatModelRecursiv.up);
 
-            this.ProdAchatEnfants = new List<ProdAchatModel>();
-            foreach (var child in target.ProdAchatEnfants)
+            if (recursive == ProdAchatModelRecursiv.none)
             {
-                this.ProdAchatEnfants.Add(new ProdAchatModel(child));
+                this.ProdAchatEnfants = new List<ProdAchatModel>();
+                foreach (var child in target.ProdAchatEnfants)
+                {
+                    this.ProdAchatEnfants.Add(new ProdAchatModel(child, ProdAchatModelRecursiv.down));
+                }
             }
             this.State = target.State;
             this.CharacterIdReservation = target.CharacterIdReservation;
             this.DatetimeReservation = target.DatetimeReservation;
         }
-
+        public enum ProdAchatModelRecursiv
+        {
+            none,
+            up,
+            down
+        }
     }
+    
 }
