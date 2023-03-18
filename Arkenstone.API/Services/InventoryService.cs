@@ -26,22 +26,16 @@ namespace Arkenstone.API.Services
         public List<Inventory> GetList(int corpId)
         {
             var temp = GetCore().Where(x => x.SubLocation.CorporationId == corpId).ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("Inventory");
             return temp;
         }
         public List<Inventory> GetListFromLocation(long location)
         {
             var temp = GetCore().Where(x => x.SubLocation.LocationId == location).ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("Inventory");
             return temp;
         }
         public List<Inventory> GetListFromSubLocation(long subLocation)
         {
             var temp = GetCore().Where(x => x.SubLocationId == subLocation).ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("Inventory");
             return temp;
         }
         public Inventory GetInventory(long subLocation, int itemId)

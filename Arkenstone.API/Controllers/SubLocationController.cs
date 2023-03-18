@@ -34,11 +34,17 @@ namespace Arkenstone.API.Controllers
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
 
             SubLocationService subLocationServiceService = new SubLocationService(_context);
-
+            var returnvalue = new List<SubLocation>();
+            
             if (SubLocationId.HasValue)
-                return Ok(subLocationServiceService.Get(SubLocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId));
+                returnvalue.Add(subLocationServiceService.Get(SubLocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId));
             else
-                return Ok(subLocationServiceService.GetList(tokenCharacter.CorporationId));
+                returnvalue.AddRange(subLocationServiceService.GetList(tokenCharacter.CorporationId));
+
+            if (returnvalue.Count() == 0)
+                return NoContent();
+
+            return Ok(returnvalue);
         }
 
 
@@ -57,8 +63,13 @@ namespace Arkenstone.API.Controllers
             LocationService locationServiceService = new LocationService(_context);
             SubLocationService subLocationServiceService = new SubLocationService(_context);
             
-            var location = locationServiceService.Get(LocationId);            
-            return Ok(subLocationServiceService.GetListFromLocation(tokenCharacter.CorporationId, location.Id));
+            var location = locationServiceService.Get(LocationId);
+            var returnvalue = new List<SubLocation>();
+            returnvalue.AddRange(subLocationServiceService.GetListFromLocation(tokenCharacter.CorporationId, location.Id));
+            if (returnvalue.Count() == 0)
+                return NoContent();
+
+            return Ok(returnvalue);
         }
 
         /// <summary>
@@ -67,7 +78,7 @@ namespace Arkenstone.API.Controllers
         /// <param name="SubLocationId" example="5">SubLocation Id</param>
         /// <response code="200"></response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SubLocation))]
         public IActionResult Edit([FromQuery] long SubLocationId, [FromQuery] bool Toanalyse)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -76,7 +87,7 @@ namespace Arkenstone.API.Controllers
 
             var subLocation = subLocationServiceService.Get(SubLocationId).ThrowNotAuthorized(tokenCharacter.CorporationId);
             subLocationServiceService.EditSubLocation(subLocation.Id, Toanalyse);
-            return Ok();
+            return Ok(subLocationServiceService.Get(SubLocationId).ThrowNotAuthorized(tokenCharacter.CorporationId));
         }
 
     }

@@ -24,15 +24,11 @@ namespace Arkenstone.API.Services
         public List<SubLocation> GetList(int corpID)
         {
             var temp = RequestSubLoc().Where(x => x.Flag != "Office" && x.CorporationId == corpID).ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("SubLocation");
             return temp;
         }
         public List<SubLocation> GetListFromLocation(int corpID,long locationId)
         {
             var temp = RequestSubLoc().Where(x => x.Flag != "Office"&& x.CorporationId == corpID && x.LocationId == locationId).ToList();
-            if (temp.Count() == 0)
-                throw new NoContent("SubLocation");
             return temp;
         }
         public SubLocation Get(long subLocationID)
