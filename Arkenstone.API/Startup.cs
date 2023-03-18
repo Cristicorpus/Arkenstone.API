@@ -23,7 +23,7 @@ namespace Arkenstone
 {
     public class Startup
     {
-        public static readonly string PolicyAllOrigin = "AllowAllOrigins";
+        public readonly string PolicyAllOrigin = "AllowAllOrigins";
 
         public Startup(IConfiguration configuration)
         {
@@ -95,46 +95,42 @@ namespace Arkenstone
                         };
                     });
 
-            services.AddAuthorization(options =>
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Member", policy => policy.RequireClaim("MembershipId"));
+            //    options.AddPolicy("ITWebMedia", policy => policy.RequireClaim("ItWebMediaMember"));
+            //});
+            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
-                options.AddPolicy("Member", policy => policy.RequireClaim("MembershipId"));
-                options.AddPolicy("ITWebMedia", policy => policy.RequireClaim("ItWebMediaMember"));
-            });
-
-            services.AddCors(options =>
-            {
-                
-                if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+                services.AddCors(options =>
                 {
-                    options.AddPolicy(name: Startup.PolicyAllOrigin,
+                    options.AddPolicy(name: PolicyAllOrigin,
                       policy =>
                       {
                           policy.WithOrigins("http://arkenstone.cristicorpus.ch",
-                                              "https://arkenstone.cristicorpus.ch")
-                                                  .AllowAnyHeader()
-                                                  .AllowAnyMethod();
+                                              "https://arkenstone.cristicorpus.ch");
                       });
-                }
-                else
+                });
+            }
+            else
+            {
+                services.AddCors(options =>
                 {
-                    options.AddPolicy(name: Startup.PolicyAllOrigin,
-                        policy =>
-                        {
-                            policy.AllowAnyOrigin()
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader();
-                        });
-                }
+                    options.AddPolicy(name: PolicyAllOrigin,
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin();
+                      });
+                });
+            }
 
-            });
 
-            services.AddSwaggerGen();
             services.AddControllers();
-
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
 
+            
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
@@ -166,7 +162,7 @@ namespace Arkenstone
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseCors(Startup.PolicyAllOrigin);
+            app.UseCors(PolicyAllOrigin);
 
             app.UseAuthentication();
             app.UseAuthorization();
