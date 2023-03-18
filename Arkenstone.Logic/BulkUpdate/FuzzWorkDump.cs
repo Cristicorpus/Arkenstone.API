@@ -137,33 +137,25 @@ namespace Arkenstone.Logic.BulkUpdate
 
 
                 //on supprimes les recettes et les matériaux présent
-
-                //TODO:ne pas supprimer la table des item, essayer de plutot mettre a jours 
-                context.Database.ExecuteSqlRaw("DELETE FROM Items");
-
-                //ces tables la peuvent etre supprimer :) et recrer completement
-                context.Database.ExecuteSqlRaw("DELETE FROM MarketGroupTrees");
-                context.Database.ExecuteSqlRaw("DELETE FROM RecipeRessources");
-                context.Database.ExecuteSqlRaw("DELETE FROM Recipes");
-
+                
                 //MAJ item
-                foreach (var item in invTypesCsvrecords)
+                foreach (var itemCsv in invTypesCsvrecords)
                 {
-                    context.Items.Add(
-                       new Item()
-                       {
-                           Id = item.typeID,
-                           Name = item.typeName,
-                           Published = item.published,
-                           MarketGroupId = item.marketGroupID,
-                           PriceBuy = 0,
-                           PriceSell = 0,
-                           PriceAdjustedPrice = 0,
-                       });
+                    var itemDb = context.Items.FirstOrDefault(x => x.Id == itemCsv.typeID);
+                    if (itemDb == null)
+                    {
+                        itemDb = new Item() { Id = itemCsv.typeID, PriceBuy = 0, PriceSell = 0, PriceAdjustedPrice = 0 };
+                        context.Add(itemDb);
+                    }
+
+                    itemDb.Name = itemCsv.typeName;
+                    itemDb.Published = itemCsv.published;
+                    itemDb.MarketGroupId = itemCsv.marketGroupID;
                 }
                 context.SaveChanges();
 
                 //MAJ MarketGroup
+                context.Database.ExecuteSqlRaw("DELETE FROM MarketGroupTrees");
                 foreach (var item in MarketGroupsCsvrecords)
                 {
                     context.MarketGroupTrees.Add(
@@ -176,35 +168,40 @@ namespace Arkenstone.Logic.BulkUpdate
                 }
                 context.SaveChanges();
 
-
                 //MAJ recettes
+                context.Database.ExecuteSqlRaw("DELETE FROM Recipes");
                 foreach (var item in ActivityProductsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Items.Any(y => y.Published == true && y.Id == x.productTypeID)))
                 {
-                    context.Recipes.Add(new Recipe()
+                    var Activity = industryActivityCsvrecords.Find(x =>(TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && x.typeID == item.typeID);
+
+                    var recipeDb = new Recipe()
                     {
                         Id = item.typeID,
                         Type = TypeRecipeEnum.Manufacturing,
                         ItemId = item.productTypeID,
-                        Quantity = item.quantity,
-                        Time = industryActivityCsvrecords.Find(
-                                x =>
-                                {
-                                    return (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && x.typeID == item.typeID;
-                                }).time
-                    });
+                        Quantity = item.quantity
+                    };
+
+                    if (Activity != null)
+                        recipeDb.Time = Activity.time;
+
+                    context.Recipes.Add(recipeDb);
                 }
                 context.SaveChanges();
 
 
                 //MAJ Materiaux recettes
+                context.Database.ExecuteSqlRaw("DELETE FROM RecipeRessources");
                 foreach (var item in ActivityMaterialsCsvrecords.Where(x => (TypeRecipeEnum)x.activityID == TypeRecipeEnum.Manufacturing && context.Recipes.Any(y => y.Id == x.typeID)))
                 {
-                    context.RecipeRessources.Add(new RecipeRessource()
+                    var recipeRessources = new RecipeRessource()
                     {
                         RecipeId = item.typeID,
                         ItemId = item.materialTypeID,
                         Quantity = item.quantity
-                    });
+                    };
+                    
+                    context.RecipeRessources.Add(recipeRessources);
                 }
                 context.SaveChanges();
 
