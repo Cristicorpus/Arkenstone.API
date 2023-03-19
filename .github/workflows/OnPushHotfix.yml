@@ -1,15 +1,16 @@
 # This is a basic workflow to help you get started with Actions
 
-name: NewRelease
+name: MainDeploy
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - 'main'
 
 jobs:
   Deploy:
+    if: "contains(github.event.head_commit.message, '*DEPLOY*')"
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -30,7 +31,7 @@ jobs:
 
     - name: Publish
       run: dotnet publish --no-build --output Publish --configuration Release
-      
+
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
