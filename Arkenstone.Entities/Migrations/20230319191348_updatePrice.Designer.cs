@@ -3,6 +3,7 @@ using System;
 using Arkenstone.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkenstone.Entities.Migrations
 {
     [DbContext(typeof(ArkenstoneContext))]
-    partial class ArkenstoneContextModelSnapshot : ModelSnapshot
+    [Migration("20230319191348_updatePrice")]
+    partial class updatePrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,13 +119,13 @@ namespace Arkenstone.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<decimal>("PriceAdjustedPrice")
+                    b.Property<decimal?>("PriceAdjustedPrice")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<decimal>("PriceBuy")
+                    b.Property<decimal?>("PriceBuy")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<decimal>("PriceSell")
+                    b.Property<decimal?>("PriceSell")
                         .HasColumnType("decimal(65,30)");
 
                     b.Property<bool>("Published")

@@ -20,6 +20,7 @@ public class _BackgroundTask : Registry
         //Schedule(() => SeatRefresh.RereshInventory()).ToRunNow().AndEvery(30).Minutes();
 
         Schedule(() => AssetDump.ReloadAllItemsAsynctask()).ToRunEvery(3600).Seconds();
+        Schedule(() => MarketDump.RefreshMarketPrice()).ToRunEvery(3600).Seconds();
         Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(13, 0);
         Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
         Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
@@ -28,6 +29,8 @@ public class _BackgroundTask : Registry
         Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
         Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
         Schedule(() => AssetDump.ReloadAllItemsAsynctask()).ToRunOnceIn(300).Seconds();
+        
+        Schedule(() => MarketDump.RefreshMarketPrice()).ToRunOnceIn(1).Seconds();
 
 
 
