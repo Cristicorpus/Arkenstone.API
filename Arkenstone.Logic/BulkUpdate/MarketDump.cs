@@ -49,7 +49,7 @@ namespace Arkenstone.Logic.BulkUpdate
                     foreach (var DataPriceItem in allItemDb)
                     {
                         cursor++;
-                        ClassLog.writeLog("analyse dataprice de " + DataPriceItem.Id + " ," + DataPriceItem.Name +", " + cursor + "/" + lenght);
+                        //ClassLog.writeLog("analyse dataprice de " + DataPriceItem.Id + " ," + DataPriceItem.Name +", " + cursor + "/" + lenght);
                         try
                         {
                             List<orderPercentileProcessing> listofallorder = GetAllorder(tmpEsiConnection, 10000002, MarketOrderType.All, DataPriceItem.Id);
@@ -72,10 +72,6 @@ namespace Arkenstone.Logic.BulkUpdate
                         if (tmpitem != null)
                             tmpitem.PriceAdjustedPrice = x.AdjustedPrice;
                     });
-
-
-
-
                     context.SaveChanges();
                 }
                 ClassLog.writeLog("RefreshMarketPrice => terminer");
@@ -101,7 +97,6 @@ namespace Arkenstone.Logic.BulkUpdate
             List<orderPercentileProcessing> array2 = new List<orderPercentileProcessing>();
             EsiResponse<List<Order>> resultquery = null;
             int page = 1;
-
             do
             {
                 Retry.Do(() =>
@@ -116,10 +111,8 @@ namespace Arkenstone.Logic.BulkUpdate
                     foreach (Order order in resultquery.Data)
                         array2.Add(new orderPercentileProcessing() { value = order.Price, volume = order.VolumeRemain, isbuyorder = order.IsBuyOrder });
                 }
-
                 page++;
-
-            } while (resultquery.StatusCode == HttpStatusCode.NotFound);
+            } while (resultquery.Data.Count()>=1000);
 
             return array2;
 
