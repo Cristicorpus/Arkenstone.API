@@ -113,7 +113,7 @@
         </member>
         <member name="M:Arkenstone.Controllers.ProdAchatController.ListProdAchatRoot(System.Nullable{System.Int64})">
             <summary>
-            
+            Create an ProdAchat
             </summary>
             <param name="ProdAchatId" example="1">ProdAchat Id</param>
         </member>

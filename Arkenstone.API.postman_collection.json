@@ -152,7 +152,7 @@
 								}
 							},
 							"request": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -298,142 +298,6 @@
 											"path": [
 												"api",
 												"Location"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-59271892"
-												}
-											]
-										}
-									},
-									"status": "Not Found",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
-								}
-							]
-						},
-						{
-							"name": "/api/Location/Detailed",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "text/plain"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=1041276076345",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"api",
-										"Location",
-										"Detailed"
-									],
-									"query": [
-										{
-											"key": "LocationId",
-											"value": "1041276076345"
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Success",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=-59271892",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Location",
-												"Detailed"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-59271892"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "[\n  {\n    \"structure\": {\n      \"id\": 66558418,\n      \"name\": \"nulla laborum\",\n      \"structureTypeId\": -17207611,\n      \"structureTypeName\": \"eiusmod quis nostrud\"\n    },\n    \"security\": 67095005.74015203,\n    \"rawFit\": \"ipsum minim officia ut\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -49554426,\n        \"name\": \"aliqua eu do tempor est\",\n        \"marketIdEffect\": \"laboris adipisicing elit dolore dolore\",\n        \"marketIdNotEffect\": \"anim \",\n        \"costEffect\": 71937968.62856877,\n        \"timeEffect\": 74611458.78973609,\n        \"materialEffect\": 43984787.01373604,\n        \"multiplierHS\": 23439446.45139575,\n        \"multiplierLS\": 40695152.12658158,\n        \"multiplierNS\": 52572317.86893928\n      },\n      {\n        \"id\": -76622648,\n        \"name\": \"sint adipisicing veniam\",\n        \"marketIdEffect\": \"elit\",\n        \"marketIdNotEffect\": \"culpa qui\",\n        \"costEffect\": -46418261.0130099,\n        \"timeEffect\": -26143614.57671714,\n        \"materialEffect\": -38420380.165579714,\n        \"multiplierHS\": 60444248.97831911,\n        \"multiplierLS\": -50843084.71345018,\n        \"multiplierNS\": -11898508.902641192\n      }\n    ]\n  },\n  {\n    \"structure\": {\n      \"id\": 59969893,\n      \"name\": \"sit Ut Duis id\",\n      \"structureTypeId\": 18173648,\n      \"structureTypeName\": \"amet\"\n    },\n    \"security\": -74339773.64264761,\n    \"rawFit\": \"mollit velit\",\n    \"rigsManufacturings\": [\n      {\n        \"id\": -77736638,\n        \"name\": \"Excepteur in mollit proident\",\n        \"marketIdEffect\": \"dolore ullamco labore\",\n        \"marketIdNotEffect\": \"elit minim cupidatat ea\",\n        \"costEffect\": 36531024.53520113,\n        \"timeEffect\": 84910118.51065546,\n        \"materialEffect\": 86821323.66088662,\n        \"multiplierHS\": -92712716.43016315,\n        \"multiplierLS\": 9333194.839655474,\n        \"multiplierNS\": 1667356.1165376753\n      },\n      {\n        \"id\": -56701022,\n        \"name\": \"ut non\",\n        \"marketIdEffect\": \"anim magna\",\n        \"marketIdNotEffect\": \"sit aliqua ea qui\",\n        \"costEffect\": -63256641.91572193,\n        \"timeEffect\": -31831653.67647569,\n        \"materialEffect\": 70773883.57368782,\n        \"multiplierHS\": -81738860.560885,\n        \"multiplierLS\": -54523052.91066972,\n        \"multiplierNS\": -12700840.354404226\n      }\n    ]\n  }\n]"
-								},
-								{
-									"name": "Bad Request",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=-59271892",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Location",
-												"Detailed"
-											],
-											"query": [
-												{
-													"key": "LocationId",
-													"value": "-59271892"
-												}
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n  \"type\": \"reprehenderit dolor\",\n  \"title\": \"enim est nulla sint consectetur\",\n  \"status\": -37378200,\n  \"detail\": \"Excepteur dolor labore\",\n  \"instance\": \"reprehenderit cupidatat\"\n}"
-								},
-								{
-									"name": "Not Found",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/Location/Detailed?LocationId=-59271892",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"Location",
-												"Detailed"
 											],
 											"query": [
 												{
@@ -606,7 +470,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=22&Toanalyse=true",
+									"raw": "{{baseUrl}}/api/SubLocation?SubLocationId=69&Toanalyse=true",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -617,7 +481,7 @@
 									"query": [
 										{
 											"key": "SubLocationId",
-											"value": "22"
+											"value": "69"
 										},
 										{
 											"key": "Toanalyse",
@@ -1267,7 +1131,7 @@
 							]
 						},
 						{
-							"name": "RefreshAsset",
+							"name": "RefreshInventory",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -1928,7 +1792,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=-69678129",
+									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=3",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1939,7 +1803,8 @@
 									"query": [
 										{
 											"key": "ProdAchatId",
-											"value": "-69678129"
+											"value": "3",
+											"description": "ProdAchat Id"
 										}
 									]
 								}
@@ -1951,7 +1816,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=-69678129",
+											"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=1",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -1962,7 +1827,7 @@
 											"query": [
 												{
 													"key": "ProdAchatId",
-													"value": "-69678129"
+													"value": "1"
 												}
 											]
 										}
@@ -1977,14 +1842,14 @@
 										}
 									],
 									"cookie": [],
-									"body": "[\n  {\n    \"id\": -78865416,\n    \"item\": {\n      \"id\": 35681877,\n      \"published\": false,\n      \"name\": \"mollit\",\n      \"marketGroupId\": 85757689,\n      \"priceBuy\": -22144213.95724529,\n      \"priceSell\": 86018843.27295223,\n      \"priceAdjustedPrice\": -58283660.38391692\n    },\n    \"quantity\": -29509815,\n    \"mEefficiency\": -45484830.82887547,\n    \"type\": 4,\n    \"location\": {\n      \"id\": 68529060,\n      \"name\": \"nisi eiusmod reprehenderit amet\",\n      \"structureTypeId\": -74937745,\n      \"structureTypeName\": \"co\"\n    },\n    \"prodAchatParent\": {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    \"prodAchatEnfants\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      }\n    ],\n    \"state\": 2,\n    \"characterIdReservation\": 34861663,\n    \"datetimeReservation\": \"1997-01-24T00:13:55.312Z\"\n  },\n  {\n    \"id\": -63329553,\n    \"item\": {\n      \"id\": 69548109,\n      \"published\": false,\n      \"name\": \"exercitation elit sed\",\n      \"marketGroupId\": -48161802,\n      \"priceBuy\": 25812592.68903935,\n      \"priceSell\": 61722841.22489411,\n      \"priceAdjustedPrice\": -81179010.1552857\n    },\n    \"quantity\": 68437177,\n    \"mEefficiency\": -91478505.36857174,\n    \"type\": 3,\n    \"location\": {\n      \"id\": 29197459,\n      \"name\": \"laborum in elit\",\n      \"structureTypeId\": -29318986,\n      \"structureTypeName\": \"commodo aute ut in\"\n    },\n    \"prodAchatParent\": {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    \"prodAchatEnfants\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      }\n    ],\n    \"state\": 0,\n    \"characterIdReservation\": -83735169,\n    \"datetimeReservation\": \"2009-03-13T21:57:05.292Z\"\n  }\n]"
+									"body": "[\n  {\n    \"id\": -1732739,\n    \"item\": {\n      \"id\": 5975113,\n      \"published\": false,\n      \"name\": \"exercitation et\",\n      \"marketGroupId\": 89055884,\n      \"priceBuy\": 77102813.3631554,\n      \"priceSell\": -26011943.09624733,\n      \"priceAdjustedPrice\": -23988439.933823854\n    },\n    \"quantity\": 12510213,\n    \"mEefficiency\": 29198247.016027823,\n    \"type\": 0,\n    \"location\": {\n      \"id\": -16867959,\n      \"name\": \"ullamco commodo\",\n      \"structureType\": {\n        \"id\": 43830006,\n        \"name\": \"reprehenderit tempor\"\n      }\n    },\n    \"prodAchatParent\": {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    \"prodAchatEnfants\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      }\n    ],\n    \"state\": 2,\n    \"characterIdReservation\": -99123016,\n    \"datetimeReservation\": \"2018-08-19T03:02:11.253Z\"\n  },\n  {\n    \"id\": 12105153,\n    \"item\": {\n      \"id\": 35748143,\n      \"published\": true,\n      \"name\": \"aute cupidatat\",\n      \"marketGroupId\": -83146297,\n      \"priceBuy\": -94225145.94025917,\n      \"priceSell\": 71948085.90843031,\n      \"priceAdjustedPrice\": -17679520.713096514\n    },\n    \"quantity\": 12097116,\n    \"mEefficiency\": 55256126.200199544,\n    \"type\": 0,\n    \"location\": {\n      \"id\": -69958183,\n      \"name\": \"occae\",\n      \"structureType\": {\n        \"id\": -92054795,\n        \"name\": \"cupi\"\n      }\n    },\n    \"prodAchatParent\": {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    \"prodAchatEnfants\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n      }\n    ],\n    \"state\": 3,\n    \"characterIdReservation\": -16789757,\n    \"datetimeReservation\": \"2012-05-26T21:55:52.843Z\"\n  }\n]"
 								}
 							]
 						},
 						{
-							"name": "/api/ProdAchat",
+							"name": "/api/ProdAchat(createAchat)",
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -1997,7 +1862,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}",
+									"raw": "{\n  \"item\": {\n    \"id\": 28352,\n    \"Name\": \"\"\n  },\n  \"quantity\": 1,\n  \"type\": 0,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2023,7 +1888,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}",
+											"raw": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2051,16 +1916,53 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}"
+									"body": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/ProdAchat(createProd)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"item\": {\n    \"id\": 28352,\n    \"Name\": \"\"\n  },\n  \"MEefficiency\": 0,\n  \"quantity\": 1,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
+								"url": {
+									"raw": "{{baseUrl}}/api/ProdAchat",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ProdAchat"
+									]
+								}
+							},
+							"response": [
 								{
-									"name": "Bad Request",
+									"name": "Success",
 									"originalRequest": {
 										"method": "PUT",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"id\": -92922185,\n  \"item\": {\n    \"id\": 54709985,\n    \"published\": true,\n    \"name\": \"in eu proident consequat\",\n    \"marketGroupId\": -60982105,\n    \"priceBuy\": 52948565.0901424,\n    \"priceSell\": -47050095.25623027,\n    \"priceAdjustedPrice\": -62319462.80384939\n  },\n  \"quantity\": 55071764,\n  \"mEefficiency\": -5008651.325189546,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 3057044,\n    \"name\": \"culp\",\n    \"structureTypeId\": -92230329,\n    \"structureTypeName\": \"non pariatur\"\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 0,\n  \"characterIdReservation\": 63503895,\n  \"datetimeReservation\": \"1994-06-01T13:00:45.374Z\"\n}",
+											"raw": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2078,8 +1980,8 @@
 											]
 										}
 									},
-									"status": "Bad Request",
-									"code": 400,
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -2088,7 +1990,167 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"type\": \"magna incididunt dolore\",\n  \"title\": \"laboris incididunt labore cupidatat nostrud\",\n  \"status\": -14174020,\n  \"detail\": \"aliqua dolor nisi tempor\",\n  \"instance\": \"amet veniam mollit do\"\n}"
+									"body": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/ProdAchat UpdateToProd",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\":107,\n  \"item\": {\n    \"id\": 28352,\n    \"Name\": \"\"\n  },\n  \"MEefficiency\": 10,\n  \"quantity\": 1,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=107",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ProdAchat"
+									],
+									"query": [
+										{
+											"key": "ProdAchatId",
+											"value": "107"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/ProdAchat",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ProdAchat"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/ProdAchat UpdateToAchat",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\":107,\n  \"item\": {\n    \"id\": 28352,\n    \"Name\": \"\"\n  },\n  \"quantity\": 1,\n  \"type\": 0,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=107",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ProdAchat"
+									],
+									"query": [
+										{
+											"key": "ProdAchatId",
+											"value": "107"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/ProdAchat",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ProdAchat"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}"
 								}
 							]
 						}

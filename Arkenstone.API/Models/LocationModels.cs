@@ -19,10 +19,6 @@ namespace Arkenstone.API.Models
         {
             this.Id = target.Id;
             this.Name = target.Name;
-            this.Security = target.Security;
-            if(target.LocationRigsManufacturings!=null)
-                this.RigsManufacturings = target.LocationRigsManufacturings.Select(x => x.RigsManufacturing).ToList();
-            
             if (target.StructureTypeId.HasValue && target.StructureTypeId.Value != 0)
                 this.structureType = target.StructureType.Item;
             else
