@@ -34,8 +34,8 @@ namespace Arkenstone.Logic.BulkUpdate
                 var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
                 using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
-                    List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").ToList().Select(x => x.ItemId).Distinct().ToList();
-                    List<int> ListItemRecipe = context.Recipes.Include("Item").ToList().Select(x => x.ItemId).Distinct().ToList();
+                    List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").Where(x=>x.Item.Published==true).Select(x => x.ItemId).Distinct().ToList();
+                    List<int> ListItemRecipe = context.Recipes.Include("Item").Where(x => x.Item.Published == true).Select(x => x.ItemId).Distinct().ToList();
 
                     List<int> allItemId = new List<int>();
                     allItemId.AddRange(ListItemRecipeRessource);
