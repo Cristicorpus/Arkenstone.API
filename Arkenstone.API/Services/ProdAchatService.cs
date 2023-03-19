@@ -74,7 +74,7 @@ namespace Arkenstone.API.Services
             ItemService itemService = new ItemService(_context);
             var recipeItemProdAchats = itemService.GetRessourceFromRecipe(prodAchatParent.ItemId);
 
-            foreach (var prodAchatChild in prodAchatParent.ProdAchatEnfants.Where(x => recipeItemProdAchats.RecipeRessource.Any(y => y.ItemId == x.ItemId)))
+            foreach (var prodAchatChild in prodAchatParent.ProdAchatEnfants.Where(x => !recipeItemProdAchats.RecipeRessource.Any(y => y.ItemId == x.ItemId)))
                 _context.ProdAchats.Remove(prodAchatChild);
 
             foreach (var recipeRessource in recipeItemProdAchats.RecipeRessource)
@@ -95,7 +95,7 @@ namespace Arkenstone.API.Services
             {
                 CorporationId = corpId,
                 ItemId = recipeRessource.ItemId,
-                Quantity = recipeRessource.Quantity * prodAchatParent.Quantity,
+                Quantity = CalculateQuantityAfterEfficiency(prodAchatParent, recipeRessource),
                 MEefficiency = null,
                 LocationId = prodAchatParent.LocationId,
                 ProdAchatParentId = prodAchatParent.Id,
@@ -105,9 +105,19 @@ namespace Arkenstone.API.Services
         }
         public void UpdateChild(ProdAchat prodAchat, RecipeRessource recipeRessource)
         {
-            prodAchat.Quantity = recipeRessource.Quantity * prodAchat.ProdAchatParent.Quantity;
+            prodAchat.Quantity = CalculateQuantityAfterEfficiency(prodAchat.ProdAchatParent, recipeRessource);
         }
+        private int CalculateQuantityAfterEfficiency(ProdAchat prodAchatParent, RecipeRessource recipeRessource)
+        {
+            EfficiencyService efficiencyService = new EfficiencyService(_context);
+            var efficiencyParent = efficiencyService.GetEfficiencyFromLocation(prodAchatParent.LocationId, prodAchatParent.ItemId);
+            decimal globalEfficiency = efficiencyParent * (1-(prodAchatParent.MEefficiency.Value / 100));
+            decimal quantityAfterEfficiency = recipeRessource.Quantity * globalEfficiency;
 
+            int global = (int)Math.Ceiling(quantityAfterEfficiency * prodAchatParent.Quantity);
+
+            return global;
+        }
 
 
         public ProjectedStateChild GetProjectedStateChild(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
