@@ -75,21 +75,12 @@
             <param name="id" example="5">SubLocation Id</param>
             <response code="200">list of assets</response>
         </member>
-        <member name="M:Arkenstone.API.Controllers.LocationController.GetSimple(System.Nullable{System.Int64})">
+        <member name="M:Arkenstone.API.Controllers.LocationController.Get(System.Nullable{System.Int64})">
             <summary>
             get location data
             </summary>
             <param name="LocationId" example="1041276076345">Location Id</param>
             <response code="200">structure data</response>
-        </member>
-        <member name="M:Arkenstone.API.Controllers.LocationController.GetDetailed(System.Nullable{System.Int64})">
-            <summary>
-            get location data detailled(rigs)
-            </summary>
-            <param name="LocationId" example="1041276076345">Location Id</param>
-            <response code="200">structure data detailled</response>
-            <response code="401">Unauthorized</response>
-            <response code="404">location  not found</response>
         </member>
         <member name="M:Arkenstone.API.Controllers.LocationController.SetFit(System.Int64,System.String)">
             <summary>
