@@ -34,18 +34,13 @@ namespace Arkenstone.Logic.BulkUpdate
                 var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
                 using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
-                    ClassLog.writeLog("RefreshMarketPrice => " + context.RecipeRessources.Count() + " RecipeRessources à analyser");
-                    ClassLog.writeLog("RefreshMarketPrice => " + context.Recipes.Count() + " Recipes à analyser");
-                    List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").Select(x => x.ItemId).Distinct().ToList();
-                    ClassLog.writeLog("RefreshMarketPrice => " + ListItemRecipeRessource.Count() + " ListItemRecipeRessource à analyser");
-                    List<int> ListItemRecipe = context.Recipes.Include("Item").Select(x => x.ItemId).Distinct().ToList();
-                    ClassLog.writeLog("RefreshMarketPrice => " + ListItemRecipe.Count() + " ListItemRecipe à analyser");
+                    List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").ToList().Select(x => x.ItemId).Distinct().ToList();
+                    List<int> ListItemRecipe = context.Recipes.Include("Item").ToList().Select(x => x.ItemId).Distinct().ToList();
 
                     List<int> allItemId = new List<int>();
                     allItemId.AddRange(ListItemRecipeRessource);
                     allItemId.AddRange(ListItemRecipe);
                     allItemId = allItemId.Distinct().ToList();
-                    ClassLog.writeLog("RefreshMarketPrice => " + allItemId.Count() + " allItemId à analyser");
 
                     var allItemDb = context.Items.Where(x => allItemId.Contains(x.Id)).ToList();
                     ClassLog.writeLog("RefreshMarketPrice => " + allItemDb.Count() + " allItemDb à analyser");
