@@ -14,7 +14,7 @@ namespace Arkenstone.API.Services
             _context = context;
         }
 
-        public EfficiencyModel GetEfficiencyFromLocation(Location location, Item Item)
+        public EfficiencyModel GetEfficiencyModelFromLocation(Location location, Item Item)
         {
 
             var returnModel = new EfficiencyModel();
@@ -28,5 +28,23 @@ namespace Arkenstone.API.Services
             
             return returnModel;
         }
+
+
+        public decimal GetEfficiencyFromLocation(long locationId, int ItemId)
+        {
+            LocationService locationService = new LocationService(_context);
+            ItemService itemService = new ItemService(_context);
+
+            var location = locationService.Get(locationId);
+            var item = itemService.Get(ItemId);
+
+            decimal StructureEfficiency = EfficiencyStructure.GetMEEfficiencyFromStation(_context, location);
+            var RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, location, item);
+
+            return (StructureEfficiency * RigsEfficiency.MeEfficiency);
+        }
+
+
+
     }
 }

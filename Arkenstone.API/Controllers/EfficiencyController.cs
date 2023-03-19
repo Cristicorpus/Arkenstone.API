@@ -46,7 +46,7 @@ namespace Arkenstone.API.Controllers
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 
-            return Ok(efficiencyService.GetEfficiencyFromLocation(location, item));
+            return Ok(efficiencyService.GetEfficiencyModelFromLocation(location, item));
 
         }
 
@@ -75,7 +75,7 @@ namespace Arkenstone.API.Controllers
             LocationService locationService = new LocationService(_context);
             foreach (var location in locationService.GetList(tokenCharacter.CorporationId))
             {
-                var temp = efficiencyService.GetEfficiencyFromLocation(location, item);
+                var temp = efficiencyService.GetEfficiencyModelFromLocation(location, item);
                 if (returnModel ==null || returnModel.MEefficiency > temp.MEefficiency)
                     returnModel = temp;
             }

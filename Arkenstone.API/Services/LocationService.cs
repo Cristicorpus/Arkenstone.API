@@ -26,7 +26,7 @@ namespace Arkenstone.API.Services
 
         private IQueryable<Location> RequestLocFit()
         {
-            return RequestLocAndSubLoc().Include("LocationRigsManufacturings.RigsManufacturing");
+            return RequestLocAndSubLoc().Include("LocationRigsManufacturings.RigsManufacturing.Item");
         }
 
         public List<Location> GetList(int corpID)
