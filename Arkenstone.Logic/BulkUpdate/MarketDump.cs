@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Arkenstone.Logic.BulkUpdate
 {
-    public class MarketDump
+    public static class MarketDump
     {
 
         /// <summary>
