@@ -23,17 +23,11 @@ namespace EveMiningFleet.API.Models
     {
         public MainCharacterModel(Character target)
         {
-            this.Id = target.Id;
-            this.Name = target.Name;
-            this.Coorporation = target.Corporation;
-            this.Alliance = target.Alliance;
+            this.main = new CharacterModel(target);
             this.AltCharacter = new List<CharacterModel>();
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Corporation Coorporation { get; set; }
-        public Alliance Alliance { get; set; }
+        public CharacterModel main { get; set; }
         public List<CharacterModel> AltCharacter { get; set; }
 
     }

@@ -33,7 +33,7 @@ namespace Arkenstone.API.Controllers
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocationModel>))]
-        public IActionResult GetSimple([FromQuery] long? LocationId)
+        public IActionResult Get([FromQuery] long? LocationId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
 
@@ -49,32 +49,6 @@ namespace Arkenstone.API.Controllers
             return Ok(returnvalue);
         }
 
-        /// <summary>
-        /// get location data detailled(rigs)
-        /// </summary>
-        /// <param name="LocationId" example="1041276076345">Location Id</param>
-        /// <response code="200">structure data detailled</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="404">location  not found</response>
-        [HttpGet("Detailed")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocationModelDetails>))]
-        public IActionResult GetDetailed([FromQuery] long? LocationId)
-        {
-            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-
-            LocationService locationService = new LocationService(_context);
-
-            var returnvalue = new List<LocationModelDetails>();
-            if (LocationId.HasValue)
-                returnvalue.Add(new LocationModelDetails(locationService.Get(LocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId)));
-            else
-                returnvalue.AddRange(locationService.GetList(tokenCharacter.CorporationId).Select(x => new LocationModelDetails(x)).ToList());
-
-            if (returnvalue.Count() == 0)
-                return NoContent();
-            return Ok(returnvalue);
-        }
 
 
         /// <summary>
@@ -85,7 +59,7 @@ namespace Arkenstone.API.Controllers
         /// <response code="200">structure data detailled</response>
         [HttpPost]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LocationModelDetails))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LocationModel))]
         public IActionResult SetFit([FromQuery] long LocationId, [FromBody] string fit)
         {
 
@@ -96,7 +70,7 @@ namespace Arkenstone.API.Controllers
 
             locationService.SetFitToStructure(location, fit);
             
-            return Ok(new LocationModelDetails(locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId)));
+            return Ok(new LocationModel(locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId)));
 
         }
 
