@@ -34,6 +34,8 @@ namespace Arkenstone.Logic.BulkUpdate
                 var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
                 using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
+                    ClassLog.writeLog("RefreshMarketPrice => " + context.RecipeRessources.Count() + " RecipeRessources à analyser");
+                    ClassLog.writeLog("RefreshMarketPrice => " + context.Recipes.Count() + " Recipes à analyser");
                     List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").Select(x => x.ItemId).Distinct().ToList();
                     ClassLog.writeLog("RefreshMarketPrice => " + ListItemRecipeRessource.Count() + " ListItemRecipeRessource à analyser");
                     List<int> ListItemRecipe = context.Recipes.Include("Item").Select(x => x.ItemId).Distinct().ToList();
