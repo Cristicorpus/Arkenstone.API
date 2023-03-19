@@ -28,7 +28,7 @@ namespace Arkenstone.API.Controllers
         /// <response code="200">list of assets</response>
         [HttpGet]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<InventoryModel>))]
         public IActionResult GetSimple()
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -45,7 +45,7 @@ namespace Arkenstone.API.Controllers
             }
             if (returnvalue.Count == 0)
                 return NoContent();
-            return Ok(returnvalue.Select(x => new AssetModel(x.Key, x.Value)).ToList());
+            return Ok(returnvalue.Select(x => new InventoryModel(x.Key, x.Value)).ToList());
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Arkenstone.API.Controllers
         /// <response code="200">list of assets</response>
         [HttpGet("Location")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetStationModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<InventoryStationModel>))]
         public IActionResult GetLocation([FromQuery] long? LocationId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -63,14 +63,14 @@ namespace Arkenstone.API.Controllers
             LocationService LocationService = new LocationService(_context);
             InventoryService assetService = new InventoryService(_context);
 
-            List<AssetStationModel> returnvalue = new List<AssetStationModel>();
+            List<InventoryStationModel> returnvalue = new List<InventoryStationModel>();
             
             
             if (LocationId.HasValue)
             {
                 var location = LocationService.Get(LocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId);
                 var inventorys = assetService.GetListFromLocation(location.Id);
-                returnvalue.Add(new AssetStationModel(location, inventorys));
+                returnvalue.Add(new InventoryStationModel(location, inventorys));
             }
             else
             {
@@ -79,7 +79,7 @@ namespace Arkenstone.API.Controllers
                     try
                     {
                         var inventorys = assetService.GetListFromLocation(location.Id);
-                        returnvalue.Add(new AssetStationModel(location, inventorys));
+                        returnvalue.Add(new InventoryStationModel(location, inventorys));
                     }
                     catch (Exception)
                     {
@@ -100,7 +100,7 @@ namespace Arkenstone.API.Controllers
         /// <response code="200">list of assets</response>
         [HttpGet("SubLocation")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetSubLocationModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<InventorySubLocationModel>))]
         public IActionResult GetSubLocation([FromQuery] long? SublocationId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -108,14 +108,14 @@ namespace Arkenstone.API.Controllers
             SubLocationService subLocationServiceService = new SubLocationService(_context);
             InventoryService assetService = new InventoryService(_context);
 
-            List<AssetSubLocationModel> returnvalue = new List<AssetSubLocationModel>();
+            List<InventorySubLocationModel> returnvalue = new List<InventorySubLocationModel>();
 
 
             if (SublocationId.HasValue)
             {
                 var sublocation = subLocationServiceService.Get(SublocationId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId);
                 var inventorys = assetService.GetListFromSubLocation(sublocation.Id);
-                returnvalue.Add(new AssetSubLocationModel(sublocation, inventorys));
+                returnvalue.Add(new InventorySubLocationModel(sublocation, inventorys));
             }
             else
             {
@@ -124,7 +124,7 @@ namespace Arkenstone.API.Controllers
                     try
                     {
                         var inventorys = assetService.GetListFromSubLocation(sublocation.Id);
-                        returnvalue.Add(new AssetSubLocationModel(sublocation, inventorys));
+                        returnvalue.Add(new InventorySubLocationModel(sublocation, inventorys));
                     }
                     catch (Exception)
                     {
@@ -146,7 +146,7 @@ namespace Arkenstone.API.Controllers
         /// <response code="200">list of assets</response>
         [HttpPost("Refresh")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AssetModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<InventoryModel>))]
         public async Task<IActionResult> RefreshAssetAsync()
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -164,7 +164,7 @@ namespace Arkenstone.API.Controllers
 
             if (returnvalue.Count() == 0)
                 return NoContent();
-            return Ok(returnvalue.Select(x => new AssetModel(x.Key, x.Value)).ToList());
+            return Ok(returnvalue.Select(x => new InventoryModel(x.Key, x.Value)).ToList());
         }
 
 
