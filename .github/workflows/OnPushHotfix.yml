@@ -32,6 +32,7 @@ jobs:
     - name: Publish
       run: dotnet publish --no-build --output Publish --configuration Release
 
+
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
