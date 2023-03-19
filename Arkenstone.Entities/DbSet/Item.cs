@@ -15,9 +15,9 @@ namespace Arkenstone.Entities.DbSet
         public bool Published { get; set; }
         public string Name { get; set; }
         public int MarketGroupId { get; set; }
-        public double? PriceBuy { get; set; }
-        public double? PriceSell { get; set; }
-        public double? PriceAdjustedPrice { get; set; }
+        public decimal PriceBuy { get; set; }
+        public decimal PriceSell { get; set; }
+        public decimal PriceAdjustedPrice { get; set; }
 
     }
 }

@@ -195,7 +195,5 @@ namespace Arkenstone.Logic.Asset
         }
 
 
-
-
     }
 }
