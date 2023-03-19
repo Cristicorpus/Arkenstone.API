@@ -22,7 +22,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Location",
+									"raw": "{{baseUrl}}/api/Location?LocationId=1041276076345",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -33,8 +33,7 @@
 									"query": [
 										{
 											"key": "LocationId",
-											"value": "1041276076345",
-											"disabled": true
+											"value": "1041276076345"
 										}
 									]
 								}
@@ -165,7 +164,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "\"[Azbel, *Simulated Azbel Fitting]\\r\\n\\r\\n\\r\\n\\r\\nStandup L-Set Equipment Manufacturing Efficiency II\\r\\nStandup L-Set Basic Large Ship Manufacturing Efficiency I\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\\r\\n\"",
+									"raw": "\"[Azbel, *Simulated Azbel Fitting]\\r\\n\\r\\n\\r\\n\\r\\nStandup L-Set Basic Medium Ship Manufacturing Efficiency I\\r\\nStandup L-Set Basic Large Ship Manufacturing Efficiency I\\r\\n\\r\\n\\r\\n\\r\\n\\r\\nStandup L-Set Advanced Medium Ship Manufacturing Efficiency I\\r\\n\"",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1792,7 +1791,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=3",
+									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=191",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1803,7 +1802,7 @@
 									"query": [
 										{
 											"key": "ProdAchatId",
-											"value": "3",
+											"value": "191",
 											"description": "ProdAchat Id"
 										}
 									]
@@ -1936,7 +1935,81 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"item\": {\n    \"id\": 28352,\n    \"Name\": \"\"\n  },\n  \"MEefficiency\": 0,\n  \"quantity\": 1,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
+									"raw": "{\n  \"item\": {\n    \"id\": 28352,\n    \"Name\": \"\"\n  },\n  \"MEefficiency\": 10,\n  \"quantity\": 1,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/ProdAchat",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"ProdAchat"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/ProdAchat",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"ProdAchat"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": -81097114,\n  \"item\": {\n    \"id\": 28378036,\n    \"published\": false,\n    \"name\": \"et dolor\",\n    \"marketGroupId\": -68321693,\n    \"priceBuy\": -51285654.4006242,\n    \"priceSell\": 92224952.80404526,\n    \"priceAdjustedPrice\": -51872842.298696086\n  },\n  \"quantity\": 88354738,\n  \"mEefficiency\": -59554651.07614701,\n  \"type\": 3,\n  \"location\": {\n    \"id\": 91881319,\n    \"name\": \"Excepteur id\",\n    \"structureType\": {\n      \"id\": 72488909,\n      \"name\": \"mollit reprehende\"\n    }\n  },\n  \"prodAchatParent\": {\n    \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n  },\n  \"prodAchatEnfants\": [\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    },\n    {\n      \"value\": \"<Circular reference to #/components/schemas/ProdAchatModel detected>\"\n    }\n  ],\n  \"state\": 1,\n  \"characterIdReservation\": 47327309,\n  \"datetimeReservation\": \"1968-10-23T10:29:49.604Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/ProdAchat(Prod Station Vault)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"item\": {\n    \"id\": 11985,\n    \"Name\": \"\"\n  },\n  \"MEefficiency\": 5,\n  \"quantity\": 1,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 1041276076345\n  },\n  \"state\": 0\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2010,7 +2083,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"id\":107,\n  \"item\": {\n    \"id\": 28352,\n    \"Name\": \"\"\n  },\n  \"MEefficiency\": 10,\n  \"quantity\": 1,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
+									"raw": "{\n  \"id\":191,\n  \"item\": {\n    \"id\": 11985,\n    \"Name\": \"\"\n  },\n  \"MEefficiency\": 6,\n  \"quantity\": 1,\n  \"type\": 2,\n  \"location\": {\n    \"id\": 1041239523329\n  },\n  \"state\": 0\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2018,7 +2091,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=107",
+									"raw": "{{baseUrl}}/api/ProdAchat?ProdAchatId=191",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2029,7 +2102,7 @@
 									"query": [
 										{
 											"key": "ProdAchatId",
-											"value": "107"
+											"value": "191"
 										}
 									]
 								}
