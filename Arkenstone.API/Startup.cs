@@ -18,13 +18,12 @@ using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using Microsoft.Extensions.Options;
 using Arkenstone.API.MiddleWare;
+using ESI.NET.Models.Corporation;
 
 namespace Arkenstone
 {
     public class Startup
     {
-        public static readonly string PolicyAllOrigin = "AllowAllOrigins";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -95,46 +94,19 @@ namespace Arkenstone
                         };
                     });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Member", policy => policy.RequireClaim("MembershipId"));
-                options.AddPolicy("ITWebMedia", policy => policy.RequireClaim("ItWebMediaMember"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Member", policy => policy.RequireClaim("MembershipId"));
+            //    options.AddPolicy("ITWebMedia", policy => policy.RequireClaim("ItWebMediaMember"));
+            //});
 
-            services.AddCors(options =>
-            {
-                
-                if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-                {
-                    options.AddPolicy(name: Startup.PolicyAllOrigin,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://arkenstone.cristicorpus.ch",
-                                              "https://arkenstone.cristicorpus.ch")
-                                                  .AllowAnyHeader()
-                                                  .AllowAnyMethod();
-                      });
-                }
-                else
-                {
-                    options.AddPolicy(name: Startup.PolicyAllOrigin,
-                        policy =>
-                        {
-                            policy.AllowAnyOrigin()
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader();
-                        });
-                }
 
-            });
-
-            services.AddSwaggerGen();
             services.AddControllers();
-
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
 
+            
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
@@ -166,7 +138,24 @@ namespace Arkenstone
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseCors(Startup.PolicyAllOrigin);
+            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                app.UseCors(builder => {
+                           builder.WithOrigins("http://arkenstone.cristicorpus.ch",
+                                              "https://arkenstone.cristicorpus.ch");
+                           builder.AllowAnyHeader();
+                           builder.AllowAnyMethod();
+                       });
+            }
+            else
+            {
+                app.UseCors(builder => {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                });
+            }
+
 
             app.UseAuthentication();
             app.UseAuthorization();
