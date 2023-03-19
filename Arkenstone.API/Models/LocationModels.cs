@@ -10,39 +10,19 @@ namespace Arkenstone.API.Models
         { }
         public long Id { get; set; }
         public string Name { get; set; }
-        public ItemModel structureType { get; set; }
+        public Item structureType { get; set; }
+        public decimal Security { get; set; }
+        public string RawFit { get; set; }
+        public virtual ICollection<RigsManufacturing> RigsManufacturings { get; set; }
 
         public LocationModel(Location target)
         {
             this.Id = target.Id;
             this.Name = target.Name;
             if (target.StructureTypeId.HasValue && target.StructureTypeId.Value != 0)
-            {
-                this.structureType = new ItemModel(target.StructureType.Item);
-            }
+                this.structureType = target.StructureType.Item;
             else
-            {
-                this.structureType = new ItemModel();
-                this.structureType.Id = 2071;
-                this.structureType.Name = "Station";
-            }
-        }
-    }
-    public class LocationModelDetails
-    {
-        public LocationModelDetails()
-        { }
-        public LocationModel structure { get; set; }
-        public decimal Security { get; set; }
-        public string RawFit { get; set; }
-        public virtual ICollection<RigsManufacturing> RigsManufacturings { get; set; }
-        
-
-        public LocationModelDetails(Location target)
-        {
-            this.structure = new LocationModel(target);
-            this.Security = target.Security;
-            this.RigsManufacturings = target.LocationRigsManufacturings.Select(x => x.RigsManufacturing).ToList();
+                this.structureType = new Item() { Id = 2071, Name = "Station" };
         }
     }
 }

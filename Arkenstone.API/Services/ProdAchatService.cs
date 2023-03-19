@@ -3,6 +3,7 @@ using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
 using Arkenstone.Logic.BusinessException;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,44 +42,102 @@ namespace Arkenstone.API.Services
                 CorporationId = corpId,
                 ItemId = prodAchatModel.Item.Id,
                 Quantity = prodAchatModel.Quantity,
+                Type = prodAchatModel.Type,
                 MEefficiency = prodAchatModel.MEefficiency != null ? prodAchatModel.MEefficiency : null,
                 LocationId = prodAchatModel.Location.Id,
                 ProdAchatParentId = prodAchatModel.ProdAchatParent != null ? prodAchatModel.ProdAchatParent.Id : null,
                 State = ProdAchatStateEnum.planifier
             };
             _context.ProdAchats.Add(prodAchatDb);
-            _context.SaveChanges();
+            return prodAchatDb;
+        }
+        public ProdAchat UpdateProdAchat(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
+        {
+            prodAchatDb.Type = prodAchatModel.Type;
+            prodAchatDb.Quantity = prodAchatModel.Quantity;
+            prodAchatDb.MEefficiency = prodAchatModel.MEefficiency != null ? prodAchatModel.MEefficiency : null;
+            prodAchatDb.LocationId = prodAchatModel.Location.Id;
+            prodAchatDb.State = prodAchatModel.State;
             return prodAchatDb;
         }
 
-        public void CreateAllChild(int corpId, ProdAchat prodAchatParent)
+        public void DeleteChilds(ProdAchat prodAchatParent)
+        {
+            if (prodAchatParent.ProdAchatEnfants != null)
+            {
+                foreach (var prodAchatChild in prodAchatParent.ProdAchatEnfants)
+                    _context.ProdAchats.Remove(prodAchatChild);
+            }
+        }
+        public void UpdateChilds(int corpId, ProdAchat prodAchatParent)
         {
             ItemService itemService = new ItemService(_context);
-            var recipeItemProdAchat = itemService.GetRessourceFromRecipe(prodAchatParent.ItemId);
+            var recipeItemProdAchats = itemService.GetRessourceFromRecipe(prodAchatParent.ItemId);
 
-            foreach (var item in recipeItemProdAchat.RecipeRessource)
+            foreach (var prodAchatChild in prodAchatParent.ProdAchatEnfants.Where(x => recipeItemProdAchats.RecipeRessource.Any(y => y.ItemId == x.ItemId)))
+                _context.ProdAchats.Remove(prodAchatChild);
+
+            foreach (var recipeRessource in recipeItemProdAchats.RecipeRessource)
             {
-                var prodAchatDb = new ProdAchat()
+                var prodAchatChild = prodAchatParent.ProdAchatEnfants.FirstOrDefault(x => x.ItemId == recipeRessource.ItemId);
+                if (prodAchatChild == null)
+                    CreateChild(corpId, prodAchatParent, recipeRessource);
+                else
                 {
-                    CorporationId = corpId,
-                    ItemId = item.ItemId,
-                    Quantity = item.Quantity * prodAchatParent.Quantity,
-                    MEefficiency = null,
-                    LocationId = prodAchatParent.LocationId,
-                    ProdAchatParentId = prodAchatParent.Id,
-                    State = ProdAchatStateEnum.planifier
-                };
-                _context.ProdAchats.Add(prodAchatDb);
+                    if (prodAchatChild.State == ProdAchatStateEnum.planifier || prodAchatChild.State == ProdAchatStateEnum.reserver)
+                        UpdateChild(prodAchatChild, recipeRessource);
+                }
             }
-            _context.SaveChanges();
+        }
+        public void CreateChild(int corpId, ProdAchat prodAchatParent,RecipeRessource recipeRessource)
+        {
+            var prodAchatDb = new ProdAchat()
+            {
+                CorporationId = corpId,
+                ItemId = recipeRessource.ItemId,
+                Quantity = recipeRessource.Quantity * prodAchatParent.Quantity,
+                MEefficiency = null,
+                LocationId = prodAchatParent.LocationId,
+                ProdAchatParentId = prodAchatParent.Id,
+                State = ProdAchatStateEnum.planifier
+            };
+            _context.ProdAchats.Add(prodAchatDb);
+        }
+        public void UpdateChild(ProdAchat prodAchat, RecipeRessource recipeRessource)
+        {
+            prodAchat.Quantity = recipeRessource.Quantity * prodAchat.ProdAchatParent.Quantity;
         }
 
-        public bool ValidateUpdateModel(int corpId, ProdAchatModel prodAchatModel, long? ProdAchatDbId)
+
+
+        public ProjectedStateChild GetProjectedStateChild(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
-            if(ProdAchatDbId.HasValue && prodAchatModel.Id!= ProdAchatDbId)
+
+            var ProjectedStateChild = CompareModelWithDb_Type(prodAchatDb, prodAchatModel);
+
+
+            if (ProjectedStateChild == ProjectedStateChild.none &&
+                prodAchatModel.Type == ProdAchatTypeEnum.production)
+            {
+                var noUpdateChild = true;
+
+                noUpdateChild &= CompareModelWithDb_Quantity(prodAchatDb, prodAchatModel);
+                noUpdateChild &= CompareModelWithDb_Location(prodAchatDb, prodAchatModel);
+                noUpdateChild &= CompareModelWithDb_ME(prodAchatDb, prodAchatModel);
+
+                if (!noUpdateChild)
+                    ProjectedStateChild = ProjectedStateChild.update;
+            }
+
+            return ProjectedStateChild;
+        }
+
+        public bool ValidateUpdateModel(int corpId, ProdAchatModel prodAchatModel, ProdAchat prodAchatDb=null)
+        {
+            if(prodAchatDb!=null && prodAchatModel.Id!= prodAchatDb.Id)
                 throw new BadRequestException("prodAchatModel.Id and ID in query not match! what did you DOOOOOO!!!");
 
-            if (!ProdAchatDbId.HasValue && prodAchatModel.Id > 0)
+            if (prodAchatDb == null && prodAchatModel.Id > 0)
                 throw new BadRequestException("its an creation... WHY DID YOU PUT AN ID IN THE MODEL?");
 
             if (prodAchatModel.Item == null || prodAchatModel.Item.Id == null)
@@ -96,14 +155,13 @@ namespace Arkenstone.API.Services
             LocationService locationService = new LocationService(_context);
             var location = locationService.Get(prodAchatModel.Location.Id).ThrowNotAuthorized(corpId);
 
-            //on verifie que lors d une creation ProdAchatId==0 on ai pas de parent
-            if (!ProdAchatDbId.HasValue && prodAchatModel.ProdAchatParent != null)
+            if (prodAchatDb == null && prodAchatModel.ProdAchatParent != null)
                 throw new BadRequestException("ProdAchatParent is not null");
 
             if (prodAchatModel.Quantity <= 0)
                 throw new BadRequestException("Quantity is inferior or equal to 0");
 
-            if (!ProdAchatDbId.HasValue  && prodAchatModel.State != ProdAchatStateEnum.planifier)
+            if (prodAchatDb == null && prodAchatModel.State != ProdAchatStateEnum.planifier)
                 throw new BadRequestException("State is not correct. its must be planified(0)");
 
             switch (prodAchatModel.Type)
@@ -122,16 +180,47 @@ namespace Arkenstone.API.Services
 
             return true;
         }
-        public bool CompareModelWithDb_Item(ProdAchat ProdAchatDb, ProdAchatModel prodAchatModel)
+        public bool CompareModelWithDb_Item(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
-            if (ProdAchatDb.ItemId != prodAchatModel.Item.Id)
+            if (prodAchatDb.ItemId != prodAchatModel.Item.Id)
                 throw new BadRequestException("prodAchatModel.Item.Id not match with prodachat ItemId in database! what did you DOOOOOO!!!");
             return true;
         }
-        public bool CompareModelWithDb_Quantity(ProdAchat ProdAchatDb, ProdAchatModel prodAchatModel)
+        public bool CompareModelWithDb_Quantity(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
-            return ProdAchatDb.Quantity != prodAchatModel.Quantity;
+            if (prodAchatDb.ProdAchatParentId != null)
+                throw new BadRequestException("you cant modify quantiry of a child prodAchat");
+            return prodAchatDb.Quantity != prodAchatModel.Quantity;
         }
+        public bool CompareModelWithDb_ME(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
+        {
+            return prodAchatDb.MEefficiency != prodAchatModel.MEefficiency;
+        }
+        public bool CompareModelWithDb_Location(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
+        {
+            return prodAchatDb.LocationId != prodAchatModel.Location.Id;
+        }
+        public ProjectedStateChild CompareModelWithDb_Type(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
+        {
+            if (prodAchatDb.Type != prodAchatModel.Type)
+            {
+                if (prodAchatDb.Type == ProdAchatTypeEnum.production && prodAchatModel.Type == ProdAchatTypeEnum.achat)
+                    return ProjectedStateChild.delete;
+                else if (prodAchatDb.Type == ProdAchatTypeEnum.achat && prodAchatModel.Type == ProdAchatTypeEnum.production)
+                    return ProjectedStateChild.create;
+                else
+                    throw new NotImplementedException();
+            }
+            else
+                return ProjectedStateChild.none;
+        }
+    }
+    public enum ProjectedStateChild
+    {
+        none,
+        delete,
+        create,
+        update
     }
     public static class ProdAchatExtension
     {

@@ -21,7 +21,7 @@ namespace Arkenstone.API.Models
         public int? CharacterIdReservation { get; set; }
         public DateTime? DatetimeReservation { get; set; }
         
-        public ProdAchatModel(ProdAchat target, ProdAchatModelRecursiv recursive = 0)
+        public ProdAchatModel(ProdAchat target, ProdAchatModelRecursiv recursive = ProdAchatModelRecursiv.standart)
         {
             this.Id = target.Id;
             this.Item = target.Item;
@@ -30,10 +30,10 @@ namespace Arkenstone.API.Models
             this.Type = target.Type;
             this.Location = new LocationModel(target.Location);
 
-            if (recursive == ProdAchatModelRecursiv.none && target.ProdAchatParent != null)
+            if ((recursive == ProdAchatModelRecursiv.standart || recursive == ProdAchatModelRecursiv.up) && target.ProdAchatParent != null)
                 this.ProdAchatParent = new ProdAchatModel(target.ProdAchatParent, ProdAchatModelRecursiv.up);
 
-            if (recursive == ProdAchatModelRecursiv.none)
+            if (recursive == ProdAchatModelRecursiv.standart || recursive == ProdAchatModelRecursiv.down)
             {
                 this.ProdAchatEnfants = new List<ProdAchatModel>();
                 foreach (var child in target.ProdAchatEnfants)
@@ -48,6 +48,7 @@ namespace Arkenstone.API.Models
         public enum ProdAchatModelRecursiv
         {
             none,
+            standart,
             up,
             down
         }

@@ -45,9 +45,8 @@ namespace Arkenstone.Controllers
 
             return Ok(returnvalue);
         }
-        
 
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProdAchatModel))]
         public IActionResult CreateProdAchat([FromBody] ProdAchatModel ProdAchatModel)
@@ -59,24 +58,47 @@ namespace Arkenstone.Controllers
             prodAchatService.ValidateUpdateModel(tokenCharacter.CorporationId, ProdAchatModel, null);
 
             var prodAchat = prodAchatService.Create(tokenCharacter.CorporationId, ProdAchatModel);
+            _context.SaveChanges();
 
-            if(ProdAchatModel.Type == Entities.DbSet.ProdAchatTypeEnum.production)
-                prodAchatService.CreateAllChild(tokenCharacter.CorporationId, prodAchat);
+            if (ProdAchatModel.Type == Entities.DbSet.ProdAchatTypeEnum.production)
+                prodAchatService.UpdateChilds(tokenCharacter.CorporationId, prodAchat);
 
+            _context.SaveChanges();
             return Ok(new ProdAchatModel(prodAchatService.Get(prodAchat.Id)));
         }
 
+        [HttpPut]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProdAchatModel))]
+        public IActionResult EditProdAchat([FromQuery] long ProdAchatId, [FromBody] ProdAchatModel ProdAchatModel)
+        {
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
 
+            ProdAchatService prodAchatService = new ProdAchatService(_context);
 
-        // POST api/ticket
-        //[HttpPost]
-        //[Authorize(Policy = "Member")]
-        //public void PostTicket([FromBody]TicketModelPost ticket, [FromQuery]bool genSubTicket)
-        //{
-        //    var ticketDb = ticket.getTicketDb(_context, genSubTicket);
-        //    _context.Tickets.Add(ticket.getTicketDb(_context, genSubTicket));
-        //    _context.SaveChanges();
-        //}
+            var prodAchatDb = prodAchatService.Get(ProdAchatId).ThrowNotAuthorized(tokenCharacter.CorporationId);
+            
+            prodAchatService.ValidateUpdateModel(tokenCharacter.CorporationId, ProdAchatModel, prodAchatDb);
+            prodAchatService.CompareModelWithDb_Item(prodAchatDb, ProdAchatModel);
+
+            var ProjectedStateChild = prodAchatService.GetProjectedStateChild(prodAchatDb, ProdAchatModel);
+
+            prodAchatDb = prodAchatService.UpdateProdAchat(prodAchatDb, ProdAchatModel);
+            
+            switch (ProjectedStateChild)
+            {
+                case ProjectedStateChild.delete:
+                    prodAchatService.DeleteChilds(prodAchatDb);
+                    break;
+                case ProjectedStateChild.create: case ProjectedStateChild.update:
+                    prodAchatService.UpdateChilds(tokenCharacter.CorporationId, prodAchatDb);
+                    break;
+                default:
+                    break;
+            }
+            _context.SaveChanges();
+            return Ok(new ProdAchatModel(prodAchatService.Get(ProdAchatId)));
+        }
 
     }
 }
