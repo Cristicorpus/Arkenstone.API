@@ -35,7 +35,9 @@ namespace Arkenstone.Logic.BulkUpdate
                 using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
                     List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").Select(x => x.ItemId).Distinct().ToList();
+                    ClassLog.writeLog("RefreshMarketPrice => " + ListItemRecipeRessource.Count() + " ListItemRecipeRessource à analyser");
                     List<int> ListItemRecipe = context.Recipes.Include("Item").Select(x => x.ItemId).Distinct().ToList();
+                    ClassLog.writeLog("RefreshMarketPrice => " + ListItemRecipe.Count() + " ListItemRecipe à analyser");
 
                     List<int> allItemId = new List<int>();
                     allItemId.AddRange(ListItemRecipeRessource);
