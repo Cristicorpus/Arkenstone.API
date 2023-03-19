@@ -6,6 +6,8 @@ namespace Arkenstone.API.Models
 {
     public class EfficiencyModel
     {
+        public EfficiencyModel()
+        { }
 
         public decimal MEefficiency { get; set; }
 

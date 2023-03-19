@@ -57,7 +57,7 @@ namespace Arkenstone.API.Controllers
         /// <param name="LocationId" example="1041276076345">Location Id</param>
         /// <param name="fit" example="[Azbel, *Simulated Azbel Fitting]\r\n\r\n\r\n\r\nStandup L-Set Equipment Manufacturing Efficiency II\r\nStandup L-Set Basic Large Ship Manufacturing Efficiency I\r\n\r\n\r\n\r\n\r\n\r\n">raw fit of eve, copy paste work </param>
         /// <response code="200">structure data detailled</response>
-        [HttpPost]
+        [HttpPut]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LocationModel))]
         public IActionResult SetFit([FromQuery] long LocationId, [FromBody] string fit)

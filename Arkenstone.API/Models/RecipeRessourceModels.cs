@@ -6,9 +6,7 @@ namespace Arkenstone.API.Models
     public class RecipeRessourceModel
     {
         public RecipeRessourceModel()
-        {
-            
-        }
+        { }
         public RecipeRessourceModel(RecipeRessource Target)
         {
             RecipeId = Target.RecipeId;
