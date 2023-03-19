@@ -35,16 +35,18 @@ namespace Arkenstone.Logic.BulkUpdate
                 using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
                     List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").Select(x => x.ItemId).Distinct().ToList();
-                    List<int> ListItemRecipe = context.RecipeRessources.Include("Item").Select(x => x.ItemId).Distinct().ToList();
+                    List<int> ListItemRecipe = context.Recipes.Include("Item").Select(x => x.ItemId).Distinct().ToList();
 
                     List<int> allItemId = new List<int>();
                     allItemId.AddRange(ListItemRecipeRessource);
                     allItemId.AddRange(ListItemRecipe);
                     allItemId = allItemId.Distinct().ToList();
+                    ClassLog.writeLog("RefreshMarketPrice => " + allItemId.Count() + " allItemId à analyser");
 
                     var allItemDb = context.Items.Where(x => allItemId.Contains(x.Id)).ToList();
+                    ClassLog.writeLog("RefreshMarketPrice => " + allItemDb.Count() + " allItemDb à analyser");
+
                     int lenght = allItemDb.Count();
-                    ClassLog.writeLog("RefreshMarketPrice => " + lenght + " items à analyser");
                     int cursor = 0;
                     foreach (var DataPriceItem in allItemDb)
                     {
