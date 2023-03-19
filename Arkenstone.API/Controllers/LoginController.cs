@@ -12,6 +12,7 @@ using System.Linq;
 using Arkenstone.Logic.Esi;
 using Arkenstone.API.Services;
 using Arkenstone.API.Controllers;
+using System;
 
 namespace Arkenstone.Controllers
 {
@@ -29,7 +30,16 @@ namespace Arkenstone.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         public IActionResult geturllogin()
         {
-            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            Entities.DbSet.Character tokenCharacter = null;
+            try
+            {
+                tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+            }
+            catch (Exception )
+            {
+                tokenCharacter = null;
+            }
+
             var _eveEsiConnexion = new EveEsiConnexion();
             string response;
 
@@ -38,15 +48,17 @@ namespace Arkenstone.Controllers
             else
                 response = _eveEsiConnexion.GetUrlConnection(tokenCharacter.CharacterMainId.ToString());
 
-
-            return Ok(response);
+            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "FeoDev")
+                return Ok(response);
+            else
+                return Redirect(response);
         }
 
         [HttpGet("callbackccp")]
         public async Task<IActionResult> Login([FromQuery] string code, [FromQuery] string state = null)
         {
             if (code == "")
-                return Unauthorized();
+                return Redirect(Environment.GetEnvironmentVariable("FrontCallBack") + "?error=" + "401");
 
             var _eveEsiConnexion = new EveEsiConnexion();
             try
@@ -56,7 +68,7 @@ namespace Arkenstone.Controllers
             }
             catch (System.Exception)
             {
-                return Unauthorized();
+                return Redirect(Environment.GetEnvironmentVariable("FrontCallBack") + "?error=" + "401");
             }
 
             var characterService = new CharacterService(_context);
@@ -68,15 +80,18 @@ namespace Arkenstone.Controllers
 
 
             var characterAuthorized = characterService.GetAndUpdateByauthorizedCharacterData(_eveEsiConnexion.authorizedCharacterData, _eveEsiConnexion.ssoToken);
-            int mainCharacterId = characterAuthorized.Id;
-
 
             //ici on met a jour le mainid
+            int mainCharacterId = characterAuthorized.Id;
             if (state != null && int.TryParse(state, out mainCharacterId))
-                characterService.SetMain(characterAuthorized.Id, mainCharacterId);
-            var characterDb = _context.Characters.Find(mainCharacterId);
+            {
+                if (mainCharacterId>0 && characterService.Get(mainCharacterId)!=null)
+                    characterAuthorized = characterService.SetMain(characterAuthorized.Id, mainCharacterId);
+            }
 
-            return Ok(TokenService.Createtoken(characterDb));
+            string url = Environment.GetEnvironmentVariable("FrontCallBack") + "?token=" + TokenService.Createtoken(characterAuthorized);
+
+            return Redirect(url);
         }
     }
 }

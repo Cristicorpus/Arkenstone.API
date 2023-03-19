@@ -9,7 +9,7 @@ namespace Arkenstone.API.Models
 
         public decimal MEefficiency { get; set; }
 
-        public StructureModel Station { get; set; }
+        public LocationModel Station { get; set; }
         
         public List<RigsManufacturing> rigsEffect { get; set; }
     }

@@ -10,9 +10,15 @@ namespace Arkenstone.Entities.DbSet
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Column(TypeName = "bigint")]
+        public long Id { get; set; }
+        
+        public int CorporationId { get; set; }
+        [ForeignKey("CorporationId")]
+        public virtual Corporation Corporation { get; set; }
 
         public int ItemId { get; set; }
+        [ForeignKey("ItemId")]
         public virtual Item Item { get; set; }
         public int Quantity { get; set; }
 
@@ -20,9 +26,11 @@ namespace Arkenstone.Entities.DbSet
         public ProdAchatTypeEnum Type { get; set; }
 
         public long LocationId { get; set; }
+        [ForeignKey("LocationId")]
         public virtual Location Location { get; set; }
 
-        public int? ProdAchatParentId { get; set; }
+        public long? ProdAchatParentId { get; set; }
+        [ForeignKey("ProdAchatParentId")]
         public virtual ProdAchat ProdAchatParent { get; set; }
         public virtual ICollection<ProdAchat> ProdAchatEnfants { get; set; }
 

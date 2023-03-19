@@ -1,5 +1,6 @@
 ﻿using Arkenstone.API.Controllers;
 using Arkenstone.API.Models;
+using Arkenstone.API.Services;
 using Arkenstone.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,25 +24,38 @@ namespace Arkenstone.Controllers
 
 
 
-        //GET api/recipe/ListRecipe
+
+        /// <summary>
+        /// provides the recipe name
+        /// </summary>
+        /// <response code="200">list of assets</response>
         [HttpGet("ListRecipeName")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<string>))]
         public IActionResult ListRecipe()
         {
-            return Ok(_context.Recipes.Include("Item").Select(x => x.Item.Name).ToList());
+            ItemService itemService = new ItemService(_context);
+            var returnvalue = itemService.GetListRecipe().Select(x => x.Name).ToList();
+
+            if (returnvalue.Count == 0)
+                return NoContent();
+
+
+            return Ok(returnvalue);
         }
 
-        // GET api/recipe?id=682
+
+        /// <summary>
+        /// provides the recipe material for an item if this item is manufacturable
+        /// </summary>
+        /// <response code="200">list of assets</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RecipeModel))]
         public IActionResult GetRecipe(int id)
         {
             var recipe = _context.Recipes.Include("Item").Include("RecipeRessource.Item").FirstOrDefault(p => p.ItemId == id);
 
-            if (recipe != null)
-                return Ok(new RecipeModel(recipe));
-            else
-                return NotFound("La recette avec l'id '" + id + "' n'existe pas.");
+            ItemService itemService = new ItemService(_context);
+            return Ok(new RecipeModel (itemService.GetRessourceFromRecipe(id)));
         }
         
         

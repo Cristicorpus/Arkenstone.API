@@ -3,6 +3,7 @@ using Arkenstone.API.Services;
 using Arkenstone.Controllers;
 using Arkenstone.Entities;
 using Arkenstone.Logic.Efficiency;
+using ESI.NET.Enumerations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,54 +23,59 @@ namespace Arkenstone.API.Controllers
 
         }
 
-        // GET api/Efficiency
+        /// <summary>
+        /// gives the material efficiency rate of the structure on a item Id
+        /// </summary>
+        /// <param name="LocationId" example="1041276076345">Location Id</param>
+        /// <param name="ItemId" example="24692">item IDd</param>
+        /// <response code="200">efficiency</response>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetEfficiencyFromStation([FromQuery] long LocationId, [FromQuery] int ItemId)
+        public IActionResult GetEfficiencyFromLocation([FromQuery] long LocationId, [FromQuery] int ItemId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
 
-            var structure = _context.Locations.Include("StructureType").FirstOrDefault(x=>x.Id == LocationId);
-            if (structure == null)
-                return NotFound("Structure not found");
-            var item = _context.Items.Find(ItemId);
-            if (item == null)
-                return NotFound("Item not found");
+
+            LocationService locationService = new LocationService(_context);
+            var location = locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId);
+
+
+            ItemService itemService = new ItemService(_context);
+            var item = itemService.GetFromRecipe(ItemId);
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 
-            return Ok(efficiencyService.GetEfficiencyFromStation(structure, item));
+            return Ok(efficiencyService.GetEfficiencyFromLocation(location, item));
 
         }
 
 
-        // GET api/Efficiency
+
+        /// <summary>
+        /// gives the material efficiency rate and the best location  on a item Id
+        /// </summary>
+        /// <param name="ItemId" example="24692">item IDd</param>
+        /// <response code="200">efficiency</response>
         [HttpGet("chooseStation")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(EfficiencyModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetBestEfficiency([FromQuery] int ItemId)
         {
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
-            if (tokenCharacter == null)
-                return Unauthorized("You are not authorized");
 
-            var item = _context.Items.Find(ItemId);
-            if (item == null)
-                return NotFound("Item not found");
+            ItemService itemService = new ItemService(_context);
+            var item = itemService.GetFromRecipe(ItemId);
 
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 
             EfficiencyModel returnModel = null;
-                
-            foreach (var location in _context.Locations.Include("StructureType").Include("SubLocations").Where(x=>x.SubLocations.Any(y=>y.CorporationId== tokenCharacter.CorporationId)))
+
+            LocationService locationService = new LocationService(_context);
+            foreach (var location in locationService.GetList(tokenCharacter.CorporationId))
             {
-                var temp = efficiencyService.GetEfficiencyFromStation(location, item);
+                var temp = efficiencyService.GetEfficiencyFromLocation(location, item);
                 if (returnModel ==null || returnModel.MEefficiency > temp.MEefficiency)
                     returnModel = temp;
             }

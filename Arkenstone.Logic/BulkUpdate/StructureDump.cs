@@ -98,41 +98,38 @@ namespace Arkenstone.Logic.BulkUpdate
 
         private static void InsertStructures_Activity()
         {
-
-            Logs.ClassLog.writeLog("InsertStructures_Activity => Reinsertion des information RIGS dans les database");
-
-            var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-            var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
-            using (ArkenstoneContext context = new ArkenstoneContext(options))
+            try
             {
-                List<StructuresTypesCsv> StructureTypesCsvrecords = CsvTools.ReadCsv<StructuresTypesCsv>(_folderPathESI + "StructureTypes.csv");
+                Logs.ClassLog.writeLog("InsertStructures_Activity => Reinsertion des information RIGS dans les database");
 
-                //on supprimes les recettes et les matériaux présent
-
-                context.Database.ExecuteSqlRaw("DELETE FROM StructureTypes");
-
-                //MAJ item
-                foreach (var item in StructureTypesCsvrecords)
+                var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
+                var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
+                using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
-                    try
+                    List<StructuresTypesCsv> StructureTypesCsvrecords = CsvTools.ReadCsv<StructuresTypesCsv>(_folderPathESI + "StructureTypes.csv");
+                    //MAJ item
+                    foreach (var item in StructureTypesCsvrecords)
                     {
-
-                        context.StructureTypes.Add(
-                            new StructureType()
+                        var itemDb = context.StructureTypes.FirstOrDefault(x => x.ItemId == item.typeID);
+                        if (itemDb == null)
+                        {
+                            itemDb = new StructureType()
                             {
-                                Id = item.typeID,
-                                Name = ""
-                            });
+                                ItemId = item.typeID
+                            };
+                            context.StructureTypes.Add(itemDb);
+                        }
                     }
-                    catch (Exception ex)
-                    {
+                    context.SaveChanges();
 
-                    }
+                    StructureTypesCsvrecords = null;
+
                 }
-                context.SaveChanges();
-
-                StructureTypesCsvrecords = null;
-
+            }
+            catch (Exception ex)
+            {
+                Logs.ClassLog.writeLog("InsertStructures_Activity => Error= ");
+                Logs.ClassLog.writeException(ex);
             }
         }
         
@@ -147,15 +144,12 @@ namespace Arkenstone.Logic.BulkUpdate
             {
                 foreach (var item in context.StructureTypes)
                 {
-                    var StructureItems = await eveEsi.EsiClient.Universe.Type(item.Id);
+                    var StructureItems = await eveEsi.EsiClient.Universe.Type(item.ItemId);
 
 
                     var MaterialEffect = StructureItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2600);
                     var TimeEffect = StructureItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2602);
                     var CostEffect = StructureItems.Data.DogmaAttributes.Find(x => x.AttributeId == 2601);
-                    
-
-                    item.Name = StructureItems.Data.Name;
 
                     item.MaterialEffect = MaterialEffect != null ? (decimal)MaterialEffect.Value : 0;
                     item.TimeEffect = TimeEffect != null ? (decimal)TimeEffect.Value : 0;

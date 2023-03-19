@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arkenstone.Entities", "Arke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arkenstone.API", "Arkenstone.API\Arkenstone.API.csproj", "{81B7FB98-8B7B-4ADD-9CB7-0E197E2D037E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkenstone.Logic", "Arkenstone.Logic\Arkenstone.Logic.csproj", "{7637945B-EEBB-4B0B-B97B-EEF2471781AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arkenstone.Logic", "Arkenstone.Logic\Arkenstone.Logic.csproj", "{7637945B-EEBB-4B0B-B97B-EEF2471781AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2ED77ADD-6E50-4BEB-A308-852E0FE4E273}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,13 +6,13 @@ namespace Arkenstone.API.Models
 {
     public class ProdAchatModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public Item Item { get; set; }
         public int Quantity { get; set; }
 
         public decimal? MEefficiency { get; set; }
         public ProdAchatTypeEnum Type { get; set; }
-        public virtual StructureModel Location { get; set; }
+        public virtual LocationModel Location { get; set; }
         public virtual ProdAchatModel ProdAchatParent { get; set; }
         public virtual ICollection<ProdAchatModel> ProdAchatEnfants { get; set; }
         public ProdAchatStateEnum State { get; set; }
@@ -26,7 +26,7 @@ namespace Arkenstone.API.Models
             this.Quantity = target.Quantity;
             this.MEefficiency = target.MEefficiency;
             this.Type = target.Type;
-            this.Location = new StructureModel(target.Location);
+            this.Location = new LocationModel(target.Location);
 
             if (target.ProdAchatParent != null)
                 this.ProdAchatParent = new ProdAchatModel(target.ProdAchatParent);

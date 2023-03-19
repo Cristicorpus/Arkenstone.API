@@ -1,12 +1,11 @@
 ﻿using Arkenstone.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Arkenstone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class OriginController : ControllerBase
+    public abstract class OriginController : Controller
     {
         protected readonly ArkenstoneContext _context;
         public OriginController(ArkenstoneContext context)

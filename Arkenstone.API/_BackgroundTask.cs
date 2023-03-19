@@ -25,9 +25,9 @@ public class _BackgroundTask : Registry
         Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
 
         Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunOnceIn(1).Seconds();
-        Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();        
+        Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
         Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
-        Schedule(() => AssetDump.ReloadAllItemsAsynctask()).ToRunOnceIn(120).Seconds();
+        Schedule(() => AssetDump.ReloadAllItemsAsynctask()).ToRunOnceIn(300).Seconds();
 
 
 
