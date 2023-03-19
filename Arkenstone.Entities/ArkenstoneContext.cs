@@ -18,6 +18,7 @@ namespace Arkenstone.Entities
         }
 
         public virtual DbSet<MarketGroupTree> MarketGroupTrees { get; set; }
+        public virtual DbSet<CostIndice> CostIndices { get; set; }
         public virtual DbSet<Alliance> Alliances { get; set; }
         public virtual DbSet<Corporation> Corporations { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
@@ -48,6 +49,10 @@ namespace Arkenstone.Entities
             {
                 x.LocationId,
                 x.RigsManufacturingId
+            });
+            modelBuilder.Entity<CostIndice>().HasKey(x => new {
+                x.SolarSystemId,
+                x.type
             });
         }
 

@@ -105,12 +105,14 @@ namespace Arkenstone.Logic.Asset
                                 newStation.StructureTypeId = tempStructure.Data.TypeId;
                                 var tempSecurity = await eveEsi.EsiClient.Universe.System(tempStructure.Data.SolarSystemId);
                                 newStation.Security = tempSecurity.Data.SecurityStatus;
+                                newStation.SolarSystemId = tempStructure.Data.SolarSystemId;
                             }
                             else
                             {
                                 var temp = await eveEsi.EsiClient.Universe.Station((int)item.LocationId);
                                 newStation.Name = temp.Data.Name;
                                 newStation.StructureTypeId = 2071;
+                                newStation.SolarSystemId = temp.Data.SystemId;
                             }
 
                             context.Locations.Add(newStation);

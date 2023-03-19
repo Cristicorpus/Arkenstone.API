@@ -15,7 +15,7 @@ using Arkenstone.Logic.GlobalTools;
 
 namespace Arkenstone.Logic.BulkUpdate
 {
-    public class FuzzWorkDump
+    public static class FuzzWorkDump
     {
         //public delegate List<U> delegateCSV<T, U>(List<T> list);
         private static string _folderPathESI = "Applicatif/fuzzwork/";

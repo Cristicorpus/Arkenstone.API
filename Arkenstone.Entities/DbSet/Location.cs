@@ -13,7 +13,8 @@ namespace Arkenstone.Entities.DbSet
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(TypeName = "bigint")]
         public long Id { get; set; }
-        
+        public int SolarSystemId { get; set; }
+
         public virtual ICollection<SubLocation> SubLocations { get; set; }
         public virtual ICollection<LocationRigsManufacturing> LocationRigsManufacturings { get; set; }
 
