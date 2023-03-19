@@ -34,8 +34,8 @@ namespace Arkenstone.Logic.BulkUpdate
                 var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
                 using (ArkenstoneContext context = new ArkenstoneContext(options))
                 {
-                    List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").Where(x => x.Item.Published == true).Select(x => x.ItemId).Distinct().ToList();
-                    List<int> ListItemRecipe = context.RecipeRessources.Include("Item").Where(x => x.Item.Published == true).Select(x => x.ItemId).Distinct().ToList();
+                    List<int> ListItemRecipeRessource = context.RecipeRessources.Include("Item").Select(x => x.ItemId).Distinct().ToList();
+                    List<int> ListItemRecipe = context.RecipeRessources.Include("Item").Select(x => x.ItemId).Distinct().ToList();
 
                     List<int> allItemId = new List<int>();
                     allItemId.AddRange(ListItemRecipeRessource);
@@ -44,7 +44,7 @@ namespace Arkenstone.Logic.BulkUpdate
 
                     var allItemDb = context.Items.Where(x => allItemId.Contains(x.Id)).ToList();
                     int lenght = allItemDb.Count();
-
+                    ClassLog.writeLog("RefreshMarketPrice => " + lenght + " items à analyser");
                     int cursor = 0;
                     foreach (var DataPriceItem in allItemDb)
                     {
