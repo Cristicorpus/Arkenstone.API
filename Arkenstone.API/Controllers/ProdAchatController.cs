@@ -38,18 +38,12 @@ namespace Arkenstone.Controllers
             if (ProdAchatId.HasValue)
             {
                 var prodAchatReturned = prodAchatService.Get(ProdAchatId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId);
-                var returnModel = new ProdAchatModel(prodAchatReturned);
-                returnModel.CostJob = prodAchatService.CostPriceFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
-                returnvalue.Add(returnModel);
+                returnvalue.Add(prodAchatService.GetModel(prodAchatReturned.Id));
             }
             else
             {
                 foreach (var prodAchat in prodAchatService.GetList(tokenCharacter.CorporationId))
-                {
-                    var returnModel = new ProdAchatModel(prodAchat);
-                    returnModel.CostJob = prodAchatService.CostPriceFromProduction(prodAchat.Location, prodAchat.Item);
-                    returnvalue.Add(returnModel);
-                }
+                    returnvalue.Add(prodAchatService.GetModel(prodAchat.Id));
             }
                 
 
@@ -78,11 +72,7 @@ namespace Arkenstone.Controllers
 
             _context.SaveChanges();
 
-            var prodAchatReturned = prodAchatService.Get(prodAchat.Id);
-            var returnvalue = new ProdAchatModel(prodAchatReturned);
-            returnvalue.CostJob = prodAchatService.CostPriceFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
-
-            return Ok(returnvalue);
+            return Ok(prodAchatService.GetModel(prodAchat.Id));
         }
 
         [HttpPut]
@@ -116,11 +106,7 @@ namespace Arkenstone.Controllers
             }
             _context.SaveChanges();
 
-            var prodAchatReturned = prodAchatService.Get(ProdAchatId);
-            var returnvalue = new ProdAchatModel(prodAchatReturned);
-            returnvalue.CostJob = prodAchatService.CostPriceFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
-
-            return Ok(returnvalue);
+            return Ok(prodAchatService.GetModel(ProdAchatId));
         }
 
     }

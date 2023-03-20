@@ -35,6 +35,16 @@ namespace Arkenstone.API.Services
             return temp;
         }
 
+
+        public ProdAchatModel GetModel(long ProdAchatId)
+        {
+            var prodAchatReturned = Get(ProdAchatId);
+            var returnvalue = new ProdAchatModel(prodAchatReturned);
+            returnvalue.CostJob = CostJobFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
+            returnvalue.CostProduction = CostProductionFromProduction(prodAchatReturned, true);
+            return returnvalue;
+        }
+
         public ProdAchat Create(int corpId, ProdAchatModel prodAchatModel)
         {
             var prodAchatDb = new ProdAchat()
@@ -111,15 +121,13 @@ namespace Arkenstone.API.Services
         {
             EfficiencyService efficiencyService = new EfficiencyService(_context);
             var efficiencyParent = efficiencyService.GetEfficiencyFromLocation(prodAchatParent.LocationId, prodAchatParent.ItemId);
-            decimal globalEfficiency = Math.Ceiling(efficiencyParent/ recipe.Quantity) * (1-(prodAchatParent.MEefficiency.Value / 100));
+            decimal globalEfficiency = efficiencyParent * (1-(prodAchatParent.MEefficiency.Value / 100));
             decimal quantityAfterEfficiency = recipeRessource.Quantity * globalEfficiency;
-
-            int global = (int)Math.Ceiling(quantityAfterEfficiency * prodAchatParent.Quantity);
-
+            int global = (int)Math.Ceiling(quantityAfterEfficiency * Math.Ceiling((decimal)prodAchatParent.Quantity / (decimal)recipe.Quantity));
             return global;
         }
 
-        public decimal CostPriceFromProduction(Location location, Item item)
+        public decimal CostJobFromProduction(Location location, Item item)
         {
             var indexCostManufacture = _context.CostIndices.FirstOrDefault(x => x.SolarSystemId == location.SolarSystemId && x.type == CostIndiceType.manufacturing);
             if (indexCostManufacture == null)
@@ -128,10 +136,28 @@ namespace Arkenstone.API.Services
             ItemService itemService = new ItemService(_context);
             var GlobalAdjustedPrice = itemService.GetRessourceFromRecipe(item.Id).RecipeRessource.Sum(x => x.Item.PriceAdjustedPrice * x.Quantity);
 
-            var returnvalue = Math.Ceiling(indexCostManufacture.Cost * GlobalAdjustedPrice * 100)/100;
+            var returnvalue = Math.Ceiling(indexCostManufacture.Cost * GlobalAdjustedPrice * 100) / 100;
             return returnvalue;
         }
-        
+        public decimal CostProductionFromProduction(ProdAchat prodAchat, bool seller = true)
+        {
+            ItemService itemService = new ItemService(_context);
+            var recipeItemProdAchats = itemService.GetRessourceFromRecipe(prodAchat.ItemId);
+            decimal ProductionPrice = 0;
+
+
+            foreach (var recipeRessource in recipeItemProdAchats.RecipeRessource)
+            {
+                var quantity = CalculateQuantityAfterEfficiency(prodAchat, recipeRessource, recipeItemProdAchats);
+                if (seller)
+                    ProductionPrice += itemService.Get(recipeRessource.ItemId).PriceSell* quantity;
+                else
+                    ProductionPrice += itemService.Get(recipeRessource.ItemId).PriceBuy * quantity;
+            }
+            var returnvalue = Math.Ceiling(ProductionPrice * 100) / 100;
+            return returnvalue;
+        }
+
         public ProjectedStateChild GetProjectedStateChild(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
 

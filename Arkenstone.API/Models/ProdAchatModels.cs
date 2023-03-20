@@ -14,6 +14,7 @@ namespace Arkenstone.API.Models
         
         public decimal? MEefficiency { get; set; }
         public decimal? CostJob { get; set; }
+        public decimal? CostProduction{ get; set; }
         public ProdAchatTypeEnum Type { get; set; }
         public LocationModel Location { get; set; }
         public ProdAchatModel ProdAchatParent { get; set; }

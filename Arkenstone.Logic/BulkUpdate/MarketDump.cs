@@ -113,7 +113,7 @@ namespace Arkenstone.Logic.BulkUpdate
                         array2.Add(new orderPercentileProcessing() { value = order.Price, volume = order.VolumeRemain, isbuyorder = order.IsBuyOrder });
                 }
                 page++;
-            } while (resultquery.Data.Count()>=1000);
+            } while (resultquery.Data.Count()>=1000 && resultquery.StatusCode == HttpStatusCode.OK);
 
             return array2;
 
