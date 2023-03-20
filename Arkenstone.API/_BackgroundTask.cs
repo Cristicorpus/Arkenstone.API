@@ -13,28 +13,31 @@ public class _BackgroundTask : Registry
         // Schedule an ITask to run at an interval
         // Schedule<MyTask>().ToRunNow().AndEvery(2).Seconds();
 
+        Schedule(() => Arkenstone.Logic.Logs.ClassLog.purgelog()).ToRunNow();
+        Schedule(() => TokenCheck.checkAllToken()).ToRunNow();
+        Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunNow();
+        Schedule(() => CostIndiceDump.RefreshCostIndice()).ToRunNow();
+        
+        Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
+        Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
+        Schedule(() => MarketDump.RefreshMarketPrice()).ToRunOnceIn(120).Seconds();
+        
+        Schedule(() => AssetDump.ReloadAllItemsAsynctask()).ToRunOnceIn(300).Seconds();
+        
+        // ------------------------------------ CYCLIC TASK ----------------------------
 
-        //Schedule(() => Arkenstone.Models.EVEESIFunction.checkAllScope()).ToRunNow().AndEvery(3).Hours().At(30);
-        //Schedule(() => Arkenstone.Models.MarketAndData.PopulateDataPrice()).ToRunNow().AndEvery(3).Hours().At(50);
-
-        //Schedule(() => SeatRefresh.RereshInventory()).ToRunNow().AndEvery(30).Minutes();
-
-        Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(13, 0);
-        Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
-        Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
         
         Schedule(() => AssetDump.ReloadAllItemsAsynctask()).ToRunEvery(3600).Seconds();
         Schedule(() => MarketDump.RefreshMarketPrice()).ToRunEvery(3600).Seconds();
         Schedule(() => CostIndiceDump.RefreshCostIndice()).ToRunEvery(3600).Seconds();
 
-        Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunOnceIn(1).Seconds();
-        Schedule(() => CostIndiceDump.RefreshCostIndice()).ToRunOnceIn(1).Seconds();
-        Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
-        Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunOnceIn(120).Seconds();
-        Schedule(() => MarketDump.RefreshMarketPrice()).ToRunOnceIn(120).Seconds();
-        Schedule(() => AssetDump.ReloadAllItemsAsynctask()).ToRunOnceIn(300).Seconds();
-
-        Schedule(() => Arkenstone.Logic.Logs.ClassLog.purgelog()).ToRunNow().AndEvery(1).Days().At(0, 30);
+        // ------------------------------------ CYCLIC specific TASK ----------------------------
+        
+        Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(13, 0);
+        Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
+        Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
+        Schedule(() => TokenCheck.checkAllToken()).ToRunEvery(3).Hours().At(30);
+        Schedule(() => Arkenstone.Logic.Logs.ClassLog.purgelog()).ToRunEvery(1).Days().At(0, 30);
 
     }
 
