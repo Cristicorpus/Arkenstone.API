@@ -236,7 +236,9 @@ namespace Arkenstone.API.Services
         public bool CompareModelWithDb_Quantity(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
             if (prodAchatDb.ProdAchatParentId != null)
-                throw new BadRequestException("you cant modify quantiry of a child prodAchat");
+                throw new BadRequestException("you cant modify quantity of a child prodAchat");
+            if (prodAchatDb.ProdAchatEnfants != null && prodAchatDb.ProdAchatEnfants.Any(x => x.State >= ProdAchatStateEnum.livraison))
+                throw new BadRequestException("you cant modify quantity of a prodAchat child already produced");
             return prodAchatDb.Quantity != prodAchatModel.Quantity;
         }
         public bool CompareModelWithDb_ME(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
