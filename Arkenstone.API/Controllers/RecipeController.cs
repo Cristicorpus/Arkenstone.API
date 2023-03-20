@@ -29,16 +29,15 @@ namespace Arkenstone.Controllers
         /// provides the recipe name
         /// </summary>
         /// <response code="200">list of assets</response>
-        [HttpGet("ListRecipeName")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<string>))]
+        [HttpGet("ListRecipe")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<object>))]
         public IActionResult ListRecipe()
         {
             ItemService itemService = new ItemService(_context);
-            var returnvalue = itemService.GetListRecipe().Select(x => x.Name).ToList();
+            var returnvalue = itemService.GetListRecipe().Select(x => new {x.Id,x.Name}).ToList();
 
             if (returnvalue.Count == 0)
                 return NoContent();
-
 
             return Ok(returnvalue);
         }
