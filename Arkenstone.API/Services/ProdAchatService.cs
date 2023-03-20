@@ -81,21 +81,21 @@ namespace Arkenstone.API.Services
             {
                 var prodAchatChild = prodAchatParent.ProdAchatEnfants.FirstOrDefault(x => x.ItemId == recipeRessource.ItemId);
                 if (prodAchatChild == null)
-                    CreateChild(corpId, prodAchatParent, recipeRessource);
+                    CreateChild(corpId, prodAchatParent, recipeRessource, recipeItemProdAchats);
                 else
                 {
                     if (prodAchatChild.State == ProdAchatStateEnum.planifier || prodAchatChild.State == ProdAchatStateEnum.reserver)
-                        UpdateChild(prodAchatChild, recipeRessource);
+                        UpdateChild(prodAchatChild, recipeRessource, recipeItemProdAchats);
                 }
             }
         }
-        public void CreateChild(int corpId, ProdAchat prodAchatParent,RecipeRessource recipeRessource)
+        public void CreateChild(int corpId, ProdAchat prodAchatParent,RecipeRessource recipeRessource,Recipe recipe)
         {
             var prodAchatDb = new ProdAchat()
             {
                 CorporationId = corpId,
                 ItemId = recipeRessource.ItemId,
-                Quantity = CalculateQuantityAfterEfficiency(prodAchatParent, recipeRessource),
+                Quantity = CalculateQuantityAfterEfficiency(prodAchatParent, recipeRessource, recipe),
                 MEefficiency = null,
                 LocationId = prodAchatParent.LocationId,
                 ProdAchatParentId = prodAchatParent.Id,
@@ -103,15 +103,15 @@ namespace Arkenstone.API.Services
             };
             _context.ProdAchats.Add(prodAchatDb);
         }
-        public void UpdateChild(ProdAchat prodAchat, RecipeRessource recipeRessource)
+        public void UpdateChild(ProdAchat prodAchat, RecipeRessource recipeRessource, Recipe recipe)
         {
-            prodAchat.Quantity = CalculateQuantityAfterEfficiency(prodAchat.ProdAchatParent, recipeRessource);
+            prodAchat.Quantity = CalculateQuantityAfterEfficiency(prodAchat.ProdAchatParent, recipeRessource, recipe);
         }
-        private int CalculateQuantityAfterEfficiency(ProdAchat prodAchatParent, RecipeRessource recipeRessource)
+        private int CalculateQuantityAfterEfficiency(ProdAchat prodAchatParent, RecipeRessource recipeRessource, Recipe recipe)
         {
             EfficiencyService efficiencyService = new EfficiencyService(_context);
             var efficiencyParent = efficiencyService.GetEfficiencyFromLocation(prodAchatParent.LocationId, prodAchatParent.ItemId);
-            decimal globalEfficiency = efficiencyParent * (1-(prodAchatParent.MEefficiency.Value / 100));
+            decimal globalEfficiency = Math.Ceiling(efficiencyParent/ recipe.Quantity) * (1-(prodAchatParent.MEefficiency.Value / 100));
             decimal quantityAfterEfficiency = recipeRessource.Quantity * globalEfficiency;
 
             int global = (int)Math.Ceiling(quantityAfterEfficiency * prodAchatParent.Quantity);
