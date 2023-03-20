@@ -161,9 +161,7 @@ namespace Arkenstone.API.Services
 
         public ProjectedStateChild GetProjectedStateChild(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
-
             var ProjectedStateChild = CompareModelWithDb_Type(prodAchatDb, prodAchatModel);
-
 
             if (ProjectedStateChild == ProjectedStateChild.none &&
                 prodAchatModel.Type == ProdAchatTypeEnum.production)
