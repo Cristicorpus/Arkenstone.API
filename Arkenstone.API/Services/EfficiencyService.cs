@@ -44,7 +44,7 @@ namespace Arkenstone.API.Services
             return (StructureEfficiency * RigsEfficiency.MeEfficiency);
         }
 
-
+        
 
     }
 }

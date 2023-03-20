@@ -58,10 +58,10 @@ namespace Arkenstone.API.Services
                 throw new NotFound("Recipe");
             return temp;
         }
-        public async Task RefreshAsset(int corpId)
-        {
-            await AssetDump.ReloadItemsFromSpecificCorpAsync(corpId);
-        }
+
+
+
+
 
 
     }

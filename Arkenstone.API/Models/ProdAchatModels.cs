@@ -11,8 +11,9 @@ namespace Arkenstone.API.Models
         public long Id { get; set; }
         public Item Item { get; set; }
         public int Quantity { get; set; }
-
+        
         public decimal? MEefficiency { get; set; }
+        public decimal? CostJob { get; set; }
         public ProdAchatTypeEnum Type { get; set; }
         public LocationModel Location { get; set; }
         public ProdAchatModel ProdAchatParent { get; set; }

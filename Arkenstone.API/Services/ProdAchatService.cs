@@ -119,7 +119,19 @@ namespace Arkenstone.API.Services
             return global;
         }
 
+        public decimal CostPriceFromProduction(Location location, Item item)
+        {
+            var indexCostManufacture = _context.CostIndices.FirstOrDefault(x => x.SolarSystemId == location.SolarSystemId && x.type == CostIndiceType.manufacturing);
+            if (indexCostManufacture == null)
+                return 0;
 
+            ItemService itemService = new ItemService(_context);
+            var GlobalAdjustedPrice = itemService.GetRessourceFromRecipe(item.Id).RecipeRessource.Sum(x => x.Item.PriceAdjustedPrice * x.Quantity);
+
+            var returnvalue = Math.Ceiling(indexCostManufacture.Cost * GlobalAdjustedPrice * 100)/100;
+            return returnvalue;
+        }
+        
         public ProjectedStateChild GetProjectedStateChild(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
 

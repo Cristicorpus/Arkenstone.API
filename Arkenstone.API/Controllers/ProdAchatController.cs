@@ -36,9 +36,22 @@ namespace Arkenstone.Controllers
             ProdAchatService prodAchatService = new ProdAchatService(_context);
             var returnvalue = new List<ProdAchatModel>();
             if (ProdAchatId.HasValue)
-                returnvalue.Add(new ProdAchatModel(prodAchatService.Get(ProdAchatId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId)));
+            {
+                var prodAchatReturned = prodAchatService.Get(ProdAchatId.Value).ThrowNotAuthorized(tokenCharacter.CorporationId);
+                var returnModel = new ProdAchatModel(prodAchatReturned);
+                returnModel.CostJob = prodAchatService.CostPriceFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
+                returnvalue.Add(returnModel);
+            }
             else
-                returnvalue.AddRange(prodAchatService.GetList(tokenCharacter.CorporationId).Select(x => new ProdAchatModel(x)));
+            {
+                foreach (var prodAchat in prodAchatService.GetList(tokenCharacter.CorporationId))
+                {
+                    var returnModel = new ProdAchatModel(prodAchat);
+                    returnModel.CostJob = prodAchatService.CostPriceFromProduction(prodAchat.Location, prodAchat.Item);
+                    returnvalue.Add(returnModel);
+                }
+            }
+                
 
             if (returnvalue.Count() == 0)
                 return NoContent();
@@ -64,7 +77,12 @@ namespace Arkenstone.Controllers
                 prodAchatService.UpdateChilds(tokenCharacter.CorporationId, prodAchat);
 
             _context.SaveChanges();
-            return Ok(new ProdAchatModel(prodAchatService.Get(prodAchat.Id)));
+
+            var prodAchatReturned = prodAchatService.Get(prodAchat.Id);
+            var returnvalue = new ProdAchatModel(prodAchatReturned);
+            returnvalue.CostJob = prodAchatService.CostPriceFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
+
+            return Ok(returnvalue);
         }
 
         [HttpPut]
@@ -97,7 +115,12 @@ namespace Arkenstone.Controllers
                     break;
             }
             _context.SaveChanges();
-            return Ok(new ProdAchatModel(prodAchatService.Get(ProdAchatId)));
+
+            var prodAchatReturned = prodAchatService.Get(ProdAchatId);
+            var returnvalue = new ProdAchatModel(prodAchatReturned);
+            returnvalue.CostJob = prodAchatService.CostPriceFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
+
+            return Ok(returnvalue);
         }
 
     }
