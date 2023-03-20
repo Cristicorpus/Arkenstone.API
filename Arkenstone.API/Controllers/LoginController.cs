@@ -81,15 +81,19 @@ namespace Arkenstone.Controllers
 
             var characterAuthorized = characterService.GetAndUpdateByauthorizedCharacterData(_eveEsiConnexion.authorizedCharacterData, _eveEsiConnexion.ssoToken);
 
+            string url = Environment.GetEnvironmentVariable("FrontCallBack") + "?";
             //ici on met a jour le mainid
             int mainCharacterId = characterAuthorized.Id;
             if (state != null && int.TryParse(state, out mainCharacterId))
             {
-                if (mainCharacterId>0 && characterService.Get(mainCharacterId)!=null)
+                if (mainCharacterId>0 && characterService.Get(mainCharacterId) != null)
+                {
                     characterAuthorized = characterService.SetMain(characterAuthorized.Id, mainCharacterId);
+                    url += "alt=true&";
+                }
             }
 
-            string url = Environment.GetEnvironmentVariable("FrontCallBack") + "?token=" + TokenService.Createtoken(characterAuthorized);
+            url += "token=" + TokenService.Createtoken(characterAuthorized);
 
             return Redirect(url);
         }
