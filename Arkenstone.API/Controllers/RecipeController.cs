@@ -22,9 +22,6 @@ namespace Arkenstone.Controllers
 
         }
 
-
-
-
         /// <summary>
         /// provides the recipe name
         /// </summary>
@@ -42,7 +39,6 @@ namespace Arkenstone.Controllers
             return Ok(returnvalue);
         }
 
-
         /// <summary>
         /// provides the recipe material for an item if this item is manufacturable
         /// </summary>
@@ -56,7 +52,6 @@ namespace Arkenstone.Controllers
             ItemService itemService = new ItemService(_context);
             return Ok(new RecipeModel (itemService.GetRessourceFromRecipe(id)));
         }
-        
         
     }
     
