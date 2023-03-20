@@ -52,6 +52,39 @@ namespace Arkenstone.API.Controllers
 
 
         /// <summary>
+        /// get location data
+        /// </summary>
+        /// <param name="LocationId" example="1041276076345">Location Id</param>
+        /// <response code="200">structure data</response>
+        [HttpGet("TypeActivity")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LocationModel>))]
+        public IActionResult GetByType([FromQuery] int type)
+        {
+            var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
+
+            LocationService locationService = new LocationService(_context);
+            var returnvalue = new List<LocationModel>();
+
+            switch (type)
+            {
+                case 1:
+                    returnvalue.AddRange(locationService.GetList(tokenCharacter.CorporationId).Select(x => new LocationModel(x)).ToList());
+                    break;
+                default:
+                    returnvalue.AddRange(locationService.GetList(tokenCharacter.CorporationId).Select(x => new LocationModel(x)).ToList());
+                    break;
+            }
+
+            if (returnvalue.Count() == 0)
+                return NoContent();
+            
+            return Ok(returnvalue);
+        }
+
+
+
+        /// <summary>
         /// set rigs of an location for Material efficiency calculation
         /// </summary>
         /// <param name="LocationId" example="1041276076345">Location Id</param>
