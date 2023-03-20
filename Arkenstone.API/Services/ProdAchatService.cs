@@ -35,7 +35,6 @@ namespace Arkenstone.API.Services
             return temp;
         }
 
-
         public ProdAchatModel GetModel(long ProdAchatId)
         {
             var prodAchatReturned = Get(ProdAchatId);
