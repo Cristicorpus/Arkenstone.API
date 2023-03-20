@@ -52,9 +52,9 @@ namespace Arkenstone.API.Controllers
 
 
         /// <summary>
-        /// get location data
+        /// get location data filter with Type
         /// </summary>
-        /// <param name="LocationId" example="1041276076345">Location Id</param>
+        /// <param name="type" example="0">Location Type</param>
         /// <response code="200">structure data</response>
         [HttpGet("TypeActivity")]
         [Authorize]
