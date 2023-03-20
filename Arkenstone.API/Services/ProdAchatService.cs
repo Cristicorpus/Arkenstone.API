@@ -121,7 +121,9 @@ namespace Arkenstone.API.Services
         {
             EfficiencyService efficiencyService = new EfficiencyService(_context);
             var efficiencyParent = efficiencyService.GetEfficiencyFromLocation(prodAchatParent.LocationId, prodAchatParent.ItemId);
-            decimal globalEfficiency = efficiencyParent * (1-(prodAchatParent.MEefficiency.Value / 100));
+            decimal globalEfficiency = efficiencyParent;
+            if (prodAchatParent.MEefficiency.HasValue)
+                globalEfficiency = efficiencyParent * (1-(prodAchatParent.MEefficiency.Value / 100));
             decimal quantityAfterEfficiency = recipeRessource.Quantity * globalEfficiency;
             int global = (int)Math.Ceiling(quantityAfterEfficiency * Math.Ceiling((decimal)prodAchatParent.Quantity / (decimal)recipe.Quantity));
             return global;
