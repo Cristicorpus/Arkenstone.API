@@ -138,24 +138,30 @@ namespace Arkenstone
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-            {
-                app.UseCors(builder => {
-                           builder.WithOrigins("http://arkenstone.cristicorpus.ch",
-                                              "https://arkenstone.cristicorpus.ch");
-                           builder.AllowAnyHeader();
-                           builder.AllowAnyMethod();
-                       });
-            }
-            else
-            {
-                app.UseCors(builder => {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyHeader();
-                    builder.AllowAnyMethod();
-                });
-            }
+            //if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            //{
+            //    app.UseCors(builder => {
+            //               builder.WithOrigins("http://arkenstone.cristicorpus.ch",
+            //                                  "https://arkenstone.cristicorpus.ch");
+            //               builder.AllowAnyHeader();
+            //               builder.AllowAnyMethod();
+            //           });
+            //}
+            //else
+            //{
+            //    app.UseCors(builder => {
+            //        builder.AllowAnyOrigin();
+            //        builder.AllowAnyHeader();
+            //        builder.AllowAnyMethod();
+            //    });
+            //}
 
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
