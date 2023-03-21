@@ -44,7 +44,28 @@ namespace Arkenstone.API.Services
             return (StructureEfficiency * RigsEfficiency.MeEfficiency);
         }
 
-        
+
+        public decimal GetBestEfficiencyFromLocation(int corpId, int ItemId)
+        {
+            LocationService locationService = new LocationService(_context);
+            ItemService itemService = new ItemService(_context);
+            var item = itemService.Get(ItemId);
+
+            decimal bestEfficiency = 1;
+
+            foreach (var location in locationService.GetList(corpId))
+            {
+                decimal StructureEfficiency = EfficiencyStructure.GetMEEfficiencyFromStation(_context, location);
+                var RigsEfficiency = EfficiencyStructure.GetMEEfficiencyFromRigs(_context, location, item);
+
+                if (bestEfficiency > (StructureEfficiency * RigsEfficiency.MeEfficiency))
+                    bestEfficiency = (StructureEfficiency * RigsEfficiency.MeEfficiency);
+            }
+
+            return bestEfficiency;
+        }
+
+
 
     }
 }

@@ -146,6 +146,7 @@ namespace Arkenstone.Logic.BulkUpdate
                         itemDb.Name = itemCsv.typeName;
                         itemDb.Published = itemCsv.published;
                         itemDb.MarketGroupId = itemCsv.marketGroupID;
+                        itemDb.Volume = itemCsv.volume;
                     }
                     context.SaveChanges();
 

@@ -58,11 +58,17 @@ namespace Arkenstone.API.Services
                 throw new NotFound("Recipe");
             return temp;
         }
-
-
-
-
-
-
+        public bool IsProductible(int itemId)
+        {
+            try
+            {
+                GetRessourceFromRecipe(itemId);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
     }
 }

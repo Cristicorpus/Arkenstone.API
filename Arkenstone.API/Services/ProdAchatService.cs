@@ -44,15 +44,20 @@ namespace Arkenstone.API.Services
 
             if (prodAchatReturned.ProdAchatEnfants != null && prodAchatReturned.ProdAchatEnfants.Count > 0)
             {
+                ItemService itemService = new ItemService(_context);
                 foreach (var prodAchat in prodAchatReturned.ProdAchatEnfants)
                 {
-                    var childModel = returnvalue.ProdAchatEnfants.First(x => x.Id == prodAchat.Id);
-                    childModel.CostJob = CostJobFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
-                    childModel.CostProduction = CostProductionFromProduction(prodAchatReturned, true);
+                    if (itemService.IsProductible(prodAchat.ItemId))
+                    {
+                        var childModel = returnvalue.ProdAchatEnfants.First(x => x.Id == prodAchat.Id);
+                        childModel.CostJob = CostJobFromProduction(prodAchat.Location, prodAchat.Item);
+                        childModel.CostProduction = CostProductionFromProduction(prodAchat, true);
+                    }
                 }
             }
             return returnvalue;
         }
+
 
         public ProdAchat Create(int corpId, ProdAchatModel prodAchatModel)
         {
@@ -96,25 +101,26 @@ namespace Arkenstone.API.Services
             foreach (var prodAchatChild in prodAchatParent.ProdAchatEnfants.Where(x => !recipeItemProdAchats.RecipeRessource.Any(y => y.ItemId == x.ItemId)))
                 _context.ProdAchats.Remove(prodAchatChild);
 
+            var parentMaterialEfficiency = GetEfficiency(prodAchatParent);
             foreach (var recipeRessource in recipeItemProdAchats.RecipeRessource)
             {
                 var prodAchatChild = prodAchatParent.ProdAchatEnfants.FirstOrDefault(x => x.ItemId == recipeRessource.ItemId);
                 if (prodAchatChild == null)
-                    CreateChild(corpId, prodAchatParent, recipeRessource, recipeItemProdAchats);
+                    CreateChild(corpId, prodAchatParent, recipeRessource, recipeItemProdAchats, parentMaterialEfficiency);
                 else
                 {
                     if (prodAchatChild.State == ProdAchatStateEnum.planifier || prodAchatChild.State == ProdAchatStateEnum.reserver)
-                        UpdateChild(prodAchatChild, recipeRessource, recipeItemProdAchats);
+                        UpdateChild(prodAchatChild, recipeRessource, recipeItemProdAchats, parentMaterialEfficiency);
                 }
             }
         }
-        public void CreateChild(int corpId, ProdAchat prodAchatParent,RecipeRessource recipeRessource,Recipe recipe)
+        public void CreateChild(int corpId, ProdAchat prodAchatParent,RecipeRessource recipeRessource,Recipe recipe,decimal parentMaterialEfficiency)
         {
             var prodAchatDb = new ProdAchat()
             {
                 CorporationId = corpId,
                 ItemId = recipeRessource.ItemId,
-                Quantity = CalculateQuantityAfterEfficiency(prodAchatParent, recipeRessource, recipe),
+                Quantity = CalculateQuantity(prodAchatParent, parentMaterialEfficiency, recipeRessource, recipe),
                 MEefficiency = null,
                 LocationId = prodAchatParent.LocationId,
                 ProdAchatParentId = prodAchatParent.Id,
@@ -122,22 +128,33 @@ namespace Arkenstone.API.Services
             };
             _context.ProdAchats.Add(prodAchatDb);
         }
-        public void UpdateChild(ProdAchat prodAchat, RecipeRessource recipeRessource, Recipe recipe)
+        public void UpdateChild(ProdAchat prodAchat, RecipeRessource recipeRessource, Recipe recipe, decimal parentMaterialEfficiency)
         {
-            prodAchat.Quantity = CalculateQuantityAfterEfficiency(prodAchat.ProdAchatParent, recipeRessource, recipe);
+            prodAchat.Quantity = CalculateQuantity(prodAchat.ProdAchatParent, parentMaterialEfficiency, recipeRessource, recipe);
         }
-        private int CalculateQuantityAfterEfficiency(ProdAchat prodAchatParent, RecipeRessource recipeRessource, Recipe recipe)
+        
+        private int CalculateQuantity(ProdAchat prodAchatParent, decimal efficiency ,RecipeRessource recipeRessource, Recipe recipe)
         {
-            EfficiencyService efficiencyService = new EfficiencyService(_context);
-            var efficiencyParent = efficiencyService.GetEfficiencyFromLocation(prodAchatParent.LocationId, prodAchatParent.ItemId);
-            decimal globalEfficiency = efficiencyParent;
-            if (prodAchatParent.MEefficiency.HasValue)
-                globalEfficiency = efficiencyParent * (1-(prodAchatParent.MEefficiency.Value / 100));
-            decimal quantityAfterEfficiency = recipeRessource.Quantity * globalEfficiency;
+            decimal quantityAfterEfficiency = recipeRessource.Quantity * efficiency;
             int global = (int)Math.Ceiling(quantityAfterEfficiency * Math.Ceiling((decimal)prodAchatParent.Quantity / (decimal)recipe.Quantity));
             return global;
         }
+        private decimal GetEfficiency(ProdAchat prodAchatParent)
+        {
+            EfficiencyService efficiencyService = new EfficiencyService(_context);
+            decimal globalEfficiency;
 
+            if (prodAchatParent.Type == ProdAchatTypeEnum.achat)
+                globalEfficiency = efficiencyService.GetBestEfficiencyFromLocation(prodAchatParent.CorporationId, prodAchatParent.ItemId);
+            else
+                globalEfficiency = efficiencyService.GetEfficiencyFromLocation(prodAchatParent.LocationId, prodAchatParent.ItemId);
+
+            if (prodAchatParent.Type == ProdAchatTypeEnum.production && prodAchatParent.MEefficiency.HasValue)
+                globalEfficiency = globalEfficiency * (1 - (prodAchatParent.MEefficiency.Value / 100));
+
+            return globalEfficiency;
+        }
+        
         public decimal CostJobFromProduction(Location location, Item item)
         {
             var indexCostManufacture = _context.CostIndices.FirstOrDefault(x => x.SolarSystemId == location.SolarSystemId && x.type == CostIndiceType.manufacturing);
@@ -152,19 +169,32 @@ namespace Arkenstone.API.Services
         }
         public decimal CostProductionFromProduction(ProdAchat prodAchat, bool seller = true)
         {
-            ItemService itemService = new ItemService(_context);
-            var recipeItemProdAchats = itemService.GetRessourceFromRecipe(prodAchat.ItemId);
             decimal ProductionPrice = 0;
-
-
-            foreach (var recipeRessource in recipeItemProdAchats.RecipeRessource)
+            if (prodAchat.Type == ProdAchatTypeEnum.achat)
             {
-                var quantity = CalculateQuantityAfterEfficiency(prodAchat, recipeRessource, recipeItemProdAchats);
-                if (seller)
-                    ProductionPrice += itemService.Get(recipeRessource.ItemId).PriceSell* quantity;
-                else
-                    ProductionPrice += itemService.Get(recipeRessource.ItemId).PriceBuy * quantity;
+                ItemService itemService = new ItemService(_context);
+                var parentMaterialEfficiency = GetEfficiency(prodAchat);
+                var recipeItemProdAchats = itemService.GetRessourceFromRecipe(prodAchat.ItemId);
+                foreach (var recipeRessource in recipeItemProdAchats.RecipeRessource)
+                {
+                    var quantity = CalculateQuantity(prodAchat, parentMaterialEfficiency, recipeRessource, recipeItemProdAchats);
+                    if (seller)
+                        ProductionPrice += itemService.Get(recipeRessource.ItemId).PriceSell * quantity;
+                    else
+                        ProductionPrice += itemService.Get(recipeRessource.ItemId).PriceBuy * quantity;
+                }
             }
+            else
+            {
+                foreach (var prodChild in prodAchat.ProdAchatEnfants)
+                {
+                    if (seller)
+                        ProductionPrice += prodChild.Item.PriceSell * prodChild.Quantity;
+                    else
+                        ProductionPrice += prodChild.Item.PriceBuy * prodChild.Quantity;
+                }
+            }
+
             var returnvalue = Math.Ceiling(ProductionPrice * 100) / 100;
             return returnvalue;
         }
@@ -248,15 +278,19 @@ namespace Arkenstone.API.Services
             if (prodAchatDb.ProdAchatParentId != null)
                 throw new BadRequestException("you cant modify quantity of a child prodAchat");
             if (prodAchatDb.ProdAchatEnfants != null && prodAchatDb.ProdAchatEnfants.Any(x => x.State >= ProdAchatStateEnum.livraison))
-                throw new BadRequestException("you cant modify quantity of a prodAchat child already produced");
+                throw new BadRequestException("you cant modify quantity if a prodAchat child already produced");
             return prodAchatDb.Quantity != prodAchatModel.Quantity;
         }
         public bool CompareModelWithDb_ME(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
+            if (prodAchatDb.ProdAchatEnfants != null && prodAchatDb.ProdAchatEnfants.Any(x => x.State >= ProdAchatStateEnum.livraison))
+                throw new BadRequestException("you cant modify ME if a prodAchat child already produced");
             return prodAchatDb.MEefficiency != prodAchatModel.MEefficiency;
         }
         public bool CompareModelWithDb_Location(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)
         {
+            if (prodAchatDb.ProdAchatEnfants != null && prodAchatDb.ProdAchatEnfants.Any(x => x.State >= ProdAchatStateEnum.livraison))
+                throw new BadRequestException("you cant modify location if a prodAchat child already produced");
             return prodAchatDb.LocationId != prodAchatModel.Location.Id;
         }
         public ProjectedStateChild CompareModelWithDb_Type(ProdAchat prodAchatDb, ProdAchatModel prodAchatModel)

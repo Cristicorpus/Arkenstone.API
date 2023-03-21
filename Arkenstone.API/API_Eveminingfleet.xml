@@ -82,6 +82,13 @@
             <param name="LocationId" example="1041276076345">Location Id</param>
             <response code="200">structure data</response>
         </member>
+        <member name="M:Arkenstone.API.Controllers.LocationController.GetByType(System.Int32)">
+            <summary>
+            get location data filter with Type
+            </summary>
+            <param name="type" example="0">Location Type</param>
+            <response code="200">structure data</response>
+        </member>
         <member name="M:Arkenstone.API.Controllers.LocationController.SetFit(System.Int64,System.String)">
             <summary>
             set rigs of an location for Material efficiency calculation
