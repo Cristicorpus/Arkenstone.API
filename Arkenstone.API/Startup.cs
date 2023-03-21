@@ -156,12 +156,12 @@ namespace Arkenstone
             //    });
             //}
 
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyOrigin();
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-            });
+            //app.UseCors(builder =>
+            //{
+            //    builder.AllowAnyOrigin();
+            //    builder.AllowAnyHeader();
+            //    builder.AllowAnyMethod();
+            //});
 
             app.UseAuthentication();
             app.UseAuthorization();
