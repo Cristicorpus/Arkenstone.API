@@ -41,6 +41,16 @@ namespace Arkenstone.API.Services
             var returnvalue = new ProdAchatModel(prodAchatReturned);
             returnvalue.CostJob = CostJobFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
             returnvalue.CostProduction = CostProductionFromProduction(prodAchatReturned, true);
+
+            if (prodAchatReturned.ProdAchatEnfants != null && prodAchatReturned.ProdAchatEnfants.Count > 0)
+            {
+                foreach (var prodAchat in prodAchatReturned.ProdAchatEnfants)
+                {
+                    var childModel = returnvalue.ProdAchatEnfants.First(x => x.Id == prodAchat.Id);
+                    childModel.CostJob = CostJobFromProduction(prodAchatReturned.Location, prodAchatReturned.Item);
+                    childModel.CostProduction = CostProductionFromProduction(prodAchatReturned, true);
+                }
+            }
             return returnvalue;
         }
 
