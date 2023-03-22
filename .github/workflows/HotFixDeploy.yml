@@ -42,6 +42,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}/prod
+          TARGET: ${{ secrets.REMOTE_TARGET }}prod/
           SCRIPT_BEFORE: appservice stop arkenstone_api
           SCRIPT_AFTER: appservice start arkenstone_api
