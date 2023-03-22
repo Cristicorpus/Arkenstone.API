@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: MainDeploy
+name: HotFixDeploy
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   Deploy:
-    if: "contains(github.event.head_commit.message, '*DEPLOY*')"
+    if: "contains(github.event.head_commit.message, '*FIX*')"
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
