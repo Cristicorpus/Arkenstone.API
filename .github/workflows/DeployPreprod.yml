@@ -41,5 +41,5 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           TARGET: ${{ secrets.REMOTE_TARGET }}/preprod
-          SCRIPT_BEFORE: appservice stop arkenstone_api
-          SCRIPT_AFTER: appservice start arkenstone_api
+          SCRIPT_BEFORE: appservice stop arkenstone_api_preprod
+          SCRIPT_AFTER: appservice start arkenstone_api_preprod
