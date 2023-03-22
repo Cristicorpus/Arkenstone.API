@@ -1,16 +1,15 @@
 # This is a basic workflow to help you get started with Actions
 
-name: HotFixDeploy
+name: DeployPreprod
 
 on:
   push:
     branches:
-      - 'main'
-
+      - PreProd
 jobs:
   Deploy:
-    if: "contains(github.event.head_commit.message, '*FIX*')"
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -31,8 +30,7 @@ jobs:
 
     - name: Publish
       run: dotnet publish --no-build --output Publish --configuration Release
-
-
+      
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       env:
@@ -42,6 +40,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}/prod
+          TARGET: ${{ secrets.REMOTE_TARGET }}/preprod
           SCRIPT_BEFORE: appservice stop arkenstone_api
           SCRIPT_AFTER: appservice start arkenstone_api
