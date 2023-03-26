@@ -8,13 +8,20 @@ namespace Arkenstone.Entities
     // https://docs.microsoft.com/fr-fr/aspnet/core/data/ef-mvc/migrations?view=aspnetcore-5.0
     // SET YOUR ENV VAR BEFORE MIGRATION
     //$env:DB_DATA_connectionstring = 'yourFUUUUUUUUU_ing_connectionstring'//
-    // dotnet ef migrations add "InitialCreate" --project Arkenstone.Entities --startup-project Arkenstone.API
+    // dotnet ef migrations add "InitialCreate" --project Arkenstone.Repositorie --startup-project Arkenstone.API
 
     public partial class ArkenstoneContext : DbContext
     {
         public ArkenstoneContext(DbContextOptions options)
             : base(options)
         {
+        }
+        
+        public static ArkenstoneContext GetContextWithDefaultOption()
+        {
+            var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
+            var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
+            return new ArkenstoneContext(options);
         }
 
         public virtual DbSet<MarketGroupTree> MarketGroupTrees { get; set; }

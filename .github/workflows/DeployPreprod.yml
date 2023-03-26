@@ -5,7 +5,7 @@ name: DeployPreprod
 on:
   push:
     branches:
-      - PreProd
+      - main
 jobs:
   Deploy:
     runs-on: ubuntu-latest

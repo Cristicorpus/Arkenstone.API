@@ -1,8 +1,8 @@
 ﻿using Arkenstone.API.Models;
 using Arkenstone.API.Services;
+using Arkenstone.Logic.Repository;
 using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
-using Arkenstone.Logic.BusinessException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

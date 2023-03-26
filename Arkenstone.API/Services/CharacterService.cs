@@ -1,91 +1,47 @@
-﻿using ESI.NET.Models.SSO;
-using Arkenstone.API.Models;
-using Arkenstone.Entities;
+﻿using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
-using Microsoft.EntityFrameworkCore;
+using ESI.NET.Models.SSO;
 using System.Collections.Generic;
-using System.Linq;
-using EveMiningFleet.API.Models;
-using Arkenstone.Logic.BusinessException;
-using System.Xml.Linq;
 
 namespace Arkenstone.API.Services
 {
-    public class CharacterService
+    public class CharacterService : BaseService
     {
-        private ArkenstoneContext _context;
+        public CharacterService(ArkenstoneContext context) : base(context)
+        {
 
-        public CharacterService(ArkenstoneContext context)
-        {
-            _context = context;
-        }
-        private IQueryable<Character> GetCore()
-        {
-            return _context.Characters.Include("Corporation").Include("Alliance").Include("CharacterMain");
         }
 
         public Character GetAndUpdateByauthorizedCharacterData(AuthorizedCharacterData authorizedCharacterData, SsoToken accessToken)
         {
-            Character characterConnexion = GetCore().FirstOrDefault((x) => x.Id == authorizedCharacterData.CharacterID);
-            if (characterConnexion == null)
-            {
-                characterConnexion = new Character();
 
-                characterConnexion.Id = authorizedCharacterData.CharacterID;
-                characterConnexion.CharacterMainId = authorizedCharacterData.CharacterID;
-                _context.Characters.Add(characterConnexion);
-            }
-            characterConnexion.AllianceId = authorizedCharacterData.AllianceID;
-            characterConnexion.CorporationId = authorizedCharacterData.CorporationID;
-            //on met a jours les informations du player.
-            characterConnexion.Name = authorizedCharacterData.CharacterName;
-            characterConnexion.Token = accessToken.AccessToken;
-            characterConnexion.RefreshToken = accessToken.RefreshToken;
-            _context.SaveChanges();
-            return characterConnexion;
+            return characterRepository.GetAndUpdate(authorizedCharacterData.CharacterID, 
+                authorizedCharacterData.CorporationID, 
+                authorizedCharacterData.AllianceID, 
+                authorizedCharacterData.CharacterName, 
+                accessToken.AccessToken, 
+                accessToken.RefreshToken);
         }
-
         public Character Get(int id)
         {
-            Entities.DbSet.Character character = GetCore().FirstOrDefault(x => x.Id == id);
-            if (character == null)
-                throw new NotFound("Character");
-            else
-                return character;
+            return characterRepository.Get(id);
         }
         public Character GetByName(string name)
         {
-            Entities.DbSet.Character character = GetCore().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
-            if (character == null)
-                throw new NotFound("Character");
-            else
-                return character;
+            return characterRepository.GetByName(name);
         }
         public List<Character> GetListFromMain(int mainId)
         {
-            return GetCore().Where(x => x.Id != mainId && x.CharacterMainId == mainId).ToList();
+            return characterRepository.GetListFromMain(mainId);
         }
 
-
-        
-
-        public async void UpdateMainId(int oldMainId, int mainId)
+        public Character CharacterSetMain(int id, int mainID)
         {
-            var characters = GetCore().Where(x => x.CharacterMainId == oldMainId);
-
-            await characters.ForEachAsync(x => x.CharacterMainId = mainId);
-            _context.SaveChanges();
+            return characterRepository.CharacterSetMain(id, mainID);
         }
-
-        public Character SetMain(int id, int mainID)
+        public async void BulkUpdateMainId(int oldMainId, int mainId)
         {
-            Character character = _context.Characters.FirstOrDefault(x => x.Id == id);
-            if (character != null)
-            {
-                character.CharacterMainId = mainID;
-                _context.SaveChanges();
-            }
-            return character;
-        }   
+            characterRepository.BulkUpdateMainId(oldMainId, mainId);
+        }
     }
 }

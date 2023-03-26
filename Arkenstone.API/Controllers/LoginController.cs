@@ -1,18 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using ESI.NET;
-using System.Threading.Tasks;
-using ESI.NET.Models.SSO;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http;
-using Arkenstone.Entities;
-using System.Linq;
-using Arkenstone.Logic.Esi;
+﻿using Arkenstone.API.Controllers;
 using Arkenstone.API.Services;
-using Arkenstone.API.Controllers;
+using Arkenstone.Logic.Esi;
+using Arkenstone.Entities;
+using Arkenstone.Entities.DbSet;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace Arkenstone.Controllers
 {
@@ -30,7 +25,7 @@ namespace Arkenstone.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         public IActionResult geturllogin()
         {
-            Entities.DbSet.Character tokenCharacter = null;
+            Character tokenCharacter = null;
             try
             {
                 tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
@@ -86,7 +81,7 @@ namespace Arkenstone.Controllers
             if (state != null && int.TryParse(state, out mainCharacterId))
             {
                 if (mainCharacterId>0 && characterService.Get(mainCharacterId)!=null)
-                    characterAuthorized = characterService.SetMain(characterAuthorized.Id, mainCharacterId);
+                    characterAuthorized = characterService.CharacterSetMain(characterAuthorized.Id, mainCharacterId);
             }
 
             string url = Environment.GetEnvironmentVariable("FrontCallBack") + "?token=" + TokenService.Createtoken(characterAuthorized);

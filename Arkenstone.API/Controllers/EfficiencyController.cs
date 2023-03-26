@@ -1,16 +1,10 @@
 ﻿using Arkenstone.API.Models;
 using Arkenstone.API.Services;
-using Arkenstone.Controllers;
 using Arkenstone.Entities;
-using Arkenstone.Logic.Efficiency;
-using ESI.NET.Enumerations;
+using Arkenstone.Logic.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Arkenstone.API.Controllers
 {
@@ -42,7 +36,7 @@ namespace Arkenstone.API.Controllers
 
 
             ItemService itemService = new ItemService(_context);
-            var item = itemService.GetFromRecipe(ItemId);
+            var item = itemService.GetProductible(ItemId);
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);
 
@@ -65,7 +59,7 @@ namespace Arkenstone.API.Controllers
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
 
             ItemService itemService = new ItemService(_context);
-            var item = itemService.GetFromRecipe(ItemId);
+            var item = itemService.GetProductible(ItemId);
 
 
             EfficiencyService efficiencyService = new EfficiencyService(_context);

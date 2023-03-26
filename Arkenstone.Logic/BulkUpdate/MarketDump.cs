@@ -1,18 +1,13 @@
-﻿using Arkenstone.Logic.Esi;
+﻿using Arkenstone.Logic.Entities;
+using Arkenstone.Logic.Esi;
 using Arkenstone.Logic.GlobalTools;
 using Arkenstone.Logic.Logs;
-using ESI.NET.Models.Character;
-using ESI.NET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using ESI.NET.Models.Market;
-using ESI.NET.Enumerations;
 using Arkenstone.Entities;
-using Microsoft.EntityFrameworkCore;
+using Arkenstone.Entities.DbSet;
+using ESI.NET;
+using ESI.NET.Enumerations;
+using ESI.NET.Models.Market;
+using System.Net;
 
 namespace Arkenstone.Logic.BulkUpdate
 {
@@ -28,48 +23,31 @@ namespace Arkenstone.Logic.BulkUpdate
             try
             {
                 ClassLog.writeLog("RefreshMarketPrice => lancement des analyses de market");
-                EveEsiConnexion tmpEsiConnection = new EveEsiConnexion();
-                
-                var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-                var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
-                using (ArkenstoneContext context = new ArkenstoneContext(options))
+
+                using (ArkenstoneContext context = ArkenstoneContext.GetContextWithDefaultOption())
                 {
-                    List<int> ListItemRecipeRessource = context.RecipeRessources.Select(x => x.ItemId).Distinct().ToList();
-                    List<int> ListItemRecipe = context.Recipes.Select(x => x.ItemId).Distinct().ToList();
+                    ItemRepository itemRepository = new ItemRepository(context);
+                    
+                    var allUpdatableItem = itemRepository.GetAllItemWithPriceUpdatable();
+                    int lenght = allUpdatableItem.Count();
 
-                    List<int> allItemId = new List<int>();
-                    allItemId.AddRange(ListItemRecipeRessource);
-                    allItemId.AddRange(ListItemRecipe);
-                    allItemId = allItemId.Distinct().ToList();
+                    ClassLog.writeLog("RefreshMarketPrice => " + lenght + " allItemDb à analyser");
 
-                    var allItemDb = context.Items.Where(x => allItemId.Contains(x.Id)).ToList();
-                    ClassLog.writeLog("RefreshMarketPrice => " + allItemDb.Count() + " allItemDb à analyser");
-
-                    int lenght = allItemDb.Count();
-                    int cursor = 0;
-                    foreach (var DataPriceItem in allItemDb)
+                    //Update PriceSell and Buy
+                    var taskList = new List<Task>();
+                    int step = 500;
+                    for (int i = 0; i < lenght; i+=step)
                     {
-                        cursor++;
-                        //ClassLog.writeLog("analyse dataprice de " + DataPriceItem.Id + " ," + DataPriceItem.Name +", " + cursor + "/" + lenght);
-                        try
-                        {
-                            List<orderPercentileProcessing> listofallorder = GetAllorder(tmpEsiConnection, 10000002, MarketOrderType.All, DataPriceItem.Id);
-
-                            if (listofallorder.Any(x => !x.isbuyorder))
-                                DataPriceItem.PriceSell = CalculatePercentile(95, listofallorder.OrderByDescending(x => x.value).Where(x => !x.isbuyorder).ToList());
-                            if (listofallorder.Any(x => x.isbuyorder))
-                                DataPriceItem.PriceBuy = CalculatePercentile(95, listofallorder.OrderBy(x => x.value).Where(x => x.isbuyorder).ToList());
-                        }
-                        catch (Exception ex)
-                        {
-                            ClassLog.writeLog("erreur on :" + DataPriceItem.Id+" ,"+DataPriceItem.Name);
-                            ClassLog.writeException(ex);
-                        }
+                        var tmp = allUpdatableItem.Skip(i * step).Take(step).ToList();
+                        taskList.Add(new Task(() =>{TaskUpdate(tmp);}));
                     }
+                    Task.WaitAll(taskList.ToArray());
 
+                    //Update AdjustedPrice
+                    EveEsiConnexion tmpEsiConnection = new EveEsiConnexion();
                     tmpEsiConnection.EsiClient.Market.Prices().Result.Data.ToList().ForEach(x =>
                     {
-                        var tmpitem = allItemDb.FirstOrDefault(y => y.Id == x.TypeId);
+                        var tmpitem = allUpdatableItem.FirstOrDefault(y => y.Id == x.TypeId);
                         if (tmpitem != null)
                             tmpitem.PriceAdjustedPrice = x.AdjustedPrice;
                     });
@@ -84,6 +62,32 @@ namespace Arkenstone.Logic.BulkUpdate
             }
         }
 
+
+        public static void TaskUpdate(List<Item> Items)
+        {
+            EveEsiConnexion tmpEsiConnection = new EveEsiConnexion();
+            foreach (var DataPriceItem in Items)
+            {
+                try
+                {
+                    List<orderPercentileProcessing> listofallorder = GetAllorder(tmpEsiConnection, 10000002, MarketOrderType.All, DataPriceItem.Id);
+
+                    if (listofallorder.Any(x => !x.isbuyorder))
+                        DataPriceItem.PriceSell = CalculatePercentile(95, listofallorder.OrderByDescending(x => x.value).Where(x => !x.isbuyorder).ToList());
+                    if (listofallorder.Any(x => x.isbuyorder))
+                        DataPriceItem.PriceBuy = CalculatePercentile(95, listofallorder.OrderBy(x => x.value).Where(x => x.isbuyorder).ToList());
+                }
+                catch (Exception ex)
+                {
+                    ClassLog.writeLog("erreur on :" + DataPriceItem.Id + " ," + DataPriceItem.Name);
+                    ClassLog.writeException(ex);
+                }
+            }
+            tmpEsiConnection = null;
+        }
+
+
+        
         /// <summary>
         /// 
         /// </summary>

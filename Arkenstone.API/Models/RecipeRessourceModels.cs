@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Arkenstone.Entities.DbSet;
+﻿using Arkenstone.Entities.DbSet;
 
 namespace Arkenstone.API.Models
 {

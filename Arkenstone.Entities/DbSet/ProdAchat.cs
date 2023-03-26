@@ -20,7 +20,7 @@ namespace Arkenstone.Entities.DbSet
         public int ItemId { get; set; }
         [ForeignKey("ItemId")]
         public virtual Item Item { get; set; }
-        public int Quantity { get; set; }
+        public long Quantity { get; set; }
 
         public decimal? MEefficiency { get; set; }
         public ProdAchatTypeEnum Type { get; set; }
