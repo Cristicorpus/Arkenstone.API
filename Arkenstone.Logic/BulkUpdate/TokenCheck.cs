@@ -1,17 +1,15 @@
-﻿using Arkenstone.Entities;
-using Arkenstone.Entities.DbSet;
+﻿using Arkenstone.Logic.Entities;
 using Arkenstone.Logic.Esi;
-using ESI.NET.Models.Character;
+using Arkenstone.Logic.GlobalTools;
+using Arkenstone.Entities;
+using Arkenstone.Entities.DbSet;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
+using Arkenstone.Logic.Repository;
 
 namespace Arkenstone.Logic.BulkUpdate
 {
-    public static class TokenCheck
+    public static class CCPTokenCheck
     {
 
         /// <summary>
@@ -20,10 +18,8 @@ namespace Arkenstone.Logic.BulkUpdate
         public static void checkAllToken()
         {
             Logs.ClassLog.writeLog("checkAllToken => Begin...");
-            
-            var _dbConnectionString = System.Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-            var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
-            using (ArkenstoneContext context = new ArkenstoneContext(options))
+
+            using (ArkenstoneContext context = ArkenstoneContext.GetContextWithDefaultOption())
             {
                 foreach (var character in context.Characters.Where(x => x.Token != "" || x.CharacterMainId != x.Id))
                     checkToken(context, character);
@@ -35,36 +31,21 @@ namespace Arkenstone.Logic.BulkUpdate
         /// <summary>
         /// Verifie si l'utilisateur est encore accessible
         /// </summary>
-        private static void checkToken(ArkenstoneContext context, Entities.DbSet.Character character)
+        private static void checkToken(ArkenstoneContext context, Character character)
         {
+            CharacterRepository characterRepository = new CharacterRepository(context);
             if (character.Token != "")
             {
                 EveEsiConnexion tmpEsiConnection = new EveEsiConnexion();
-                var countertest = 0;
 
-                //TODO: me parait pas propre quand meme .....
-                do
-                {
-                    tmpEsiConnection.RefreshConnection(character.RefreshToken).Wait();
-                    countertest++;
-                } while (countertest < 5 && tmpEsiConnection.authorizedCharacterData == null);
+                tmpEsiConnection.RefreshConnection(character.RefreshToken).Wait();
 
                 if (tmpEsiConnection.authorizedCharacterData == null)
-                {
-                    character.Token = "";
-                    character.RefreshToken = "";
-                    character.CharacterMainId = character.Id;
-                }
-                else
-                {
-                    if (character.CharacterMainId == 0)
-                        character.CharacterMainId = character.Id;
-                }
+                    characterRepository.ClearToken(character);
             }
 
-            if (character.Token == "" && character.CharacterMainId != character.Id)
-                character.CharacterMainId = character.Id;
-
+            if (character.CharacterMainId == 0 || (character.Token == "" && character.CharacterMainId != character.Id))
+                characterRepository.ResetMain(character);
         }
 
     }

@@ -14,7 +14,7 @@ public class _BackgroundTask : Registry
         // Schedule<MyTask>().ToRunNow().AndEvery(2).Seconds();
 
         Schedule(() => Arkenstone.Logic.Logs.ClassLog.purgelog()).ToRunNow();
-        Schedule(() => TokenCheck.checkAllToken()).ToRunNow();
+        Schedule(() => CCPTokenCheck.checkAllToken()).ToRunNow();
         Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunNow();
         Schedule(() => CostIndiceDump.RefreshCostIndice()).ToRunNow();
         
@@ -36,7 +36,7 @@ public class _BackgroundTask : Registry
         Schedule(() => FuzzWorkDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(13, 0);
         Schedule(() => RigsDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
         Schedule(() => StructureDump.CheckDumpAsynctask()).ToRunEvery(1).Days().At(14, 0);
-        Schedule(() => TokenCheck.checkAllToken()).ToRunEvery(3).Hours().At(30);
+        Schedule(() => CCPTokenCheck.checkAllToken()).ToRunEvery(3).Hours().At(30);
         Schedule(() => Arkenstone.Logic.Logs.ClassLog.purgelog()).ToRunEvery(1).Days().At(0, 30);
 
     }

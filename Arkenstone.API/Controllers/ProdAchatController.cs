@@ -1,12 +1,11 @@
 ﻿using Arkenstone.API.Controllers;
 using Arkenstone.API.Models;
 using Arkenstone.API.Services;
+using Arkenstone.Logic.Repository;
 using Arkenstone.Entities;
-using Arkenstone.Entities.DbSet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -62,15 +61,9 @@ namespace Arkenstone.Controllers
 
             ProdAchatService prodAchatService = new ProdAchatService(_context);
 
-            prodAchatService.ValidateUpdateModel(tokenCharacter.CorporationId, ProdAchatModel, null);
+            prodAchatService.ValidateCreateModel(tokenCharacter.CorporationId, ProdAchatModel, null);
 
-            var prodAchat = prodAchatService.Create(tokenCharacter.CorporationId, ProdAchatModel);
-            _context.SaveChanges();
-
-            if (ProdAchatModel.Type == Entities.DbSet.ProdAchatTypeEnum.production)
-                prodAchatService.UpdateChilds(tokenCharacter.CorporationId, prodAchat);
-
-            _context.SaveChanges();
+            var prodAchat = prodAchatService.Create(tokenCharacter.CorporationId, ProdAchatModel);            
 
             return Ok(prodAchatService.GetModel(prodAchat.Id));
         }
@@ -86,25 +79,9 @@ namespace Arkenstone.Controllers
 
             var prodAchatDb = prodAchatService.Get(ProdAchatId).ThrowNotAuthorized(tokenCharacter.CorporationId);
             
-            prodAchatService.ValidateUpdateModel(tokenCharacter.CorporationId, ProdAchatModel, prodAchatDb);
-            prodAchatService.CompareModelWithDb_Item(prodAchatDb, ProdAchatModel);
-
-            var ProjectedStateChild = prodAchatService.GetProjectedStateChild(prodAchatDb, ProdAchatModel);
-
-            prodAchatDb = prodAchatService.UpdateProdAchat(prodAchatDb, ProdAchatModel);
+            prodAchatService.ValidateUpdateModel(tokenCharacter.CorporationId, ProdAchatModel, prodAchatDb);     
             
-            switch (ProjectedStateChild)
-            {
-                case ProjectedStateChild.delete:
-                    prodAchatService.DeleteChilds(prodAchatDb);
-                    break;
-                case ProjectedStateChild.create: case ProjectedStateChild.update:
-                    prodAchatService.UpdateChilds(tokenCharacter.CorporationId, prodAchatDb);
-                    break;
-                default:
-                    break;
-            }
-            _context.SaveChanges();
+            prodAchatDb = prodAchatService.UpdateProdAchat(prodAchatDb, ProdAchatModel);
 
             return Ok(prodAchatService.GetModel(ProdAchatId));
         }

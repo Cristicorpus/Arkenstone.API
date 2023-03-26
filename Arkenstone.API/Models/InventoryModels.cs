@@ -28,7 +28,7 @@ namespace Arkenstone.API.Models
             this.subLocation = target;
             this.Assets = new List<InventoryModel>(); ;
         }
-        public InventorySubLocationModel(SubLocation target, List<Entities.DbSet.Inventory> inventorys)
+        public InventorySubLocationModel(SubLocation target, List<Inventory> inventorys)
         {
             this.subLocation = target;
             this.Assets = new List<InventoryModel>();
@@ -53,7 +53,7 @@ namespace Arkenstone.API.Models
             this.structure = new LocationModel(target);
             this.Assets = new List<InventoryModel>(); ;
         }
-        public InventoryStationModel(Location target, List<Entities.DbSet.Inventory> inventorys)
+        public InventoryStationModel(Location target, List<Inventory> inventorys)
         {
             this.structure = new LocationModel(target);
             this.Assets = new List<InventoryModel>();
