@@ -1,19 +1,12 @@
-﻿using Arkenstone.Entities;
-using Arkenstone.Logic.Esi;
+﻿using Arkenstone.Logic.Esi;
 using Arkenstone.Logic.GlobalTools;
 using Arkenstone.Logic.Logs;
+using Arkenstone.Entities;
+using Arkenstone.Entities.DbSet;
 using ESI.NET;
-using ESI.NET.Enumerations;
 using ESI.NET.Models.Industry;
-using ESI.NET.Models.Market;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using static Arkenstone.Logic.BulkUpdate.MarketDump;
+using CostIndice = Arkenstone.Entities.DbSet.CostIndice;
 
 namespace Arkenstone.Logic.BulkUpdate
 {
@@ -31,9 +24,7 @@ namespace Arkenstone.Logic.BulkUpdate
                 ClassLog.writeLog("RefreshCostIndice => lancement des analyses de costIndice");
                 EveEsiConnexion tmpEsiConnection = new EveEsiConnexion();
 
-                var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-                var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
-                using (ArkenstoneContext context = new ArkenstoneContext(options))
+                using (ArkenstoneContext context = ArkenstoneContext.GetContextWithDefaultOption())
                 {
 
                     //recuperation de tout les datas
@@ -59,30 +50,28 @@ namespace Arkenstone.Logic.BulkUpdate
             }
         }
 
-        private static void updateCostIndices(ArkenstoneContext context, int solarsystem, List<CostIndice> costIndices)
+        private static void updateCostIndices(ArkenstoneContext context, int solarsystem, List<ESI.NET.Models.Industry.CostIndice> costIndices)
         {
-            var manufacture = context.CostIndices.FirstOrDefault(x => x.SolarSystemId == solarsystem && x.type == Entities.DbSet.CostIndiceType.manufacturing);
+            var manufacture = context.CostIndices.FirstOrDefault(x => x.SolarSystemId == solarsystem && x.type == CostIndiceType.manufacturing);
             var costIndice = costIndices.FirstOrDefault(x => x.Activity == "manufacturing");
             if (costIndice != null)
             {
                 if (manufacture == null)
-                    context.CostIndices.Add(new Entities.DbSet.CostIndice() { SolarSystemId = solarsystem, type = Entities.DbSet.CostIndiceType.manufacturing, Cost = costIndice.CostIndex });
+                    context.CostIndices.Add(new CostIndice() { SolarSystemId = solarsystem, type = CostIndiceType.manufacturing, Cost = costIndice.CostIndex });
                 else
                     manufacture.Cost = costIndice.CostIndex;
             }
 
-            manufacture = context.CostIndices.FirstOrDefault(x => x.SolarSystemId == solarsystem && x.type == Entities.DbSet.CostIndiceType.reaction);
+            manufacture = context.CostIndices.FirstOrDefault(x => x.SolarSystemId == solarsystem && x.type == CostIndiceType.reaction);
             costIndice = costIndices.FirstOrDefault(x => x.Activity == "reaction");
             if (costIndice != null)
             {
                 if (manufacture == null)
-                    context.CostIndices.Add(new Entities.DbSet.CostIndice() { SolarSystemId = solarsystem, type = Entities.DbSet.CostIndiceType.reaction, Cost = costIndice.CostIndex });
+                    context.CostIndices.Add(new CostIndice() { SolarSystemId = solarsystem, type = CostIndiceType.reaction, Cost = costIndice.CostIndex });
                 else
                     manufacture.Cost = costIndice.CostIndex;
             }
         }
-
-
 
     }
 }

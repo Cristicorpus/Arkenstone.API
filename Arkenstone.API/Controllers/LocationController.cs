@@ -1,16 +1,11 @@
 ﻿using Arkenstone.API.Models;
 using Arkenstone.API.Services;
-using Arkenstone.Controllers;
 using Arkenstone.Entities;
-using Arkenstone.Logic.BusinessException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using NuGet.Packaging;
-using System;
 using System.Collections.Generic;
+using Arkenstone.Logic.Repository;
 using System.Linq;
 
 namespace Arkenstone.API.Controllers
@@ -99,11 +94,12 @@ namespace Arkenstone.API.Controllers
             var tokenCharacter = TokenService.GetCharacterFromToken(_context, HttpContext);
             
             LocationService locationService = new LocationService(_context);
-            var location = locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId);
-
-            locationService.SetFitToStructure(location, fit);
             
-            return Ok(new LocationModel(locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId)));
+            locationService.Get(LocationId).ThrowNotAuthorized(tokenCharacter.CorporationId);
+            
+            locationService.SetFitToStructure(LocationId, fit);
+            
+            return Ok(new LocationModel(locationService.Get(LocationId)));
 
         }
 

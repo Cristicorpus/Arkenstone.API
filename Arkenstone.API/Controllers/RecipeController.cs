@@ -31,7 +31,7 @@ namespace Arkenstone.Controllers
         public IActionResult ListRecipe()
         {
             ItemService itemService = new ItemService(_context);
-            var returnvalue = itemService.GetListRecipe().Select(x => new {x.Id,x.Name}).ToList();
+            var returnvalue = itemService.GetListProductible().Select(x => new {x.Id,x.Name}).ToList();
 
             if (returnvalue.Count == 0)
                 return NoContent();
@@ -50,7 +50,7 @@ namespace Arkenstone.Controllers
             var recipe = _context.Recipes.Include("Item").Include("RecipeRessource.Item").FirstOrDefault(p => p.ItemId == id);
 
             ItemService itemService = new ItemService(_context);
-            return Ok(new RecipeModel (itemService.GetRessourceFromRecipe(id)));
+            return Ok(new RecipeModel (itemService.GetRecipe(id)));
         }
         
     }

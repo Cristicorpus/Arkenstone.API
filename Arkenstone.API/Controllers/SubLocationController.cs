@@ -1,12 +1,11 @@
-﻿using Arkenstone.API.Models;
-using Arkenstone.API.Services;
+﻿using Arkenstone.API.Services;
+using Arkenstone.Logic.Repository;
 using Arkenstone.Entities;
+using Arkenstone.Entities.DbSet;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System;
-using Microsoft.AspNetCore.Authorization;
-using Arkenstone.Entities.DbSet;
 using System.Linq;
 
 namespace Arkenstone.API.Controllers

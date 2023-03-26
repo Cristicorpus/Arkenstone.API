@@ -1,17 +1,12 @@
-﻿using CsvHelper;
-using CsvHelper.TypeConversion;
-using CsvHelper.Configuration;
-using Arkenstone.Entities;
+﻿using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using Arkenstone.Logic.GlobalTools;
+using CsvHelper;
+using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore;
-using ESI.NET.Models.Corporation;
-using Arkenstone.Logic.GlobalTools;
 
 namespace Arkenstone.Logic.BulkUpdate
 {
@@ -113,9 +108,7 @@ namespace Arkenstone.Logic.BulkUpdate
 
                 Logs.ClassLog.writeLog("InsertEsiSDE => Reinsertion des information ESI dans les recettes");
 
-                var _dbConnectionString = Environment.GetEnvironmentVariable("DB_DATA_connectionstring");
-                var options = new DbContextOptionsBuilder<ArkenstoneContext>().UseMySql(_dbConnectionString, ServerVersion.AutoDetect(_dbConnectionString)).Options;
-                using (ArkenstoneContext context = new ArkenstoneContext(options))
+                using (ArkenstoneContext context = ArkenstoneContext.GetContextWithDefaultOption())
                 {
                     List<ActivityProductsCsv> ActivityProductsCsvrecords;
                     List<ActivityMaterialsCsv> ActivityMaterialsCsvrecords;

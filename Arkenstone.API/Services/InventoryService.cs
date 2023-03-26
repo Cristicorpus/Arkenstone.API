@@ -1,54 +1,37 @@
-﻿using Arkenstone.API.Models;
-using Arkenstone.Entities;
+﻿using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
 using Arkenstone.Logic.Asset;
-using Arkenstone.Logic.BusinessException;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Arkenstone.API.Services
 {
-    public class InventoryService
+    public class InventoryService : BaseService
     {
-        private ArkenstoneContext _context;
+        public InventoryService(ArkenstoneContext context) : base(context)
+        {
 
-        public InventoryService(ArkenstoneContext context)
-        {
-            _context = context;
-        }
-        private IQueryable<Inventory> GetCore()
-        {
-            return _context.Inventorys.Include("Item").Include("SubLocation");
-        }
-        
+        }        
         public List<Inventory> GetList(int corpId)
         {
-            var temp = GetCore().Where(x => x.SubLocation.CorporationId == corpId).ToList();
-            return temp;
+            return inventoryRepository.GetList(corpId);
         }
         public List<Inventory> GetListFromLocation(long location)
         {
-            var temp = GetCore().Where(x => x.SubLocation.LocationId == location).ToList();
-            return temp;
+            return inventoryRepository.GetListFromLocation(location);
         }
         public List<Inventory> GetListFromSubLocation(long subLocation)
         {
-            var temp = GetCore().Where(x => x.SubLocationId == subLocation).ToList();
-            return temp;
+            return inventoryRepository.GetListFromSubLocation(subLocation);
         }
         public Inventory GetInventory(long subLocation, int itemId)
         {
-            var temp = GetCore().FirstOrDefault(x => x.SubLocationId == subLocation && x.ItemId == itemId);
-            if (temp == null)
-                throw new NotFound("Inventory");
-            return temp;
+            return inventoryRepository.GetInventory(subLocation, itemId);
         }
 
         public async Task RefreshAsset(int corpId)
         {
-            await AssetDump.ReloadItemsFromSpecificCorpAsync(corpId);
+            await AssetDump.ReloadItemsFromSpecificCorpAsync(_context, corpId);
         }
 
 

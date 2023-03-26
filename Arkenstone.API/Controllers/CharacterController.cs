@@ -1,17 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Arkenstone.API.Services;
+using Arkenstone.Logic.BusinessException;
+using Arkenstone.Entities;
+using EveMiningFleet.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
-using EveMiningFleet.API.Models;
-using Arkenstone.Entities.DbSet;
-using Arkenstone.Entities;
-using Arkenstone.API.Services;
-using Arkenstone.Logic.BusinessException;
 
 namespace Arkenstone.API.Controllers
 {
@@ -86,7 +80,7 @@ namespace Arkenstone.API.Controllers
             if (!characterService.GetListFromMain(tokenCharacter.CharacterMainId).Any(x => x.Id == mainId))
                 throw new NotAuthorized();
 
-            characterService.UpdateMainId(tokenCharacter.CharacterMainId, mainId);
+            characterService.CharacterSetMain(tokenCharacter.CharacterMainId, mainId);
             return Ok(TokenService.Createtoken(characterService.Get(mainId)));
         }
 

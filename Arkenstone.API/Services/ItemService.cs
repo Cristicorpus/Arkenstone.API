@@ -1,62 +1,36 @@
-﻿using Arkenstone.API.Models;
-using Arkenstone.Entities;
+﻿using Arkenstone.Entities;
 using Arkenstone.Entities.DbSet;
-using Arkenstone.Logic.Asset;
-using Arkenstone.Logic.BusinessException;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Arkenstone.API.Services
 {
-    public class ItemService
+    public class ItemService : BaseService
     {
-        private ArkenstoneContext _context;
+        public ItemService(ArkenstoneContext context) : base(context)
+        {
 
-        public ItemService(ArkenstoneContext context)
-        {
-            _context = context;
-        }
-        private IQueryable<Item> GetCore()
-        {
-            return _context.Items.AsQueryable();
-        }
-        private IQueryable<Recipe> GetRecipeCore()
-        {
-            return _context.Recipes.Include("Item").Include("RecipeRessource.Item");
         }
 
-        public List<Item> GetListRecipe()
+        public Item Get(int itemId)
         {
-            var temp = GetRecipeCore().Select(x => x.Item).ToList();
-            return temp;
+            return itemRepository.Get(itemId);
         }
         public List<Item> GetList()
         {
-            var temp = GetCore().ToList();
-            return temp;
+            return itemRepository.GetList();
         }
-        public Item GetFromRecipe(int itemId)
+
+        public Item GetProductible(int itemId)
         {
-            var temp = GetRecipeCore().FirstOrDefault(x => x.ItemId == itemId);
-            if (temp==null)
-                throw new NotFound("Recipe");
-            return temp.Item;
+            return itemRepository.GetProductible(itemId);
         }
-        public Item Get(int itemId)
+        public List<Item> GetListProductible()
         {
-            var temp = GetCore().FirstOrDefault(x => x.Id == itemId);
-            if (temp == null)
-                throw new NotFound("Item");
-            return temp;
+            return itemRepository.GetListProductible();
         }
-        public Recipe GetRessourceFromRecipe(int itemId)
+        public Recipe GetRecipe(int itemId)
         {
-            var temp = GetRecipeCore().FirstOrDefault(x => x.ItemId == itemId);
-            if (temp == null)
-                throw new NotFound("Recipe");
-            return temp;
+            return itemRepository.GetRecipe(itemId);
         }
         public bool IsProductible(int itemId)
         {
