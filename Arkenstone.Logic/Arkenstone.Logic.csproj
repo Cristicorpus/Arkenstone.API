@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="ESI.NET" Version="2023.2.11" />
+    <PackageReference Include="ESI.NET" Version="2023.4.15" />
   </ItemGroup>
 
   <ItemGroup>
