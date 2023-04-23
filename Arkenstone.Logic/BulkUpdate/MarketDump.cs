@@ -38,9 +38,10 @@ namespace Arkenstone.Logic.BulkUpdate
                     int step = 500;
                     for (int i = 0; i < lenght; i+=step)
                     {
-                        var tmp = allUpdatableItem.Skip(i * step).Take(step).ToList();
+                        var tmp = allUpdatableItem.Skip(i).Take(step).ToList();
                         taskList.Add(new Task(() =>{TaskUpdate(tmp);}));
                     }
+                    taskList.ForEach(x => x.Start());
                     Task.WaitAll(taskList.ToArray());
 
                     //Update AdjustedPrice
