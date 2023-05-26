@@ -123,11 +123,13 @@ namespace Arkenstone.API.Services
             if (prodAchatDb.ItemId != prodAchatModel.Item.Id)
                 throw new BadRequestException("prodAchatModel.Item.Id not match with prodachat ItemId in database! what did you DOOOOOO!!!");
 
-
-            if (prodAchatDb.ProdAchatParentId != null)
-                throw new BadRequestException("you cant modify quantity of a child prodAchat");
-            if (prodAchatDb.ProdAchatEnfants != null && prodAchatDb.ProdAchatEnfants.Any(x => x.State >= ProdAchatStateEnum.livraison))
-                throw new BadRequestException("you cant modify quantity of a prodAchat child already produced");
+            if(prodAchatDb.Quantity != prodAchatModel.Quantity)
+            {
+                if (prodAchatDb.ProdAchatParentId != null)
+                    throw new BadRequestException("you cant modify quantity of a child prodAchat");
+                if (prodAchatDb.ProdAchatEnfants != null && prodAchatDb.ProdAchatEnfants.Any(x => x.State >= ProdAchatStateEnum.livraison))
+                    throw new BadRequestException("you cant modify quantity of a prodAchat child already produced");
+            }
 
             
             return true;
