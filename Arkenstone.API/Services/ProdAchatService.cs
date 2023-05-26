@@ -101,8 +101,8 @@ namespace Arkenstone.API.Services
         {
             ValidateCoreModel(corpId, prodAchatModel);
 
-            if (prodAchatModel.Id != prodAchatDb.Id)
-                throw new BadRequestException("prodAchatModel.Id and ID in query not match! what did you DOOOOOO!!!");
+            if (prodAchatModel.Id != 0)
+                throw new BadRequestException("prodAchatModel.Id useless. its an creation... WHY DID YOU PUT AN ID IN THE MODEL?");
 
             if (prodAchatModel.Id > 0)
                 throw new BadRequestException("its an creation... WHY DID YOU PUT AN ID IN THE MODEL?");
